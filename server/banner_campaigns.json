@@ -1,0 +1,1534 @@
+{
+ "_meta": {
+  "what": "HOME marquee ERA TABLE: the community late-service events a banner could promote, grouped into month-long eras, with the art we actually hold marked per event.",
+  "provenance": "events = [Community] (exvius.fandom.com, via server/community_events.json). art = the CLIENT'S OWN downloaded marquee cache. The era grouping, the class filter and the instance-level art join are OURS and are selection decisions, not recovered data.",
+  "generator": "harness/gen_banner_campaigns.py",
+  "client_version": {
+   "version": "9.0.0",
+   "date": "2024-06-30",
+   "era": "2024-06",
+   "note": "the v9.0.0 build under analysis. Its version month is recorded here for provenance but is NOT the default: it holds 2 marquee-class events and 0 joinable art, so a run there renders an empty marquee. The client's banner CACHE spans 2022-2024, so which era it actually saw depends on when it was run, not on when it shipped."
+  },
+  "default_rationale": "latest era with at least one joinable banner; a wall-clock default would describe a client that does not exist, and the version month has no art.",
+  "servable_eras": [
+   "2022-06",
+   "2023-06",
+   "2024-03",
+   "2024-08"
+  ],
+  "event_classes": [
+   "Series Event",
+   "Raid Event",
+   "Story Event"
+  ],
+  "art_inventory": {
+   "named": 8,
+   "joinable_to_an_event": 4,
+   "named_but_unmatched": 4,
+   "opaque_unnameable": 19,
+   "marquee_sized_in_store": 27,
+   "store_note": "all are 600x120, verified by re-counting the store (8 named HomeBanner_<id>.png in the client's cache + 19 more in static_banner/ under opaque ids such as 3663_20240829042016.png). 19 of the opaque filenames embed a timestamp (3197_20230905013503, the 3658..3665_2024082x cluster) -- a lead, not a date.",
+   "opaque_verdict_2026_10_01": "RESOLVED, in the negative, by LOOKING at all 19 (contact sheet, 600x120 as measured): they are NOT marquee banners. 18 are the SHOP bundle promos (Bundle of Replenishment, Daily Recharge Bundle, Transcension Pearl Bundle, ...) under static_banner/bundle/, and 1 is a LOGIN bonus banner (October Daily Rewards) under static_banner/login/. They share the marquee's 600x120 shape, which is why they read as marquee-sized, and that shape is the whole of the case for them. Consequence: the real marquee art pool is the 8 NAMED banners and nothing else, so with_art 4 + promos 4 = 8 is the CEILING, not a floor -- and the audit's open question (could a non-MST index map 2+ of the opaque 19 to marquee-class events, which would make the totals wrong?) is answered NO by the images themselves.",
+   "not_verifiable_by_check": "--check cannot see these drift: they are measured by re-reading the store (--verify-art), not derived from the corpus.",
+   "verify_with": "python3 harness/gen_banner_campaigns.py --verify-art"
+  },
+  "caveats": [
+   "Everything in `events` is [Community] data from the Exvius Fandom wiki: a HINT, not verification, and NOT shipped game data. The shipped tables carry no dates at all, so an era window can only come from here or be authored.",
+   "art: null means the EVENT IS KNOWN AND DATED BUT THE ART IS LOST from what we hold. It is not a gap in this table; recovering it is a collection problem and is deliberately out of scope here.",
+   "end: null is a SECOND, SEPARATE gap from art, and it is the binding one for serving: the marquee's `_canTransit` needs an end, so a null end means an authored value, not a servable window. Roughly half the table is in that state -- see `totals.end_null`. Do not read 'with art' as 'servable'.",
+   "The class filter is a SELECTION and reports its own size: see `totals.dropped_by_class` for how many Global records it removed, and `totals.dropped_unclassified` for records carrying no event class. The filter's justification is that all four title-matched banners are Story/Raid/Series events, but note what that does NOT prove -- the other four banners the client holds are summon-promotion art, and the marquee DID carry summon promos (DailyVideoSummon2 has banner version 49 in the client's own cache index). So the class filter describes the events we can NAME, not the full set the marquee ever ran.",
+   "The corpus mislabels some records (DRAGON QUEST The Adventure of Dai is tagged `Ranked Event`), so the filter inherits noise it cannot detect and does not attempt to.",
+   "The 8th Anniversary is `region=jp` only in this corpus (Daily 8th Anniversary Celebration Quest, 2023-09-22); there is no Global record, so no 8th-anniversary event can appear in an era.",
+   "The community corpus ends 2024-08; Global Season 4 runs to 2024-10-30, so the last two months of the client's own era are simply absent rather than filtered out.",
+   "Several events ran more than once. Each run is its own record and its own era month; art attaches to the run the corpus marks `preferred`, so a re-run month shows art: null by design."
+  ]
+ },
+ "default": "2024-08",
+ "totals": {
+  "eras": 32,
+  "events": 108,
+  "with_art": 4,
+  "art_missing": 104,
+  "end_null": 49,
+  "dropped_by_class": 393,
+  "dropped_unclassified": 139,
+  "dropped_invalid_date": 1,
+  "promos": 4
+ },
+ "eras": {
+  "2022-01": {
+   "month": "2022-01",
+   "events": [
+    {
+     "name": "Decisive Battle at Sovereign Rock Castle!",
+     "start": "2022-01-20",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Decisive_Battle_at_Sovereign_Rock_Castle%21",
+     "event_class": "Raid Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "Library of the Ancients",
+     "start": "2022-01-20",
+     "end": "2022-02-02",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Library_of_the_Ancients",
+     "event_class": "Raid Event",
+     "region": "global",
+     "art": null
+    }
+   ],
+   "counts": {
+    "events": 2,
+    "with_art": 0,
+    "art_missing": 2
+   }
+  },
+  "2022-02": {
+   "month": "2022-02",
+   "events": [
+    {
+     "name": "Search and Destroy: Flora Omega Spawn",
+     "start": "2022-02-18",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Search_and_Destroy%3A_Flora_Omega_Spawn",
+     "event_class": "Raid Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "A Tough Egg to Crack",
+     "start": "2022-02-24",
+     "end": "2022-03-16",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/A_Tough_Egg_to_Crack",
+     "event_class": "Story Event",
+     "region": "global",
+     "art": null
+    }
+   ],
+   "counts": {
+    "events": 2,
+    "with_art": 0,
+    "art_missing": 2
+   }
+  },
+  "2022-03": {
+   "month": "2022-03",
+   "events": [
+    {
+     "name": "The Rage of Men",
+     "start": "2022-03-03",
+     "end": "2022-03-16",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/The_Rage_of_Men",
+     "event_class": "Raid Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "In Search of the Sun-Cryst",
+     "start": "2022-03-10",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/In_Search_of_the_Sun-Cryst",
+     "event_class": "Raid Event",
+     "region": "global",
+     "art": null
+    }
+   ],
+   "counts": {
+    "events": 2,
+    "with_art": 0,
+    "art_missing": 2
+   }
+  },
+  "2022-04": {
+   "month": "2022-04",
+   "events": [
+    {
+     "name": "The Unsent Fiend",
+     "start": "2022-04-11",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/The_Unsent_Fiend",
+     "event_class": "Raid Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "Counterattack of the Exostars",
+     "start": "2022-04-14",
+     "end": "2022-04-27",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Counterattack_of_the_Exostars",
+     "event_class": "Raid Event",
+     "region": "global",
+     "art": null
+    }
+   ],
+   "counts": {
+    "events": 2,
+    "with_art": 0,
+    "art_missing": 2
+   }
+  },
+  "2022-05": {
+   "month": "2022-05",
+   "events": [
+    {
+     "name": "The First Shoot",
+     "start": "2022-05-06",
+     "end": "2022-05-18",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/The_First_Shoot",
+     "event_class": "Raid Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "The Road to Terra",
+     "start": "2022-05-11",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/The_Road_to_Terra",
+     "event_class": "Raid Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "The Destroyers' Journey",
+     "start": "2022-05-20",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/The_Destroyers%27_Journey",
+     "event_class": "Story Event",
+     "region": "global",
+     "art": null
+    }
+   ],
+   "counts": {
+    "events": 3,
+    "with_art": 0,
+    "art_missing": 3
+   }
+  },
+  "2022-06": {
+   "month": "2022-06",
+   "events": [
+    {
+     "name": "Decisive Battle at Sovereign Rock Castle!",
+     "start": "2022-06-02",
+     "end": "2022-06-21",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Decisive_Battle_at_Sovereign_Rock_Castle%21",
+     "event_class": "Raid Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "Forbidden Land of Slumbering Power",
+     "start": "2022-06-21",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Forbidden_Land_of_Slumbering_Power",
+     "event_class": "Raid Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "A Culling Mission for Yshe's Elites",
+     "start": "2022-06-23",
+     "end": "2022-07-06",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/A_Culling_Mission_for_Yshe%27s_Elites",
+     "event_class": "Raid Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "Fundamental Forces: Dragon Arc",
+     "start": "2022-06-30",
+     "end": "2022-08-03",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Fundamental_Forces%3A_Dragon_Arc",
+     "event_class": "Story Event",
+     "region": "global",
+     "art": {
+      "banner_id": 13566,
+      "banner_version": 7,
+      "file": "fundamentalforcesdragonarcrerun.png",
+      "match_basis": "exact-title",
+      "derived_flags": [
+       "rerun"
+      ],
+      "store_path": "homeMarquee/HomeBanner_13566.png"
+     }
+    }
+   ],
+   "counts": {
+    "events": 4,
+    "with_art": 1,
+    "art_missing": 3
+   }
+  },
+  "2022-07": {
+   "month": "2022-07",
+   "events": [
+    {
+     "name": "The Second Gate - The Light of Babel",
+     "start": "2022-07-11",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/The_Second_Gate_-_The_Light_of_Babel",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "Awaken Thy Spirit",
+     "start": "2022-07-20",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Awaken_Thy_Spirit",
+     "event_class": "Story Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "Search and Destroy: Flora Omega Spawn",
+     "start": "2022-07-28",
+     "end": "2022-08-11",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Search_and_Destroy%3A_Flora_Omega_Spawn",
+     "event_class": "Raid Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "Haunted",
+     "start": "2022-07-31",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Haunted",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    }
+   ],
+   "counts": {
+    "events": 4,
+    "with_art": 0,
+    "art_missing": 4
+   }
+  },
+  "2022-08": {
+   "month": "2022-08",
+   "events": [
+    {
+     "name": "Defender of the Main Pillar",
+     "start": "2022-08-10",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Defender_of_the_Main_Pillar",
+     "event_class": "Raid Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "In Search of the Sun-Cryst",
+     "start": "2022-08-12",
+     "end": "2022-08-24",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/In_Search_of_the_Sun-Cryst",
+     "event_class": "Raid Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "The Forest of Slumbering Crystals",
+     "start": "2022-08-31",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/The_Forest_of_Slumbering_Crystals",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    }
+   ],
+   "counts": {
+    "events": 3,
+    "with_art": 0,
+    "art_missing": 3
+   }
+  },
+  "2022-09": {
+   "month": "2022-09",
+   "events": [
+    {
+     "name": "The Unsent Fiend",
+     "start": "2022-09-08",
+     "end": "2022-09-21",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/The_Unsent_Fiend",
+     "event_class": "Raid Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "Big Bridge Showdown",
+     "start": "2022-09-09",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Big_Bridge_Showdown",
+     "event_class": "Raid Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "A New Wind Blows",
+     "start": "2022-09-21",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/A_New_Wind_Blows",
+     "event_class": "Story Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "The Road to Terra",
+     "start": "2022-09-29",
+     "end": "2022-10-12",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/The_Road_to_Terra",
+     "event_class": "Raid Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "Aldore Tower Investigation",
+     "start": "2022-09-30",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Aldore_Tower_Investigation",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    }
+   ],
+   "counts": {
+    "events": 5,
+    "with_art": 0,
+    "art_missing": 5
+   }
+  },
+  "2022-10": {
+   "month": "2022-10",
+   "events": [
+    {
+     "name": "Intercepting the Invincible",
+     "start": "2022-10-11",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Intercepting_the_Invincible",
+     "event_class": "Raid Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "The Destroyers' Journey",
+     "start": "2022-10-13",
+     "end": "2022-10-26",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/The_Destroyers%27_Journey",
+     "event_class": "Story Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "Conquering the Omega Core",
+     "start": "2022-10-31",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Conquering_the_Omega_Core",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    }
+   ],
+   "counts": {
+    "events": 3,
+    "with_art": 0,
+    "art_missing": 3
+   }
+  },
+  "2022-11": {
+   "month": "2022-11",
+   "events": [
+    {
+     "name": "Forbidden Land of Slumbering Power",
+     "start": "2022-11-10",
+     "end": "2022-11-23",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Forbidden_Land_of_Slumbering_Power",
+     "event_class": "Raid Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "Rise of the Zilart",
+     "start": "2022-11-10",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Rise_of_the_Zilart",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "A World Ripped Apart",
+     "start": "2022-11-17",
+     "end": "2022-11-30",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/A_World_Ripped_Apart",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "The Unsung Epic",
+     "start": "2022-11-30",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/The_Unsung_Epic",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    }
+   ],
+   "counts": {
+    "events": 4,
+    "with_art": 0,
+    "art_missing": 4
+   }
+  },
+  "2022-12": {
+   "month": "2022-12",
+   "events": [
+    {
+     "name": "Awaken Thy Spirit",
+     "start": "2022-12-01",
+     "end": "2022-12-14",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Awaken_Thy_Spirit",
+     "event_class": "Story Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "The Second Gate - The Light of Babel",
+     "start": "2022-12-08",
+     "end": "2022-12-28",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/The_Second_Gate_-_The_Light_of_Babel",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "The Hunted S Cells",
+     "start": "2022-12-09",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/The_Hunted_S_Cells",
+     "event_class": "Raid Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "Saving the Jumi",
+     "start": "2022-12-20",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Saving_the_Jumi",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "Get Ready to Crumble!",
+     "start": "2022-12-22",
+     "end": "2023-01-05",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Get_Ready_to_Crumble%21",
+     "event_class": "Raid Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "Haunted",
+     "start": "2022-12-29",
+     "end": "2023-01-11",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Haunted",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    }
+   ],
+   "counts": {
+    "events": 6,
+    "with_art": 0,
+    "art_missing": 6
+   }
+  },
+  "2023-01": {
+   "month": "2023-01",
+   "events": [
+    {
+     "name": "The Grudge-Filled Ruins",
+     "start": "2023-01-11",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/The_Grudge-Filled_Ruins",
+     "event_class": "Raid Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "Defender of the Main Pillar",
+     "start": "2023-01-12",
+     "end": "2023-01-25",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Defender_of_the_Main_Pillar",
+     "event_class": "Raid Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "Dark Lineage: The Awakening of the Darkness",
+     "start": "2023-01-20",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Dark_Lineage%3A_The_Awakening_of_the_Darkness",
+     "event_class": "Story Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "The Forest of Slumbering Crystals",
+     "start": "2023-01-26",
+     "end": "2023-02-08",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/The_Forest_of_Slumbering_Crystals",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "Operation Breakthrough",
+     "start": "2023-01-31",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Operation_Breakthrough",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    }
+   ],
+   "counts": {
+    "events": 5,
+    "with_art": 0,
+    "art_missing": 5
+   }
+  },
+  "2023-02": {
+   "month": "2023-02",
+   "events": [
+    {
+     "name": "Big Bridge Showdown",
+     "start": "2023-02-09",
+     "end": "2023-02-23",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Big_Bridge_Showdown",
+     "event_class": "Raid Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "A Fog-Laden Foray",
+     "start": "2023-02-10",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/A_Fog-Laden_Foray",
+     "event_class": "Raid Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "To Omega's End We Sail",
+     "start": "2023-02-17",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/To_Omega%27s_End_We_Sail",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "A New Wind Blows",
+     "start": "2023-02-23",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/A_New_Wind_Blows",
+     "event_class": "Story Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "The Desert Palace",
+     "start": "2023-02-28",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/The_Desert_Palace",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    }
+   ],
+   "counts": {
+    "events": 5,
+    "with_art": 0,
+    "art_missing": 5
+   }
+  },
+  "2023-03": {
+   "month": "2023-03",
+   "events": [
+    {
+     "name": "Rise of the Zilart",
+     "start": "2023-03-09",
+     "end": "2023-03-22",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Rise_of_the_Zilart",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "The Sealed Volcano",
+     "start": "2023-03-10",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/The_Sealed_Volcano",
+     "event_class": "Raid Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "Sworn to Slay a Demon",
+     "start": "2023-03-16",
+     "end": "2023-04-06",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Sworn_to_Slay_a_Demon",
+     "event_class": "Story Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "Hearts in Turmoil",
+     "start": "2023-03-20",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Hearts_in_Turmoil",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "Aldore Tower Investigation",
+     "start": "2023-03-23",
+     "end": "2023-04-05",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Aldore_Tower_Investigation",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "Intercepting the Invincible",
+     "start": "2023-03-30",
+     "end": "2023-04-12",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Intercepting_the_Invincible",
+     "event_class": "Raid Event",
+     "region": "global",
+     "art": null
+    }
+   ],
+   "counts": {
+    "events": 6,
+    "with_art": 0,
+    "art_missing": 6
+   }
+  },
+  "2023-04": {
+   "month": "2023-04",
+   "events": [
+    {
+     "name": "To Hunt L'Cie",
+     "start": "2023-04-01",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/To_Hunt_L%27Cie",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "Escape's End",
+     "start": "2023-04-10",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Escape%27s_End",
+     "event_class": "Raid Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "Conquering the Omega Core",
+     "start": "2023-04-13",
+     "end": "2023-04-26",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Conquering_the_Omega_Core",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "The Hunted S Cells",
+     "start": "2023-04-27",
+     "end": "2023-05-17",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/The_Hunted_S_Cells",
+     "event_class": "Raid Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "Beasts Tainted by Dark Power",
+     "start": "2023-04-30",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Beasts_Tainted_by_Dark_Power",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    }
+   ],
+   "counts": {
+    "events": 5,
+    "with_art": 0,
+    "art_missing": 5
+   }
+  },
+  "2023-05": {
+   "month": "2023-05",
+   "events": [
+    {
+     "name": "The Unsung Epic",
+     "start": "2023-05-04",
+     "end": null,
+     "end_suspect": "end<start-in-source",
+     "url": "https://exvius.fandom.com/wiki/The_Unsung_Epic",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "Dark Lineage: The Awakening of the Darkness",
+     "start": "2023-05-11",
+     "end": "2023-05-24",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Dark_Lineage%3A_The_Awakening_of_the_Darkness",
+     "event_class": "Story Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "Start of a Long Journey",
+     "start": "2023-05-11",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Start_of_a_Long_Journey",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "Heart of Vearn Palace",
+     "start": "2023-05-19",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Heart_of_Vearn_Palace",
+     "event_class": "Raid Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "The Grudge-Filled Ruins",
+     "start": "2023-05-25",
+     "end": "2023-06-14",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/The_Grudge-Filled_Ruins",
+     "event_class": "Raid Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "Checkmate!",
+     "start": "2023-05-31",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Checkmate%21",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    }
+   ],
+   "counts": {
+    "events": 6,
+    "with_art": 0,
+    "art_missing": 6
+   }
+  },
+  "2023-06": {
+   "month": "2023-06",
+   "events": [
+    {
+     "name": "Saving the Jumi",
+     "start": "2023-06-08",
+     "end": "2023-06-21",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Saving_the_Jumi",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "On the Hunt for Treasure",
+     "start": "2023-06-12",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/On_the_Hunt_for_Treasure",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "Operation Breakthrough",
+     "start": "2023-06-15",
+     "end": "2023-06-28",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Operation_Breakthrough",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "Glittering Desert Sand's Temptation",
+     "start": "2023-06-20",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Glittering_Desert_Sand%27s_Temptation",
+     "event_class": "Raid Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "A Fog-Laden Foray",
+     "start": "2023-06-22",
+     "end": "2023-07-05",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/A_Fog-Laden_Foray",
+     "event_class": "Raid Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "Fundamental Forces: Orphan Arc",
+     "start": "2023-06-29",
+     "end": "2023-08-02",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Fundamental_Forces%3A_Orphan_Arc",
+     "event_class": "Story Event",
+     "region": "global",
+     "art": {
+      "banner_id": 13574,
+      "banner_version": 8,
+      "file": "FFOrphanArcRerun.png",
+      "match_basis": "exact-title",
+      "derived_flags": [
+       "rerun"
+      ],
+      "store_path": "homeMarquee/HomeBanner_13574.png"
+     }
+    },
+    {
+     "name": "The Truth Behind the War of the Lions",
+     "start": "2023-06-30",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/The_Truth_Behind_the_War_of_the_Lions",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    }
+   ],
+   "counts": {
+    "events": 7,
+    "with_art": 1,
+    "art_missing": 6
+   }
+  },
+  "2023-07": {
+   "month": "2023-07",
+   "events": [
+    {
+     "name": "To Omega's End We Sail",
+     "start": "2023-07-06",
+     "end": "2023-07-19",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/To_Omega%27s_End_We_Sail",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "The Desert Palace",
+     "start": "2023-07-13",
+     "end": "2023-07-26",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/The_Desert_Palace",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "To the Mana Tree",
+     "start": "2023-07-20",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/To_the_Mana_Tree",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "The Sealed Volcano",
+     "start": "2023-07-27",
+     "end": "2023-08-09",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/The_Sealed_Volcano",
+     "event_class": "Raid Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "Return to Insomnia",
+     "start": "2023-07-31",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Return_to_Insomnia",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    }
+   ],
+   "counts": {
+    "events": 5,
+    "with_art": 0,
+    "art_missing": 5
+   }
+  },
+  "2023-08": {
+   "month": "2023-08",
+   "events": [
+    {
+     "name": "Hearts in Turmoil",
+     "start": "2023-08-03",
+     "end": "2023-08-16",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Hearts_in_Turmoil",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "To Hunt L'Cie",
+     "start": "2023-08-31",
+     "end": "2023-09-13",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/To_Hunt_L%27Cie",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    }
+   ],
+   "counts": {
+    "events": 2,
+    "with_art": 0,
+    "art_missing": 2
+   }
+  },
+  "2023-09": {
+   "month": "2023-09",
+   "events": [
+    {
+     "name": "Escape's End",
+     "start": "2023-09-14",
+     "end": "2023-09-27",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Escape%27s_End",
+     "event_class": "Raid Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "Influence of Deep",
+     "start": "2023-09-21",
+     "end": "2023-10-11",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Influence_of_Deep",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "United with the Water God",
+     "start": "2023-09-30",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/United_with_the_Water_God",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    }
+   ],
+   "counts": {
+    "events": 3,
+    "with_art": 0,
+    "art_missing": 3
+   }
+  },
+  "2023-10": {
+   "month": "2023-10",
+   "events": [
+    {
+     "name": "Beasts Tainted by Dark Power",
+     "start": "2023-10-05",
+     "end": "2023-10-18",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Beasts_Tainted_by_Dark_Power",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "The Power of Destruction",
+     "start": "2023-10-10",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/The_Power_of_Destruction",
+     "event_class": "Raid Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "Start of a Long Journey",
+     "start": "2023-10-19",
+     "end": "2023-11-01",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Start_of_a_Long_Journey",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "Cradle of the World",
+     "start": "2023-10-31",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Cradle_of_the_World",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    }
+   ],
+   "counts": {
+    "events": 4,
+    "with_art": 0,
+    "art_missing": 4
+   }
+  },
+  "2023-11": {
+   "month": "2023-11",
+   "events": [
+    {
+     "name": "Heart of Vearn Palace",
+     "start": "2023-11-02",
+     "end": "2023-11-15",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Heart_of_Vearn_Palace",
+     "event_class": "Raid Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "Checkmate!",
+     "start": "2023-11-09",
+     "end": "2023-11-22",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Checkmate%21",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "Hidden Beneath the Mask",
+     "start": "2023-11-23",
+     "end": "2023-12-14",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Hidden_Beneath_the_Mask",
+     "event_class": "Story Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "Battle on Blazing Sands",
+     "start": "2023-11-30",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Battle_on_Blazing_Sands",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "Glittering Desert Sand's Temptation",
+     "start": "2023-11-30",
+     "end": "2023-12-13",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Glittering_Desert_Sand%27s_Temptation",
+     "event_class": "Raid Event",
+     "region": "global",
+     "art": null
+    }
+   ],
+   "counts": {
+    "events": 5,
+    "with_art": 0,
+    "art_missing": 5
+   }
+  },
+  "2023-12": {
+   "month": "2023-12",
+   "events": [
+    {
+     "name": "The Truth Behind the War of the Lions",
+     "start": "2023-12-07",
+     "end": "2023-12-27",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/The_Truth_Behind_the_War_of_the_Lions",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "A Summoner's Path",
+     "start": "2023-12-11",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/A_Summoner%27s_Path",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    }
+   ],
+   "counts": {
+    "events": 2,
+    "with_art": 0,
+    "art_missing": 2
+   }
+  },
+  "2024-01": {
+   "month": "2024-01",
+   "events": [
+    {
+     "name": "Return to Insomnia",
+     "start": "2024-01-04",
+     "end": "2024-01-31",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Return_to_Insomnia",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    }
+   ],
+   "counts": {
+    "events": 1,
+    "with_art": 0,
+    "art_missing": 1
+   }
+  },
+  "2024-02": {
+   "month": "2024-02",
+   "events": [
+    {
+     "name": "On the Hunt for Treasure",
+     "start": "2024-02-01",
+     "end": "2024-02-14",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/On_the_Hunt_for_Treasure",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "To the Mana Tree",
+     "start": "2024-02-22",
+     "end": "2024-03-13",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/To_the_Mana_Tree",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    }
+   ],
+   "counts": {
+    "events": 2,
+    "with_art": 0,
+    "art_missing": 2
+   }
+  },
+  "2024-03": {
+   "month": "2024-03",
+   "events": [
+    {
+     "name": "United with the Water God",
+     "start": "2024-03-07",
+     "end": "2024-03-27",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/United_with_the_Water_God",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "The Power of Destruction",
+     "start": "2024-03-28",
+     "end": "2024-04-17",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/The_Power_of_Destruction",
+     "event_class": "Raid Event",
+     "region": "global",
+     "art": {
+      "banner_id": 13438,
+      "banner_version": 5,
+      "file": "FFBEThePowerofDestruction.png",
+      "match_basis": "exact-title",
+      "derived_flags": [],
+      "store_path": "homeMarquee/HomeBanner_13438.png"
+     }
+    }
+   ],
+   "counts": {
+    "events": 2,
+    "with_art": 1,
+    "art_missing": 1
+   }
+  },
+  "2024-04": {
+   "month": "2024-04",
+   "events": [
+    {
+     "name": "Cradle of the World",
+     "start": "2024-04-04",
+     "end": "2024-05-08",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Cradle_of_the_World",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "Path of Vengeance",
+     "start": "2024-04-11",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Path_of_Vengeance",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "Land Swarming with Omega Spawn",
+     "start": "2024-04-30",
+     "end": null,
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Land_Swarming_with_Omega_Spawn",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    }
+   ],
+   "counts": {
+    "events": 3,
+    "with_art": 0,
+    "art_missing": 3
+   }
+  },
+  "2024-05": {
+   "month": "2024-05",
+   "events": [
+    {
+     "name": "Battle on Blazing Sands",
+     "start": "2024-05-09",
+     "end": "2024-06-05",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Battle_on_Blazing_Sands",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    }
+   ],
+   "counts": {
+    "events": 1,
+    "with_art": 0,
+    "art_missing": 1
+   }
+  },
+  "2024-06": {
+   "month": "2024-06",
+   "events": [
+    {
+     "name": "A Summoner's Path",
+     "start": "2024-06-06",
+     "end": "2024-07-10",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/A_Summoner%27s_Path",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    },
+    {
+     "name": "Fundamental Forces: The Final Chapter",
+     "start": "2024-06-27",
+     "end": "2024-08-31",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Fundamental_Forces%3A_The_Final_Chapter",
+     "event_class": "Story Event",
+     "region": "global",
+     "art": null
+    }
+   ],
+   "counts": {
+    "events": 2,
+    "with_art": 0,
+    "art_missing": 2
+   }
+  },
+  "2024-07": {
+   "month": "2024-07",
+   "events": [
+    {
+     "name": "Path of Vengeance",
+     "start": "2024-07-11",
+     "end": "2024-08-07",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Path_of_Vengeance",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": null
+    }
+   ],
+   "counts": {
+    "events": 1,
+    "with_art": 0,
+    "art_missing": 1
+   }
+  },
+  "2024-08": {
+   "month": "2024-08",
+   "events": [
+    {
+     "name": "Land Swarming with Omega Spawn",
+     "start": "2024-08-01",
+     "end": "2024-10-31",
+     "end_suspect": null,
+     "url": "https://exvius.fandom.com/wiki/Land_Swarming_with_Omega_Spawn",
+     "event_class": "Series Event",
+     "region": "global",
+     "art": {
+      "banner_id": 13630,
+      "banner_version": 2,
+      "file": "FFBELandSwarmingwithOmegaSpawn.png",
+      "match_basis": "exact-title",
+      "derived_flags": [],
+      "store_path": "homeMarquee/HomeBanner_13630.png"
+     }
+    }
+   ],
+   "counts": {
+    "events": 1,
+    "with_art": 1,
+    "art_missing": 0
+   }
+  }
+ },
+ "promos": [
+  {
+   "banner_id": 13206,
+   "banner_version": 49,
+   "file": "DailyVideoSummon2.png",
+   "derived_name": "DailyVideoSummon",
+   "derived_flags": [
+    "trailing-2"
+   ],
+   "store_path": "homeMarquee/HomeBanner_13206.png",
+   "kind": "summon/ticket promotion -- no event record in the corpus, so the window is AUTHORED"
+  },
+  {
+   "banner_id": 13542,
+   "banner_version": 10,
+   "file": "ffbeelenafundamentalforcesrerun.png",
+   "derived_name": "elenafundamentalforces",
+   "derived_flags": [
+    "rerun"
+   ],
+   "store_path": "homeMarquee/HomeBanner_13542.png",
+   "kind": "summon/ticket promotion -- no event record in the corpus, so the window is AUTHORED"
+  },
+  {
+   "banner_id": 13582,
+   "banner_version": 10,
+   "file": "WeeklyFreeSummon.png",
+   "derived_name": "WeeklyFreeSummon",
+   "derived_flags": [],
+   "store_path": "homeMarquee/HomeBanner_13582.png",
+   "kind": "summon/ticket promotion -- no event record in the corpus, so the window is AUTHORED"
+  },
+  {
+   "banner_id": 13590,
+   "banner_version": 13,
+   "file": "8thAnniversaryTicketSummonSlider.png",
+   "derived_name": "8thAnniversaryTicketSummonSlider",
+   "derived_flags": [],
+   "store_path": "homeMarquee/HomeBanner_13590.png",
+   "kind": "summon/ticket promotion -- no event record in the corpus, so the window is AUTHORED"
+  }
+ ]
+}

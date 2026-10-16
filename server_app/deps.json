@@ -1,0 +1,65 @@
+{
+  "_comment": "Runtime data dependencies of the FFBE synthetic server. This app checks them and points at the LOCAL tool that produces each one; no game content is shipped with this app.",
+  "entries": [
+    {
+      "label": "Decoded MST tables",
+      "paths": ["mst_decoded"],
+      "min_files": 100,
+      "required": true,
+      "producer": "python3 scripts/mst_decode.py",
+      "doc": "docs/COVERAGE_LEDGER.md"
+    },
+    {
+      "label": "Decoded localized text",
+      "paths": ["text_decoded"],
+      "min_files": 50,
+      "required": true,
+      "producer": "python3 scripts/text_decode.py",
+      "doc": "docs/COVERAGE_LEDGER.md"
+    },
+    {
+      "label": "Client CDN tree (mst/)",
+      "paths": ["client/files/mst"],
+      "min_files": 10,
+      "required": true,
+      "producer": "your own client dump: <app data dir>/files",
+      "doc": "docs/analysis/FFBE_SERVER_CONTRACT.md section 2.2"
+    },
+    {
+      "label": "Client CDN tree (localized_texts/en)",
+      "paths": ["client/files/localized_texts/en"],
+      "min_files": 5,
+      "required": true,
+      "producer": "same client dump",
+      "doc": "docs/analysis/FFBE_SERVER_CONTRACT.md section 2.2"
+    },
+    {
+      "label": "MST version registry (gamedata.xml)",
+      "paths": ["client/shared_prefs/gamedata.xml"],
+      "required": true,
+      "producer": "same client dump",
+      "doc": "docs/notes/mst_version_source.md"
+    },
+    {
+      "label": "Art trees (banners / area / gacha)",
+      "paths": ["cpk_extract"],
+      "required": false,
+      "producer": "CPK extraction tools",
+      "doc": "docs/COVERAGE_LEDGER.md"
+    },
+    {
+      "label": "CDN overlay (patched tables + fetched packs)",
+      "paths": ["overlay"],
+      "required": false,
+      "producer": "python3 harness/derive_define_mst.py ; python3 harness/pack_coverage.py --fetch",
+      "doc": "docs/notes/pack_coverage.md"
+    },
+    {
+      "label": "TLS certs (leaf.pem / leaf.key)",
+      "paths": ["certs/leaf.pem", "certs/leaf.key"],
+      "required": true,
+      "producer": "harness/gen_ca.sh",
+      "doc": "docs/notes/tls_pinning_findings.md"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+# app build output
+/server_app/target/
+/server_app/build/
+/server_app/dist/
+
+# engine runtime output (endpoints table, request records, state)
+/out/
+
+# python
+__pycache__/
+*.pyc

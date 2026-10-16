@@ -1,0 +1,439 @@
+{
+ "_meta": {
+  "what": "The STANDARD gacha families (SW-75): the static, never-campaign-tied FREE-tab summons.",
+  "label": "Identity (id + rendered title/description) is SHIPPED; the tab, cost/currency, pool/rates, window, synthesized detail id and the art<->id mapping are AUTHORED -- never presented as recovered. Every banner carries `source: standard-authored`.",
+  "families": [
+   {
+    "family": "Arena Summon",
+    "block": [
+     70001,
+     70003
+    ],
+    "block_ids": 3,
+    "family_named_ids": 2,
+    "emitted": 2
+   },
+   {
+    "family": "EXVIUS Summon",
+    "block": [
+     60001,
+     60016
+    ],
+    "block_ids": 16,
+    "family_named_ids": 4,
+    "emitted": 2
+   },
+   {
+    "family": "Raid Summon",
+    "block": [
+     71001,
+     71085
+    ],
+    "block_ids": 85,
+    "family_named_ids": 41,
+    "emitted": 2
+   },
+   {
+    "family": "5+1 Ticket Summon",
+    "block": [
+     45,
+     60
+    ],
+    "block_ids": 16,
+    "family_named_ids": 3,
+    "emitted": 2
+   }
+  ],
+  "window_per_family": 2,
+  "banners": 8,
+  "art_pool": 85,
+  "generator": "harness/gen_gacha_standard.py",
+  "id_blocks": "gacha_banner_types.md SS3b. The brief's counts are the id-BLOCK extents; a banner is emitted only for a block id whose shipped `MST_GACHA_NAME_<id>` names the family (a title-less id renders blank). `named_ids` below is the measured name-matched count per block."
+ },
+ "banners": [
+  {
+   "id": "70001",
+   "region": "jp",
+   "type": "free",
+   "name": "Arena Summon",
+   "detail_id": "700011",
+   "exe_type": "primary",
+   "gacha_layout": 0,
+   "draws": 1,
+   "schedule": {
+    "disp_order": 1,
+    "banner_type": 0,
+    "window": {
+     "from": "2026-01-01 00:00:00",
+     "to": "2030-12-31 23:59:59"
+    }
+   },
+   "art": {
+    "banner": "gacha_20180810_top_banner_rankup_10.png",
+    "detail_banner": "gacha_20180810_banner_rankup_10.png",
+    "anime_file": "gacha_animation",
+    "anime_name": "gacha_moogle_normal/anime",
+    "img_btn": "gacha_btn_r"
+   },
+   "pool": {
+    "tiers": [
+     {
+      "rarity": 5,
+      "rate": 0.01
+     },
+     {
+      "rarity": 4,
+      "rate": 0.19
+     },
+     {
+      "rarity": 3,
+      "rate": 0.8
+     }
+    ]
+   },
+   "provenance": "mixed",
+   "source": "standard-authored",
+   "notes": "STANDARD family 'Arena Summon'. SHIPPED: id, the rendered title/description (`F_TEXT_GACHA` `MST_GACHA_NAME_<id>` / `MST_GACHA_EXPLAIN_LONG_<id>`), and the ids of the items the cost references. AUTHORED: the tab (`type: free` -> the client's FREE widget), cost/currency, pool/rates, the evergreen schedule window, the synthesized `detail_id`, and the art<->id mapping. Cost: authored: `F_TEXT_IMPORTANT_ITEM_NAME_60` = 'Arena Summon Ticket' (the name is shipped; naming item 60 as the cost is our choice), 1 ticket for 1 pull. [Community] currency class: Arena Summon Ticket (`currency_model.md` SS3b). POOL = the community standard tiers (5*/4*/3* = 1%/19%/80%) expanded server-side over the shipped `F_UNIT_MST` base-rarity roots -- no invented unit ids.",
+   "cost": {
+    "kind": "important",
+    "item_id": 60,
+    "amount": 1
+   }
+  },
+  {
+   "id": "70003",
+   "region": "jp",
+   "type": "free",
+   "name": "Arena Summon",
+   "detail_id": "700031",
+   "exe_type": "primary",
+   "gacha_layout": 0,
+   "draws": 1,
+   "schedule": {
+    "disp_order": 2,
+    "banner_type": 0,
+    "window": {
+     "from": "2026-01-01 00:00:00",
+     "to": "2030-12-31 23:59:59"
+    }
+   },
+   "art": {
+    "banner": "gacha_20180810_top_banner_rankup_3_k.png",
+    "detail_banner": "gacha_20180810_banner_rankup_3_k.png",
+    "anime_file": "gacha_animation",
+    "anime_name": "gacha_moogle_normal/anime",
+    "img_btn": "gacha_btn_r"
+   },
+   "pool": {
+    "tiers": [
+     {
+      "rarity": 5,
+      "rate": 0.01
+     },
+     {
+      "rarity": 4,
+      "rate": 0.19
+     },
+     {
+      "rarity": 3,
+      "rate": 0.8
+     }
+    ]
+   },
+   "provenance": "mixed",
+   "source": "standard-authored",
+   "notes": "STANDARD family 'Arena Summon'. SHIPPED: id, the rendered title/description (`F_TEXT_GACHA` `MST_GACHA_NAME_<id>` / `MST_GACHA_EXPLAIN_LONG_<id>`), and the ids of the items the cost references. AUTHORED: the tab (`type: free` -> the client's FREE widget), cost/currency, pool/rates, the evergreen schedule window, the synthesized `detail_id`, and the art<->id mapping. Cost: authored: `F_TEXT_IMPORTANT_ITEM_NAME_60` = 'Arena Summon Ticket' (the name is shipped; naming item 60 as the cost is our choice), 1 ticket for 1 pull. [Community] currency class: Arena Summon Ticket (`currency_model.md` SS3b). POOL = the community standard tiers (5*/4*/3* = 1%/19%/80%) expanded server-side over the shipped `F_UNIT_MST` base-rarity roots -- no invented unit ids.",
+   "cost": {
+    "kind": "important",
+    "item_id": 60,
+    "amount": 1
+   }
+  },
+  {
+   "id": "60001",
+   "region": "jp",
+   "type": "free",
+   "name": "EXVIUS Summon",
+   "detail_id": "600011",
+   "exe_type": "primary",
+   "gacha_layout": 0,
+   "draws": 1,
+   "schedule": {
+    "disp_order": 101,
+    "banner_type": 0,
+    "window": {
+     "from": "2026-01-01 00:00:00",
+     "to": "2030-12-31 23:59:59"
+    }
+   },
+   "art": {
+    "banner": "gacha_20180810_top_banner_rankup_3_m.png",
+    "detail_banner": "gacha_20180810_banner_rankup_3_m.png",
+    "anime_file": "gacha_animation",
+    "anime_name": "gacha_moogle_normal/anime",
+    "img_btn": "gacha_btn_r"
+   },
+   "pool": {
+    "tiers": [
+     {
+      "rarity": 5,
+      "rate": 0.01
+     },
+     {
+      "rarity": 4,
+      "rate": 0.19
+     },
+     {
+      "rarity": 3,
+      "rate": 0.8
+     }
+    ]
+   },
+   "provenance": "mixed",
+   "source": "standard-authored",
+   "notes": "STANDARD family 'EXVIUS Summon'. SHIPPED: id, the rendered title/description (`F_TEXT_GACHA` `MST_GACHA_NAME_<id>` / `MST_GACHA_EXPLAIN_LONG_<id>`), and the ids of the items the cost references. AUTHORED: the tab (`type: free` -> the client's FREE widget), cost/currency, pool/rates, the evergreen schedule window, the synthesized `detail_id`, and the art<->id mapping. Cost: authored: NO costInfo + shipped `ticket_group_id 10010` (the EX Ticket group, items 160/170/180) -> `isTicketOnlyGacha` -> `TicketOnlyGachaDetailScene` (`gacha_banner_types.md` SS6a/SS6c; live-confirmed 2026-09-21). [Community] currency class: EX Ticket (any) / NV EX Ticket (`currency_model.md` SS3b). POOL = the community standard tiers (5*/4*/3* = 1%/19%/80%) expanded server-side over the shipped `F_UNIT_MST` base-rarity roots -- no invented unit ids.",
+   "ticket_group_id": 10010
+  },
+  {
+   "id": "60002",
+   "region": "jp",
+   "type": "free",
+   "name": "EXVIUS Summon",
+   "detail_id": "600021",
+   "exe_type": "primary",
+   "gacha_layout": 0,
+   "draws": 1,
+   "schedule": {
+    "disp_order": 102,
+    "banner_type": 0,
+    "window": {
+     "from": "2026-01-01 00:00:00",
+     "to": "2030-12-31 23:59:59"
+    }
+   },
+   "art": {
+    "banner": "gacha_20180910_top_banner_rankup_20.png",
+    "detail_banner": "gacha_20180910_banner_rankup_20.png",
+    "anime_file": "gacha_animation",
+    "anime_name": "gacha_moogle_normal/anime",
+    "img_btn": "gacha_btn_r"
+   },
+   "pool": {
+    "tiers": [
+     {
+      "rarity": 5,
+      "rate": 0.01
+     },
+     {
+      "rarity": 4,
+      "rate": 0.19
+     },
+     {
+      "rarity": 3,
+      "rate": 0.8
+     }
+    ]
+   },
+   "provenance": "mixed",
+   "source": "standard-authored",
+   "notes": "STANDARD family 'EXVIUS Summon'. SHIPPED: id, the rendered title/description (`F_TEXT_GACHA` `MST_GACHA_NAME_<id>` / `MST_GACHA_EXPLAIN_LONG_<id>`), and the ids of the items the cost references. AUTHORED: the tab (`type: free` -> the client's FREE widget), cost/currency, pool/rates, the evergreen schedule window, the synthesized `detail_id`, and the art<->id mapping. Cost: authored: NO costInfo + shipped `ticket_group_id 10010` (the EX Ticket group, items 160/170/180) -> `isTicketOnlyGacha` -> `TicketOnlyGachaDetailScene` (`gacha_banner_types.md` SS6a/SS6c; live-confirmed 2026-09-21). [Community] currency class: EX Ticket (any) / NV EX Ticket (`currency_model.md` SS3b). POOL = the community standard tiers (5*/4*/3* = 1%/19%/80%) expanded server-side over the shipped `F_UNIT_MST` base-rarity roots -- no invented unit ids.",
+   "ticket_group_id": 10010
+  },
+  {
+   "id": "71001",
+   "region": "jp",
+   "type": "free",
+   "name": "Raid Summon",
+   "detail_id": "710011",
+   "exe_type": "primary",
+   "gacha_layout": 0,
+   "draws": 1,
+   "schedule": {
+    "disp_order": 201,
+    "banner_type": 0,
+    "window": {
+     "from": "2026-01-01 00:00:00",
+     "to": "2030-12-31 23:59:59"
+    }
+   },
+   "art": {
+    "banner": "gacha_20180910_top_banner_rankup_30_k.png",
+    "detail_banner": "gacha_20180910_top_banner_rankup_30_k.png",
+    "anime_file": "gacha_animation",
+    "anime_name": "gacha_moogle_normal/anime",
+    "img_btn": "gacha_btn_r"
+   },
+   "pool": {
+    "tiers": [
+     {
+      "rarity": 5,
+      "rate": 0.01
+     },
+     {
+      "rarity": 4,
+      "rate": 0.19
+     },
+     {
+      "rarity": 3,
+      "rate": 0.8
+     }
+    ]
+   },
+   "provenance": "mixed",
+   "source": "standard-authored",
+   "notes": "STANDARD family 'Raid Summon'. SHIPPED: id, the rendered title/description (`F_TEXT_GACHA` `MST_GACHA_NAME_<id>` / `MST_GACHA_EXPLAIN_LONG_<id>`), and the ids of the items the cost references. AUTHORED: the tab (`type: free` -> the client's FREE widget), cost/currency, pool/rates, the evergreen schedule window, the synthesized `detail_id`, and the art<->id mapping. Cost: authored: item kind with item 106301000 = `F_TEXT_ITEM_NAME` 'Ifrit Raid Coin' as a REPRESENTATIVE (the shipped item exists; there is no generic Raid Coin id), 1 coin for 1 pull. [Community] currency class: Raid Coin (`currency_model.md` SS3b). POOL = the community standard tiers (5*/4*/3* = 1%/19%/80%) expanded server-side over the shipped `F_UNIT_MST` base-rarity roots -- no invented unit ids.",
+   "cost": {
+    "kind": "item",
+    "item_id": 106301000,
+    "amount": 1
+   }
+  },
+  {
+   "id": "71002",
+   "region": "jp",
+   "type": "free",
+   "name": "Raid Summon",
+   "detail_id": "710021",
+   "exe_type": "primary",
+   "gacha_layout": 0,
+   "draws": 1,
+   "schedule": {
+    "disp_order": 202,
+    "banner_type": 0,
+    "window": {
+     "from": "2026-01-01 00:00:00",
+     "to": "2030-12-31 23:59:59"
+    }
+   },
+   "art": {
+    "banner": "gacha_20180910_top_banner_rankup_30_m.png",
+    "detail_banner": "gacha_20180910_top_banner_rankup_30_m.png",
+    "anime_file": "gacha_animation",
+    "anime_name": "gacha_moogle_normal/anime",
+    "img_btn": "gacha_btn_r"
+   },
+   "pool": {
+    "tiers": [
+     {
+      "rarity": 5,
+      "rate": 0.01
+     },
+     {
+      "rarity": 4,
+      "rate": 0.19
+     },
+     {
+      "rarity": 3,
+      "rate": 0.8
+     }
+    ]
+   },
+   "provenance": "mixed",
+   "source": "standard-authored",
+   "notes": "STANDARD family 'Raid Summon'. SHIPPED: id, the rendered title/description (`F_TEXT_GACHA` `MST_GACHA_NAME_<id>` / `MST_GACHA_EXPLAIN_LONG_<id>`), and the ids of the items the cost references. AUTHORED: the tab (`type: free` -> the client's FREE widget), cost/currency, pool/rates, the evergreen schedule window, the synthesized `detail_id`, and the art<->id mapping. Cost: authored: item kind with item 106301000 = `F_TEXT_ITEM_NAME` 'Ifrit Raid Coin' as a REPRESENTATIVE (the shipped item exists; there is no generic Raid Coin id), 1 coin for 1 pull. [Community] currency class: Raid Coin (`currency_model.md` SS3b). POOL = the community standard tiers (5*/4*/3* = 1%/19%/80%) expanded server-side over the shipped `F_UNIT_MST` base-rarity roots -- no invented unit ids.",
+   "cost": {
+    "kind": "item",
+    "item_id": 106301000,
+    "amount": 1
+   }
+  },
+  {
+   "id": "45",
+   "region": "jp",
+   "type": "free",
+   "name": "5+1 Ticket Summon",
+   "detail_id": "451",
+   "exe_type": "primary",
+   "gacha_layout": 0,
+   "draws": 6,
+   "schedule": {
+    "disp_order": 301,
+    "banner_type": 0,
+    "window": {
+     "from": "2026-01-01 00:00:00",
+     "to": "2030-12-31 23:59:59"
+    }
+   },
+   "art": {
+    "banner": "gacha_20181010_top_banner_rankup_50.png",
+    "detail_banner": "gacha_20181010_banner_rankup_50.png",
+    "anime_file": "gacha_animation",
+    "anime_name": "gacha_moogle_normal/anime",
+    "img_btn": "gacha_btn_r"
+   },
+   "pool": {
+    "tiers": [
+     {
+      "rarity": 5,
+      "rate": 0.01
+     },
+     {
+      "rarity": 4,
+      "rate": 0.19
+     },
+     {
+      "rarity": 3,
+      "rate": 0.8
+     }
+    ]
+   },
+   "provenance": "mixed",
+   "source": "standard-authored",
+   "notes": "STANDARD family '5+1 Ticket Summon'. SHIPPED: id, the rendered title/description (`F_TEXT_GACHA` `MST_GACHA_NAME_<id>` / `MST_GACHA_EXPLAIN_LONG_<id>`), and the ids of the items the cost references. AUTHORED: the tab (`type: free` -> the client's FREE widget), cost/currency, pool/rates, the evergreen schedule window, the synthesized `detail_id`, and the art<->id mapping. Cost: authored: `F_TEXT_IMPORTANT_ITEM_NAME_912` = '5+1 Summon Ticket (3/4/5*)' (shipped name) for ONE execution of `draws=6` (the '5+1'). [Community] currency class: 5+1 / 10+1 Summon Ticket (`currency_model.md` SS3b). POOL = the community standard tiers (5*/4*/3* = 1%/19%/80%) expanded server-side over the shipped `F_UNIT_MST` base-rarity roots -- no invented unit ids.",
+   "cost": {
+    "kind": "important",
+    "item_id": 912,
+    "amount": 1
+   }
+  },
+  {
+   "id": "46",
+   "region": "jp",
+   "type": "free",
+   "name": "5+1 Ticket Summon",
+   "detail_id": "461",
+   "exe_type": "primary",
+   "gacha_layout": 0,
+   "draws": 6,
+   "schedule": {
+    "disp_order": 302,
+    "banner_type": 0,
+    "window": {
+     "from": "2026-01-01 00:00:00",
+     "to": "2030-12-31 23:59:59"
+    }
+   },
+   "art": {
+    "banner": "gacha_20200430_FF7R_pickup11ren_top.png",
+    "detail_banner": "gacha_20200430_FF7R_pickup11ren_top.png",
+    "anime_file": "gacha_animation",
+    "anime_name": "gacha_moogle_normal/anime",
+    "img_btn": "gacha_btn_r"
+   },
+   "pool": {
+    "tiers": [
+     {
+      "rarity": 5,
+      "rate": 0.01
+     },
+     {
+      "rarity": 4,
+      "rate": 0.19
+     },
+     {
+      "rarity": 3,
+      "rate": 0.8
+     }
+    ]
+   },
+   "provenance": "mixed",
+   "source": "standard-authored",
+   "notes": "STANDARD family '5+1 Ticket Summon'. SHIPPED: id, the rendered title/description (`F_TEXT_GACHA` `MST_GACHA_NAME_<id>` / `MST_GACHA_EXPLAIN_LONG_<id>`), and the ids of the items the cost references. AUTHORED: the tab (`type: free` -> the client's FREE widget), cost/currency, pool/rates, the evergreen schedule window, the synthesized `detail_id`, and the art<->id mapping. Cost: authored: `F_TEXT_IMPORTANT_ITEM_NAME_912` = '5+1 Summon Ticket (3/4/5*)' (shipped name) for ONE execution of `draws=6` (the '5+1'). [Community] currency class: 5+1 / 10+1 Summon Ticket (`currency_model.md` SS3b). POOL = the community standard tiers (5*/4*/3* = 1%/19%/80%) expanded server-side over the shipped `F_UNIT_MST` base-rarity roots -- no invented unit ids.",
+   "cost": {
+    "kind": "important",
+    "item_id": 912,
+    "amount": 1
+   }
+  }
+ ]
+}

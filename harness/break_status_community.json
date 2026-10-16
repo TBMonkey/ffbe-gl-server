@@ -1,0 +1,441 @@
+{
+ "_provenance": {
+  "what": "Monster break data served to the GL client as the `BJ6A0KTt` (MonsterPartsBreakMst) and `7KCkJd1E` (MonsterPartsExtStatusMst) rows for every served part whose `bV34YIJQ` row carries a non-zero `e56NZY42` (MonsterBreakID).",
+  "primary_source": "aEnigmatic's per-encounter datamine gists (`<mission>.jp.py`): a `# Break` block per monster -- `# Hit points <base> (+<delta> after first BREAK)`, `# Duration <n>`, a 16-row per-weapon `# Damage` table -- and a `# Broken Form` stats/resist block. Every entry names its gist id, file and line range. Found by the operator 2026-10-11; it closed the Heavenly Flames PRO gap the wiki had no section for.",
+  "corroboration": "The Fandom wiki boss guides agree EXACTLY for 6 of the 8 parts. For the two Ymir shells the wiki is wrong (no INT section -> ADV values substituted; ADV broken DEF 200 vs the gist 2,000). The gist's JP and GL files agree with each other on every field, so the gist wins.",
+  "why_a_community_source": "Those two tables were TRANSMITTED, never shipped, and no recoverable corpus has them: 0 of the 6 ext-status tokens across 231,518 JP-oracle rows + 590,632 GL mst_decoded rows; no break table among the 192 declared F_* names of either the JP/Memorial or the JP original (AndApp) engine, and no offline filler or synthesized default in either; MEMORIUM V5.8/FR/SP (143 .dat) none; the AndApp archive's own 179-table MST set omits the battle tables entirely; community repo and wire-token searches return zero.",
+  "labels": [
+   "COMMUNITY-DERIVED (datamine gist, wiki-corroborated), not first-party. Never cite this as recovered wire data.",
+   "break_hp is CX5D2V1j (raw BP points). break_delta_after_first is encoded as zW97Bico=1 + 8HnQR9Wx=delta: MonsterUnit::getMaxBp (GL 0x1b6c6b0-0x1b6c6c8) applies type 1 as base+value and type 2 as base*value/100, ONLY once BattleUnit::getBreakNum() >= 1; the pool re-arms at break end. Type 2 with value 0 would zero the pool -- never emit that.",
+   "broken{atk,def,mag,spr} replace 9NBV1XCS / Pn5w9dfh / 84FJM3PD / T8xMDAZ4 in the break row; while MonsterUnit::isBreak() those are what the stat getters return (0x1b65fbc).",
+   "resists{} are the BROKEN FORM's values (the gist's `# Broken Form` block) and OVERRIDE the ones copied from the part row: for Intangir, Antenolla and the 2-Headed Dragon the broken form loses its elemental immunity (99% -> 0% / 49% / -50%), which is exactly what breaking is for. Tokens: hn42BL3Q element (9), D9Nb7jgd status (8), f67khsQZ / Q1qLbx93 damage cuts, Rcqa1Zt7 debuff (7); CSV = comma-separated ints in listed order, matching the parts-row convention.",
+   "RHe5r72C IS REQUIRED AND SENT: MonsterUnit::getWeakWeaponPointRelationship 0x1b6c734 parseLists ext-status +0x38 and indexes all 16 entries with no length check, so an absent field is CommonUtils::StrToInt on a null std::string -- the 2026-10-11 first fault (si_addr 0). The values are the gist per-weapon `# Damage` table in equip-category order 1..16 (Dagger..Fist). EwZ40mt3 (+0x50) has the identical unguarded 16-index in BattleLibraScene::setLayoutWeakWeapon 0x202b208 (an entry == 1 shows an icon) and is sent as a DERIVED 0/1 flag list at the row max -- unverified, cosmetic.",
+   "break_description is the 6uvHX2JG text key; only 2 of 8 parts have a source (aEnigmatic/ffbe-gl-strings MST_MONSTER_PARTS_BREAK_DESCRIPTION.json: Ymir 'DEF Reduced')."
+  ],
+  "gaps": [
+   "Part 407031105 (a Bahamut variant with its own non-zero MonsterBreakID, HP 2.1e9 / ATK 30,000 / DEF 99,000) is in a gist monster line but in no battle group we serve. If a future mission uses it, add an entry here or the deriver zeroes its id (break off, crash-safe).",
+   "6uvHX2JG for 6 of 8 parts: no source (only 30 rows exist in the GL strings table)."
+  ],
+  "encoding_check": "harness/derive_battle_payload.py --break-status is the loader; see battle_scene_requirements.md Q5."
+ },
+ "parts": {
+  "407031103": {
+   "fight": "天の焔・超級 (8960101)",
+   "monster": "Monster  バハムート (407031103, 407031105)",
+   "source": {
+    "file": "89601.jp.py",
+    "gist": "e45027215ca420cf6f46966d484ce25d",
+    "url": "https://gist.github.com/aEnigmatic/e45027215ca420cf6f46966d484ce25d",
+    "lines": "14-687"
+   },
+   "break_hp": 10000,
+   "break_delta_after_first": 20000,
+   "break_hp_after_first": 30000,
+   "turns": 3,
+   "broken": {
+    "atk": 500,
+    "def": 5000,
+    "mag": 500,
+    "spr": 5000
+   },
+   "resists": {
+    "hn42BL3Q": "80,80,80,80,80,80,80,80,30",
+    "D9Nb7jgd": "100,100,100,100,100,100,100,100",
+    "f67khsQZ": "0",
+    "Q1qLbx93": "0",
+    "Rcqa1Zt7": "0,0,0,0,100,100,100"
+   },
+   "resists_note": "broken form identical to the base row we serve",
+   "break_description": "",
+   "weapon_break_damage": {
+    "Dagger": 100,
+    "Sword": 100,
+    "Great Sword": 100,
+    "Katana": 100,
+    "Staff": 5,
+    "Rod": 100,
+    "Bow": 100,
+    "Axe": 5,
+    "Hammer": 100,
+    "Spear": 5,
+    "Instrument": 5,
+    "Whip": 5,
+    "Throwing": 5,
+    "Gun": 100,
+    "Mace": 5,
+    "Fist": 5
+   },
+   "corroboration": "wiki has NO PRO section (the gist closes this gap); gist stats match the JP oracle part exactly",
+   "confidence": "high",
+   "RHe5r72C": "100,100,100,100,5,100,100,5,100,5,5,5,5,100,5,5",
+   "EwZ40mt3": "1,1,1,1,0,1,1,0,1,0,0,0,0,1,0,0",
+   "weapon_csv_note": "16 entries in equip-category order 1..16 (Dagger..Fist). RHe5r72C is REQUIRED: MonsterUnit::getWeakWeaponPointRelationship 0x1b6c734 parseLists ext-status +0x38 and indexes all 16 with no guard -- absent = the 2026-10-11 crash (StrToInt(*nullptr), si_addr 0). EwZ40mt3 is a DERIVED, unverified 0/1 flag list at the row max: BattleLibraScene::setLayoutWeakWeapon 0x202b208 parseLists +0x50 and shows an icon where the entry == 1 (same unguarded 16-index)."
+  },
+  "407031104": {
+   "fight": "天の焔・覚醒級 (8960102)",
+   "monster": "Monster  バハムート (407031104, 407031105)",
+   "source": {
+    "file": "89601.jp.py",
+    "gist": "e45027215ca420cf6f46966d484ce25d",
+    "url": "https://gist.github.com/aEnigmatic/e45027215ca420cf6f46966d484ce25d",
+    "lines": "700-1372"
+   },
+   "break_hp": 20000,
+   "break_delta_after_first": 30000,
+   "break_hp_after_first": 50000,
+   "turns": 3,
+   "broken": {
+    "atk": 1200,
+    "def": 100000,
+    "mag": 1200,
+    "spr": 100000
+   },
+   "resists": {
+    "hn42BL3Q": "80,80,80,80,80,80,80,80,30",
+    "D9Nb7jgd": "100,100,100,100,100,100,100,100",
+    "f67khsQZ": "0",
+    "Q1qLbx93": "0",
+    "Rcqa1Zt7": "0,0,0,0,100,100,100"
+   },
+   "resists_note": "broken form identical to the base row we serve",
+   "break_description": "",
+   "weapon_break_damage": {
+    "Dagger": 100,
+    "Sword": 100,
+    "Great Sword": 100,
+    "Katana": 100,
+    "Staff": 5,
+    "Rod": 100,
+    "Bow": 100,
+    "Axe": 5,
+    "Hammer": 100,
+    "Spear": 5,
+    "Instrument": 5,
+    "Whip": 5,
+    "Throwing": 5,
+    "Gun": 100,
+    "Mace": 5,
+    "Fist": 5
+   },
+   "corroboration": "wiki ELT values identical (20,000 -> 50,000, 3 turns; broken 1,200/100,000/1,200/100,000)",
+   "confidence": "high",
+   "RHe5r72C": "100,100,100,100,5,100,100,5,100,5,5,5,5,100,5,5",
+   "EwZ40mt3": "1,1,1,1,0,1,1,0,1,0,0,0,0,1,0,0",
+   "weapon_csv_note": "16 entries in equip-category order 1..16 (Dagger..Fist). RHe5r72C is REQUIRED: MonsterUnit::getWeakWeaponPointRelationship 0x1b6c734 parseLists ext-status +0x38 and indexes all 16 with no guard -- absent = the 2026-10-11 crash (StrToInt(*nullptr), si_addr 0). EwZ40mt3 is a DERIVED, unverified 0/1 flag list at the row max: BattleLibraScene::setLayoutWeakWeapon 0x202b208 parseLists +0x50 and shows an icon where the entry == 1 (same unguarded 16-index)."
+  },
+  "407001007": {
+   "fight": "白竜 真降臨・極級 (8992802)",
+   "monster": "Monster  白竜 (407001007)",
+   "source": {
+    "file": "8992802.jp.py",
+    "gist": "3eac57e2598407028b3336e3af92e1c2",
+    "url": "https://gist.github.com/aEnigmatic/3eac57e2598407028b3336e3af92e1c2",
+    "lines": "13-564"
+   },
+   "break_hp": 6500,
+   "break_delta_after_first": 6500,
+   "break_hp_after_first": 13000,
+   "turns": 2,
+   "broken": {
+    "atk": 2500,
+    "def": 2500,
+    "mag": 2500,
+    "spr": 2500
+   },
+   "resists": {
+    "hn42BL3Q": "70,70,70,70,70,70,50,0,50",
+    "D9Nb7jgd": "100,100,100,100,100,100,100,100",
+    "f67khsQZ": "0",
+    "Q1qLbx93": "0",
+    "Rcqa1Zt7": "100,100,0,100,100,100,100"
+   },
+   "resists_note": "broken form identical to the base row we serve",
+   "break_description": "",
+   "weapon_break_damage": {
+    "Dagger": 5,
+    "Sword": 100,
+    "Great Sword": 5,
+    "Katana": 5,
+    "Staff": 5,
+    "Rod": 5,
+    "Bow": 100,
+    "Axe": 5,
+    "Hammer": 5,
+    "Spear": 5,
+    "Instrument": 5,
+    "Whip": 5,
+    "Throwing": 5,
+    "Gun": 100,
+    "Mace": 5,
+    "Fist": 5
+   },
+   "corroboration": "wiki EXT values identical",
+   "confidence": "high",
+   "RHe5r72C": "5,100,5,5,5,5,100,5,5,5,5,5,5,100,5,5",
+   "EwZ40mt3": "0,1,0,0,0,0,1,0,0,0,0,0,0,1,0,0",
+   "weapon_csv_note": "16 entries in equip-category order 1..16 (Dagger..Fist). RHe5r72C is REQUIRED: MonsterUnit::getWeakWeaponPointRelationship 0x1b6c734 parseLists ext-status +0x38 and indexes all 16 with no guard -- absent = the 2026-10-11 crash (StrToInt(*nullptr), si_addr 0). EwZ40mt3 is a DERIVED, unverified 0/1 flag list at the row max: BattleLibraScene::setLayoutWeakWeapon 0x202b208 parseLists +0x50 and shows an icon where the entry == 1 (same unguarded 16-index)."
+  },
+  "401011003": {
+   "fight": "ねむれるしし 真降臨・極級 (8993103)",
+   "monster": "Monster  ねむれるしし (401011003)",
+   "source": {
+    "file": "8993103.jp.py",
+    "gist": "e4897ea7b7dcba7b95cc10f6b8e8f6d6",
+    "url": "https://gist.github.com/aEnigmatic/e4897ea7b7dcba7b95cc10f6b8e8f6d6",
+    "lines": "13-940"
+   },
+   "break_hp": 4500,
+   "break_delta_after_first": null,
+   "break_hp_after_first": null,
+   "turns": 2,
+   "broken": {
+    "atk": 2000,
+    "def": 3000,
+    "mag": 2000,
+    "spr": 3000
+   },
+   "resists": {
+    "hn42BL3Q": "0,0,0,0,0,0,0,0,55",
+    "D9Nb7jgd": "100,100,100,100,100,100,100,100",
+    "f67khsQZ": "0",
+    "Q1qLbx93": "0",
+    "Rcqa1Zt7": "0,100,100,100,100,100,100"
+   },
+   "resists_note": "broken form differs from the base row we serve: hn42BL3Q: base '99,99,99,99,99,99,99,99,55' -> broken '0,0,0,0,0,0,0,0,55'",
+   "break_description": "",
+   "weapon_break_damage": {
+    "Dagger": 5,
+    "Sword": 5,
+    "Great Sword": 100,
+    "Katana": 5,
+    "Staff": 5,
+    "Rod": 100,
+    "Bow": 5,
+    "Axe": 5,
+    "Hammer": 5,
+    "Spear": 5,
+    "Instrument": 200,
+    "Whip": 5,
+    "Throwing": 5,
+    "Gun": 5,
+    "Mace": 5,
+    "Fist": 100
+   },
+   "corroboration": "wiki EXT values identical (its wiki page flags the base/broken resistance contradiction the gist resolves)",
+   "confidence": "high",
+   "RHe5r72C": "5,5,100,5,5,100,5,5,5,5,200,5,5,5,5,100",
+   "EwZ40mt3": "0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0",
+   "weapon_csv_note": "16 entries in equip-category order 1..16 (Dagger..Fist). RHe5r72C is REQUIRED: MonsterUnit::getWeakWeaponPointRelationship 0x1b6c734 parseLists ext-status +0x38 and indexes all 16 with no guard -- absent = the 2026-10-11 crash (StrToInt(*nullptr), si_addr 0). EwZ40mt3 is a DERIVED, unverified 0/1 flag list at the row max: BattleLibraScene::setLayoutWeakWeapon 0x202b208 parseLists +0x50 and shows an icon where the entry == 1 (same unguarded 16-index)."
+  },
+  "411001005": {
+   "fight": "アンテノラ 真降臨・極級 (8993203)",
+   "monster": "Monster  アンテノラ　花 A (411001005, 411001011)",
+   "source": {
+    "file": "8993203.jp.py",
+    "gist": "63596ead56d14e186da7911957e3c177",
+    "url": "https://gist.github.com/aEnigmatic/63596ead56d14e186da7911957e3c177",
+    "lines": "13-463"
+   },
+   "break_hp": 4500,
+   "break_delta_after_first": null,
+   "break_hp_after_first": null,
+   "turns": 2,
+   "broken": {
+    "atk": 2000,
+    "def": 8000,
+    "mag": 2000,
+    "spr": 8000
+   },
+   "resists": {
+    "hn42BL3Q": "-50,-50,49,49,49,49,49,49,60",
+    "D9Nb7jgd": "100,100,100,100,100,100,100,100",
+    "f67khsQZ": "0",
+    "Q1qLbx93": "0",
+    "Rcqa1Zt7": "0,100,0,0,100,100,100"
+   },
+   "resists_note": "broken form differs from the base row we serve: hn42BL3Q: base '99,99,99,99,99,99,99,99,60' -> broken '-50,-50,49,49,49,49,49,49,60'",
+   "break_description": "",
+   "weapon_break_damage": {
+    "Dagger": 5,
+    "Sword": 5,
+    "Great Sword": 5,
+    "Katana": 100,
+    "Staff": 5,
+    "Rod": 100,
+    "Bow": 5,
+    "Axe": 5,
+    "Hammer": 5,
+    "Spear": 5,
+    "Instrument": 5,
+    "Whip": 100,
+    "Throwing": 5,
+    "Gun": 5,
+    "Mace": 5,
+    "Fist": 5
+   },
+   "corroboration": "wiki EXT values identical for HP/duration/broken stats",
+   "confidence": "high",
+   "RHe5r72C": "5,5,5,100,5,100,5,5,5,5,5,100,5,5,5,5",
+   "EwZ40mt3": "0,0,0,1,0,1,0,0,0,0,0,1,0,0,0,0",
+   "weapon_csv_note": "16 entries in equip-category order 1..16 (Dagger..Fist). RHe5r72C is REQUIRED: MonsterUnit::getWeakWeaponPointRelationship 0x1b6c734 parseLists ext-status +0x38 and indexes all 16 with no guard -- absent = the 2026-10-11 crash (StrToInt(*nullptr), si_addr 0). EwZ40mt3 is a DERIVED, unverified 0/1 flag list at the row max: BattleLibraScene::setLayoutWeakWeapon 0x202b208 parseLists +0x50 and shows an icon where the entry == 1 (same unguarded 16-index)."
+  },
+  "407021300": {
+   "fight": "2ヘッドドラゴン 真降臨・極級 (8993302)",
+   "monster": "Monster  ２ヘッドドラゴン（胴体） (407021300)",
+   "source": {
+    "file": "8993302.jp.py",
+    "gist": "af370d21c7f493843713c45d705c92a4",
+    "url": "https://gist.github.com/aEnigmatic/af370d21c7f493843713c45d705c92a4",
+    "lines": "479-806"
+   },
+   "break_hp": 4500,
+   "break_delta_after_first": null,
+   "break_hp_after_first": null,
+   "turns": 2,
+   "broken": {
+    "atk": 2000,
+    "def": 8000,
+    "mag": 2000,
+    "spr": 8000
+   },
+   "resists": {
+    "hn42BL3Q": "0,0,0,0,0,0,0,0,50",
+    "D9Nb7jgd": "100,100,100,100,100,100,100,100",
+    "f67khsQZ": "0",
+    "Q1qLbx93": "0",
+    "Rcqa1Zt7": "0,100,0,100,100,100,100"
+   },
+   "resists_note": "broken form differs from the base row we serve: hn42BL3Q: base '99,99,99,99,99,99,99,99,99' -> broken '0,0,0,0,0,0,0,0,50'; Rcqa1Zt7: base '100,0,0,100,100,100,100' -> broken '0,100,0,100,100,100,100'",
+   "break_description": "",
+   "weapon_break_damage": {
+    "Dagger": 5,
+    "Sword": 5,
+    "Great Sword": 5,
+    "Katana": 100,
+    "Staff": 5,
+    "Rod": 5,
+    "Bow": 100,
+    "Axe": 5,
+    "Hammer": 5,
+    "Spear": 5,
+    "Instrument": 5,
+    "Whip": 5,
+    "Throwing": 5,
+    "Gun": 100,
+    "Mace": 5,
+    "Fist": 5
+   },
+   "corroboration": "wiki EXT values identical for HP/duration/broken stats",
+   "confidence": "high",
+   "RHe5r72C": "5,5,5,100,5,5,100,5,5,5,5,5,5,100,5,5",
+   "EwZ40mt3": "0,0,0,1,0,0,1,0,0,0,0,0,0,1,0,0",
+   "weapon_csv_note": "16 entries in equip-category order 1..16 (Dagger..Fist). RHe5r72C is REQUIRED: MonsterUnit::getWeakWeaponPointRelationship 0x1b6c734 parseLists ext-status +0x38 and indexes all 16 with no guard -- absent = the 2026-10-11 crash (StrToInt(*nullptr), si_addr 0). EwZ40mt3 is a DERIVED, unverified 0/1 flag list at the row max: BattleLibraScene::setLayoutWeakWeapon 0x202b208 parseLists +0x50 and shows an icon where the entry == 1 (same unguarded 16-index)."
+  },
+  "403141100": {
+   "fight": "真降臨ユミール・中級 (8998201)",
+   "monster": "Monster  ユミール(貝殻) (403141100)",
+   "source": {
+    "file": "89982.jp.py",
+    "gist": "c86f9d0f60f1ebc1f9108aa64e344a01",
+    "url": "https://gist.github.com/aEnigmatic/c86f9d0f60f1ebc1f9108aa64e344a01",
+    "lines": "341-526"
+   },
+   "break_hp": 20000,
+   "break_delta_after_first": 0,
+   "break_hp_after_first": 20000,
+   "turns": 100,
+   "broken": {
+    "atk": 100,
+    "def": 100,
+    "mag": 100,
+    "spr": 10000
+   },
+   "resists": {
+    "hn42BL3Q": "0,0,0,0,0,0,0,0,0",
+    "D9Nb7jgd": "80,100,100,100,100,100,100,100",
+    "f67khsQZ": "0",
+    "Q1qLbx93": "0",
+    "Rcqa1Zt7": "0,0,0,0,100,100,100"
+   },
+   "resists_note": "broken form identical to the base row we serve",
+   "break_description": "DEF Reduced",
+   "weapon_break_damage": {
+    "Dagger": 100,
+    "Sword": 100,
+    "Great Sword": 100,
+    "Katana": 100,
+    "Staff": 100,
+    "Rod": 100,
+    "Bow": 100,
+    "Axe": 100,
+    "Hammer": 100,
+    "Spear": 303,
+    "Instrument": 100,
+    "Whip": 100,
+    "Throwing": 100,
+    "Gun": 100,
+    "Mace": 100,
+    "Fist": 100
+   },
+   "corroboration": "wiki WRONG: no INT section, ADV values substituted; gist INT = 20,000 (+0), broken 100/100/100/10,000",
+   "confidence": "high",
+   "notes": "explicit (+0 after first BREAK): the after-first pool equals the first (encoded as zW97Bico=1 + 8HnQR9Wx=0)",
+   "RHe5r72C": "100,100,100,100,100,100,100,100,100,303,100,100,100,100,100,100",
+   "EwZ40mt3": "0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0",
+   "weapon_csv_note": "16 entries in equip-category order 1..16 (Dagger..Fist). RHe5r72C is REQUIRED: MonsterUnit::getWeakWeaponPointRelationship 0x1b6c734 parseLists ext-status +0x38 and indexes all 16 with no guard -- absent = the 2026-10-11 crash (StrToInt(*nullptr), si_addr 0). EwZ40mt3 is a DERIVED, unverified 0/1 flag list at the row max: BattleLibraScene::setLayoutWeakWeapon 0x202b208 parseLists +0x50 and shows an icon where the entry == 1 (same unguarded 16-index)."
+  },
+  "403141101": {
+   "fight": "真降臨ユミール・上級 (8998202)",
+   "monster": "Monster  ユミール(貝殻) (403141101, 403141100)",
+   "source": {
+    "file": "89982.jp.py",
+    "gist": "c86f9d0f60f1ebc1f9108aa64e344a01",
+    "url": "https://gist.github.com/aEnigmatic/c86f9d0f60f1ebc1f9108aa64e344a01",
+    "lines": "876-1060"
+   },
+   "break_hp": 30000,
+   "break_delta_after_first": 0,
+   "break_hp_after_first": 30000,
+   "turns": 100,
+   "broken": {
+    "atk": 100,
+    "def": 2000,
+    "mag": 100,
+    "spr": 200000
+   },
+   "resists": {
+    "hn42BL3Q": "0,0,0,0,0,0,0,0,0",
+    "D9Nb7jgd": "80,100,100,100,100,100,100,100",
+    "f67khsQZ": "0",
+    "Q1qLbx93": "0",
+    "Rcqa1Zt7": "0,0,0,0,100,100,100"
+   },
+   "resists_note": "broken form identical to the base row we serve",
+   "break_description": "DEF Reduced",
+   "weapon_break_damage": {
+    "Dagger": 100,
+    "Sword": 100,
+    "Great Sword": 100,
+    "Katana": 100,
+    "Staff": 100,
+    "Rod": 100,
+    "Bow": 100,
+    "Axe": 100,
+    "Hammer": 100,
+    "Spear": 303,
+    "Instrument": 100,
+    "Whip": 100,
+    "Throwing": 100,
+    "Gun": 100,
+    "Mace": 100,
+    "Fist": 100
+   },
+   "corroboration": "wiki WRONG on broken DEF: it reads 200, the gist (JP and GL files agree) says 2,000",
+   "confidence": "high",
+   "notes": "explicit (+0 after first BREAK): the after-first pool equals the first (encoded as zW97Bico=1 + 8HnQR9Wx=0)",
+   "RHe5r72C": "100,100,100,100,100,100,100,100,100,303,100,100,100,100,100,100",
+   "EwZ40mt3": "0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0",
+   "weapon_csv_note": "16 entries in equip-category order 1..16 (Dagger..Fist). RHe5r72C is REQUIRED: MonsterUnit::getWeakWeaponPointRelationship 0x1b6c734 parseLists ext-status +0x38 and indexes all 16 with no guard -- absent = the 2026-10-11 crash (StrToInt(*nullptr), si_addr 0). EwZ40mt3 is a DERIVED, unverified 0/1 flag list at the row max: BattleLibraScene::setLayoutWeakWeapon 0x202b208 parseLists +0x50 and shows an icon where the entry == 1 (same unguarded 16-index)."
+  }
+ }
+}

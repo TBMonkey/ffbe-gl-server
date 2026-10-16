@@ -1,0 +1,77 @@
+# friends.yaml - WHO YOUR COMPANION CAN BE.
+#
+# The client calls the party's 6th slot a "Companion"; its wire vocabulary calls the list
+# Reinforcement. This file is read fresh on EVERY server request, so: edit it, save it, and the next
+# time a screen asks for the list (enter a battle, open the support screen) it is there. No restart,
+# no relaunch. A malformed entry fails loudly by name, and a missing file simply means no friends.
+# NOTE: the client caches the list for its whole session, so a change becomes visible on the next
+# GAME RESTART, not merely the next screen.
+#
+# ADD AS MANY FRIENDS AS YOU LIKE: copy the block at the bottom. Each friend is independent.
+#
+# FIELDS
+#   display_name    the name shown for the friend. Free text; the only name you choose.
+#   friend_id       any number, unique in this file. The friend's account id (9xxxxxxxx).
+#   rank            the friend's Rank as displayed (defaults to 1). Values inside F_TEAM_LV_MST's
+#                   350-row range are legal; 200 and 150 are in use below.
+#   emblem_id       the badge beside the name (an F_EMBLEM_MST id; 0 = none).
+#   unit:
+#     master_id     a SHIPPED unit id (F_UNIT_MST). Name, art and stats follow from it - the stats are
+#                   DERIVED at serve time, so there are no numbers here to keep in sync.
+#     level         the level the friend lends it at (>= 1).
+#     lb_level      limit-burst level (0 = none). lb_exp likewise.
+#     esper         OPTIONAL esper id to lend. Worked out 2026-10-15 from the class's own handler
+#                   (0x1975344): the wire value is a comma CSV of NINE ints - id,rarity,lv,hp,mp,atk,
+#                   def,int,mnd - read with NO size check, so it must be exactly that shape. The six
+#                   stats are derived from F_BEAST_STATUS_MST at the level asked for, never typed in.
+#                   esper_rarity (default 3) and esper_level (default 60) override the envelope.
+#                   NOTE: for the esper to draw, do not use a rarity/level the tables lack.
+#     vision_card   OPTIONAL, and NOT WORKING YET - the blocker is a missing reply, not a value:
+#                   the card's display path resolves through ReinforcementVisionCardInfoList, which
+#                   is populated by a DIFFERENT reply class (ReinforcementVisionCardInfoResponse,
+#                   tags 2MKHk9cg / 9iW4xAFL) that this server does not serve. Also, the string token
+#                   (nQ1iAGf3) keeps only the text after its first "-" ("0-0" = none), so a bare id
+#                   stores empty. Leave it out until that reply exists.
+#     abilities     optional; up to 4 ability ids; omitted or 0 = empty slot.
+#     equipment     optional; up to 6 item ids. The wire group is "slot-itemId" pairs joined by "@"
+#                   (party slots would join with "|"). With all-zero slots nothing is drawn, so a
+#                   companion shows gear only once real item ids are listed here.
+#
+# PICKING A UNIT ID. A unit's MAXIMUM level depends on its FORM, so an id that tops out at 80 lends a
+# weak unit whatever level you write. These two are verified strong at the levels used below:
+#   206003107  Yeti of Narshe Umaro   7200 HP at L120
+#   344000417  Beast King Crocodine   7000 HP at L120
+
+friends:
+  - display_name: "Medevalchuck"
+    friend_id: 900000001
+    rank: 200
+    emblem_id: 0
+    unit:
+      master_id: 206003107      # Yeti of Narshe Umaro - a bruiser
+      level: 120
+      lb_level: 0
+      lb_exp: 0
+      esper: 1                  # Siren; id,rarity,lv + stats derived from the shipped tables
+      equipment: ["302000100", "404000200", "406000100", "409000100"]   # real item ids -> visible gear
+
+  - display_name: "Hiruwara"
+    friend_id: 900000002
+    rank: 150
+    emblem_id: 0
+    unit:
+      master_id: 344000417      # Beast King Crocodine - physical attacker
+      level: 120
+      lb_level: 0
+      lb_exp: 0
+      equipment: ["302000100", "404000200"]   # two pieces, so the pair format is visible too
+      vision_card: "100000101"   # the ornament card's id: F_VISION_CARD_MST row, maxLv 10
+
+# Copy this to add another friend.
+#  - display_name: "Their Name"
+#    friend_id: 900000003
+#    rank: 120
+#    unit:
+#      master_id: 206003107
+#      level: 120
+#      esper: 1

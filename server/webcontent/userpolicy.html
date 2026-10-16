@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Terms of Use</title>
+<style>
+  body { font-family: sans-serif; margin: 16px; color: #222; line-height: 1.45; }
+  h1 { font-size: 1.15em; }
+  h2 { font-size: 1.0em; margin-top: 1.2em; }
+  p { margin: 0.6em 0; }
+</style>
+</head>
+<body>
+<!--
+  AUTHORED STAND-IN — not recovered game data.
+
+  The client's Terms-of-Use / policy screens are WebViews that fetch HTML from the CDN, observed live as
+  `https://v900-lapis.gumi.sg//en/content/userpolicysin/index_a.html` (see docs/notes/). That page is NOT in
+  the shipped data tree, because the real client downloaded it from a CDN that no longer exists. This file
+  exists so the screen renders and the onboarding can be exercised; under COVERAGE_LEDGER.md §5 it is
+  AUTHORED content and must never be presented as recovered.
+-->
+<h1>Terms of Use</h1>
+<p>This page is served by the local synthetic server for testing. It is a stand-in for the Terms of Use the
+original client fetched from its content CDN; the wording is not recovered game data.</p>
+
+<h2>1. Acceptance</h2>
+<p>By selecting &ldquo;I agree&rdquo; and confirming, you acknowledge that you have read and understood these
+terms, and that this environment is a local test harness.</p>
+
+<h2>2. Service</h2>
+<p>The game client and the data it displays remain the property of their respective rights holders. This
+harness exists to study the client's own behaviour and to let it run against a server we control.</p>
+
+<h2>3. Data</h2>
+<p>No account, purchase or personal data is transmitted anywhere by this harness. All endpoints are local and
+all responses are authored for testing.</p>
+
+<h2>4. Changes</h2>
+<p>These terms are re-issued whenever the client demands an updated version, so that the update-notice path can
+be exercised end to end.</p>
+
+<p>If you are reading this inside the game, the harness is working as intended.</p>
+</body>
+</html>

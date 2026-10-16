@@ -1,0 +1,588 @@
+{
+  "_meta": {
+    "what": "Authored gacha content for the synthetic server: banners, their pools, costs, and each unit's rate WITHIN a banner.",
+    "label": "AUTHORED -- NOT RECOVERED. The gacha content was transmitted, never shipped, so no banner/pool/rate here is retail data. Per-row `source` may name a [Community] provenance; that is a source label, NOT verification (docs/analysis/COMMUNITY_RESEARCH.md S1.2 -- a community artefact built from the same datamine lineage cannot verify it).",
+    "status": "2026-09-21 -- FOCUSED SET (7 banners, one per class/tab). Banner IDENTITY (id, title, description) is SHIPPED data (F_TEXT_GACHA); banner ART is a real shipped file whose featured-unit match is authored (the art<->id mapping was never shipped). POOLS are tier-based: the server expands a tier into the shipped F_UNIT_MST base-rarity units, so the unit catalogue is DERIVED, not stored. RATES are [Community] (docs/notes/gacha_community_rates.md) or authored; the tier split is labelled per banner.",
+    "decision": "docs/notes/shop_gacha_scope.md S4 (one authored file, not responses.json)",
+    "unit_ids": "Every unit id is a SHIPPED F_UNIT_MST master id (token 3HriTp6B). Validated at read time -- an id absent from F_UNIT_MST is an error, not a new unit.",
+    "derived_not_stored": "Unit NAMES and base rarity come from F_UNIT_MST and are NOT duplicated here (one fact, one home). A `tiers` pool is expanded at read time from the base-rarity roots (F_UNIT_MST rows where 3HriTp6B == woghJa61). Tier odds are the tier rates; the per-unit rate is derived.",
+    "provenance_values": [
+      "authored   -- our own number; the default",
+      "community  -- transcribed from a named [Community] source (cite it in `notes`); NOT verification",
+      "disclosed  -- from a publisher/operator rate disclosure (cite it in `notes`)",
+      "footage    -- read off archive footage of the banner screen",
+      "mixed      -- more than one of the above; per-row `source` overrides"
+    ],
+    "pool_encoding_note": "`rate` is a probability (0..1). The wire field GachaPanelGroupMst.targetInfo carries an INTEGER rate slot; the server converts. Whether that integer is a weight, per-mille or per-10000 is NOT yet recovered -- see gacha_reconstruction.md S6.",
+    "history": "2026-09-20 -- created (schema + illustrative banner). 2026-09-20 -- rewritten to the recovered wire chain; first real banner: the friend-point Standard Summon. 2026-09-21 -- expanded to the focused 7-banner set: tier-based pools, multi-draw (`draws`), a `guarantee`, a ticket-only banner (`ticket_group_id`), and a step-up (`steps`). The banner `type` now carries the tab code (see `capture_server.GACHA_TYPE_CODE`): free 0 / limited 50 / step 5 / normal 1."
+  },
+  "_schema": {
+    "banners[]": "One entry per banner (one `GachaMst` row plus its detail/schedule/panel/panel-group rows; a step-up emits one detail row per step).",
+    "banners[].id": "string, required -> GachaMst.X1IuZnj2 (gachaId) and GachaDetailMst.X1IuZnj2 / GachaScheduleMst.X1IuZnj2.",
+    "banners[].type": "string, required. Semantic gacha type -> GachaMst.sx4kyW0i. TABS (recovered 2026-09-21, gacha_banner_types.md S1): 'free'/'friend' -> 0 (FREE tab); 'limited' -> 50, 'box' -> 7 (LIMITED tab); 'exchange' -> 8 (EXCHANGE tab); 'step' -> 5 and 'normal' -> 1 (PAY tab). Codes live in the server.",
+    "banners[].name": "string, required -> GachaDetailMst.G4L0YIB2. **NOT the displayed title.** The client renders the title/description from the LOCALIZED TEXT TABLE keyed by gacha id (`MST_GACHA_NAME_<id>` / `MST_GACHA_EXPLAIN_*_<id>`). This field is stored but never shown; the DISPLAYED title is the SHIPPED row for `id`.",
+    "banners[].detail_id": "string, required -> GachaDetailMst.nqzG3b2v. For a step-up, `steps[]` overrides this with one detail row per step.",
+    "banners[].exe_type": "string, required -> GachaDetailMst.ijEey5f7. 'primary'=1 | 'secondary'=2.",
+    "banners[].cost": "object, optional. {kind, amount, item_id?}. kind is semantic: 'friend_point'|'lapis'|'ticket'|'free'. Renders GachaDetailMst.costInfo as `kind:itemId:useCost:exeCount` (gacha_banner_types.md S4). Omitted/`free` => empty costInfo => FREE via getUseCostValue's default of 1.",
+    "banners[].ticket_group_id": "int, optional. Sets GachaDetailMst.ticketGroupId (RZ6z12Dt, +0x88). With an EMPTY cost this is what makes isTicketOnlyGacha true -> TicketOnlyGachaDetailScene (gacha_banner_types.md S6a). The group must exist in the SHIPPED F_TICKET_MST (10010/10020/10040/100101).",
+    "banners[].draws": "int, optional, default 1. Units drawn PER execution -> GachaDetailMst.costInfo exeCount. A 10+1 is draws=11 at one cost (NOT cost x11).",
+    "banners[].guarantee": "object, optional. {rarity: int} ensures at least one draw of that tier; {unit_id: str} ensures that specific unit. Server-side only.",
+    "banners[].gacha_layout": "int, optional -> GachaMst.7xBNR2MH (+0x9c). 1 = isPayGacha -> GachaPayDetailScene; 2 = isNewStepUpGacha (with type 5) -> base GachaDetailScene step-up layout. Omit for the base scene.",
+    "banners[].schedule": "object, required -> GachaScheduleMst. {disp_order, banner_type, window:{from,to}}. Dates are strings; the client converts them (gacha_reconstruction.md S3.3).",
+    "banners[].region": "string, required. 'jp' | 'en' | 'dual' -- which ART locales exist. Determined by whether the art basenames are present under cpk_extract/en/ ('en'), cpk_extract/common_lang/ ('jp'), or both ('dual'). The TITLE/DESCRIPTION is always the shipped English `F_TEXT_GACHA` row regardless of region; region is about the artwork (JP text is baked into the common_lang art). All seven FOCUSED-SET banners are 'jp': the standard/rare-summon `gacha_*_top` list art ships only under common_lang, while the EN `gacha_*_top` set is the 2021-2024 exchange/crown family and the EN `generalpu_bn_gacha1_*` are 500x450 home banners.",
+    "banners[].art": "object, optional. {img_btn, banner, detail_banner, banner_en?, detail_banner_en?, anime_file, anime_name}. `anime_file` is the SSBP base (no extension); `anime_name` is the AnimeCache KEY `\"<ssbpPack>/anime\"` (e.g. `gacha_moogle_normal/anime`), NOT the SSBP file and NOT a bare pack (Player::play does a raw map find; a bare pack is a silent miss -- see capture_server.py and docs/notes/gacha_moogle_draw.md Q5b). `banner` is the LIST/wide art -> GachaScheduleMst.4yT7FUqj BARE (+0x60, fetched from the `main` dir; a 1-field entry). `detail_banner` is the DETAIL art -> the schedule's `index:file` vector (+0x78, fetched from the `sub` dir; a 2-field `0:file` entry) and the detail MST's own 4yT7FUqj. `*_en` variants are the English-locale override the server PREFERS when `GACHA_LANG=en` (default) and the file is present. Sized for their slots: the list slot is WIDE (640x160/170, a `gacha_*_top.png`), the detail slot is 640x392 (a `gacha_*.png`). The art<->banner-id match is AUTHORED. `img_btn` is a BARE base with NO extension: the BASE scene appends `_1.png`/`_2.png` (so `gacha_btn_n`), while the TICKET-ONLY scene appends `_ticket_1.png`/`_ticket_2.png` (`TicketOnlyGachaDetailScene::setBtnLayout` `0x216ae08`), so its base is a generic ticket button -- `gacha_btn_ex` for EX summon tickets (group 10010), `gacha_btn_nvex` for NV EX tickets, etc.",
+    "banners[].pool": "required. EITHER an array of explicit {unit_id, rarity, rate} rows, OR an object {tiers:[{rarity, rate, featured?:[ids], featured_share?:0..1, units?:[ids]}]}. A tier WITHOUT `units` expands to every F_UNIT_MST base-rarity root of that rarity; `featured` units take `featured_share` of the tier split equally, the rest share the remainder. SUM(tier rate) should be 1.0.",
+    "banners[].steps": "array, required for a step-up. One entry per step: {cost, draws, guarantee?}. Emits one GachaDetailMst row per step (exeType 1) and advances UserGachaStepInfo (7k0FbQ8B) server-side.",
+    "INVARIANT (to enforce when validation lands)": "for an explicit pool, SUM(rate) == 1.0; for tiers, SUM(tier.rate) == 1.0 and 0 <= featured_share <= 1."
+  },
+  "_wire": {
+    "role": "So this file is not designed blind. Full maps + evidence: docs/notes/gacha_reconstruction.md and docs/notes/gacha_banner_types.md. All SEMANTIC here; codes live in the server.",
+    "response_classes": "GachaMstResponse (PcUrGH13) | GachaDetailMstResponse (IC0ueV5s) | GachaScheduleMstResponse (4D5k8dpI) | GachaPanelMstResponse (IF4BRuh5) | GachaPanelGroupMstResponse (MjBKwG37) | UserGachaInfoResponse (80nGg32w) | UserGachaStepInfoResponse (7k0FbQ8B).",
+    "delivery": "REPLY groups, not CDN MST (verified 2026-09-20). The server chooses which reply carries them; the client is tag-agnostic.",
+    "pool_home": "GachaPanelGroupMst.targetInfo = 'TargetType:TargetID:TargetNum:TargetRate:TargetLv' (7iJpH5zZ).",
+    "roll_reply": "GachaExeResponse (5yLD4dYI) -- one node = one UserGachaResult; the award is UJz5QED2 = 'type:id' with type 10 = unit (shop_gacha_scope.md S6)."
+  },
+  "tutorial_award": {
+    "note": "The forced OPENING summon's award. The tutorial request is a bare shell (no banner), so the client cannot be choosing it -- this is AUTHORED (shop_gacha_scope.md S4/S6). unitId is a real shipped F_UNIT_MST id (token 3HriTp6B) so the unit renders; it is the first row of the shipped F_GACHA_SELECT_UNIT_MST and its base rarity is 5 (rainbow). granted_rarity drives the effect pattern via F_GACHA_EFFECT_PATTERN_MST.9fW0TePj -- the LOWEST-numbered row of that rarity is chosen (id 9 for rarity 5), and the client does not validate it.",
+    "unitId": "100000315",
+    "granted_rarity": 5
+  },
+  "banners": [
+    {
+      "id": "1",
+      "region": "jp",
+      "type": "friend",
+      "name": "Standard Summon",
+      "detail_id": "10011",
+      "exe_type": "friend",
+      "cost": {
+        "kind": "friend_point",
+        "amount": 200
+      },
+      "draws": 1,
+      "schedule": {
+        "disp_order": 1,
+        "banner_type": 0,
+        "window": {
+          "from": "2026-01-01 00:00:00",
+          "to": "2030-12-31 23:59:59"
+        }
+      },
+      "art": {
+        "banner": "gacha_20200430_free_daily_10ren_top.png",
+        "detail_banner": "gacha_20200430_free_daily_10ren.png",
+        "anime_file": "gacha_animation",
+        "anime_name": "gacha_moogle_normal/anime",
+        "img_btn": "gacha_btn_n"
+      },
+      "provenance": "mixed",
+      "source": "authored",
+      "pool": {
+        "tiers": [
+          {
+            "rarity": 1,
+            "rate": 0.5
+          },
+          {
+            "rarity": 2,
+            "rate": 0.45
+          },
+          {
+            "rarity": 3,
+            "rate": 0.05
+          }
+        ]
+      },
+      "notes": "The friend-point 'Standard Summon' (the common pull). **THE ID IS REAL** (was the invented `990001`): the shipped English `F_TEXT_GACHA` (`Ver267_ZJz5QwAy.dat`) carries `MST_GACHA_NAME_1 = 'Standard Summon'` and `MST_GACHA_EXPLAIN_LONG_1` with the `<param=friendpoint>` fill-in, so the client renders the real title AND description from shipped data. `GachaDetailMst.isFriendGacha` (0x1cecb24) is true iff a cost entry's kind == 51, so cost.kind='friend_point' is what makes the client accept it as a friend summon. POOL 2026-09-21: now TIER-BASED (1/2/3 star) over the shipped catalogue; the previous hand-written 16-row pool was a placeholder. RATES authored, tier split 50/45/5. ART is a 640x392 STAND-IN (`gacha_20200430_free_daily_10ren.png`) -- the authentic common-pool banner art was CDN-supplied and is in NO shipped CPK. `img_btn` = the summon-button BASE name (bare, no extension); the client appends `_1.png`/`_2.png`."
+    },
+    {
+      "id": "9100203",
+      "type": "normal",
+      "name": "Final Fantasy Brave Exvius",
+      "detail_id": "91002031",
+      "exe_type": "primary",
+      "cost": {
+        "kind": "lapis",
+        "amount": 500
+      },
+      "draws": 1,
+      "schedule": {
+        "disp_order": 1203,
+        "banner_type": 0,
+        "window": {
+          "from": "2026-01-01 00:00:00",
+          "to": "2030-12-31 23:59:59"
+        }
+      },
+      "art": {
+        "banner": "Gacha-SS Charlotte.png",
+        "detail_banner": "Gacha-SS Charlotte.png",
+        "anime_file": "gacha_animation",
+        "anime_name": "gacha_moogle_normal/anime",
+        "img_btn": "gacha_btn_n"
+      },
+      "pool": {
+        "tiers": [
+          {
+            "rarity": 5,
+            "rate": 0.03,
+            "featured": [
+              "100021705"
+            ],
+            "featured_share": 0.5
+          },
+          {
+            "rarity": 4,
+            "rate": 0.17,
+            "featured": [
+              "100022104"
+            ],
+            "featured_share": 0.5
+          },
+          {
+            "rarity": 3,
+            "rate": 0.8,
+            "featured": [
+              "100021803"
+            ],
+            "featured_share": 0.5
+          }
+        ]
+      },
+      "provenance": "community",
+      "source": "authored",
+      "community": {
+        "release": "2019-7-4",
+        "until": "2019-7-18",
+        "limited": false,
+        "units": [
+          "Sacred Shield Charlotte",
+          "Friese",
+          "Shepard"
+        ],
+        "unit_ids": [
+          "100021705",
+          "100022104",
+          "100021803"
+        ],
+        "survey": null
+      },
+      "ticket_group_id": 10010,
+      "img_btn_primary": "gacha_btns_gold_1",
+      "secondary_offer": {
+        "cost": {
+          "kind": "lapis",
+          "amount": 5000
+        },
+        "draws": 11,
+        "exe_count": 1,
+        "img_btn": "gacha_btns_gold_11"
+      },
+      "notes": "The operator's reference banner: the Rare-tab `Final Fantasy Brave Exvius` summon featuring Sacred Shield Charlotte (units 100021705/100022104/100021803, wiki release 2019-07-04). Served ALONE via `server/gacha_only.txt` so button work has exactly one banner to discuss. MULTI-BUTTON (authored 2026-09-22): the retail trio Summon 500 / 11 Summons 5000 / Ticket Summon. `secondary_offer.exe_count = 1` is the costInfo entry [3] -- it MUST stay 1 or the client multiplies the price (5000 x 11 = 55000) and renders the `GACHA_MULTI` 'Nx Summon' caption; the 11 units come from `draws`, the '11' from `gacha_btns_gold_11_1.png`. `GACHA_MULTI_BTN=0` drops the second row for an A/B. `docs/notes/gacha_multi_button.md` SS15."
+    },
+    {
+      "id": "11",
+      "type": "normal",
+      "name": "Featured Summon",
+      "detail_id": "2011",
+      "exe_type": "primary",
+      "cost": {
+        "kind": "lapis",
+        "amount": 500
+      },
+      "draws": 1,
+      "schedule": {
+        "disp_order": 100,
+        "banner_type": 0,
+        "window": {
+          "from": "2026-01-01 00:00:00",
+          "to": "2030-12-31 23:59:59"
+        }
+      },
+      "art": {
+        "banner": "gacha_20180810_top_banner_rankup_10.png",
+        "detail_banner": "gacha_20180810_banner_rankup_10.png",
+        "anime_file": "gacha_animation",
+        "anime_name": "gacha_moogle_normal/anime",
+        "img_btn": "gacha_btn_n"
+      },
+      "pool": {
+        "tiers": [
+          {
+            "rarity": 5,
+            "rate": 0.01
+          },
+          {
+            "rarity": 4,
+            "rate": 0.19
+          },
+          {
+            "rarity": 3,
+            "rate": 0.8
+          }
+        ]
+      },
+      "source": "authored",
+      "ticket_group_id": 10010,
+      "img_btn_primary": "gacha_btns_gold_1",
+      "secondary_offer": {
+        "cost": {
+          "kind": "lapis",
+          "amount": 5000
+        },
+        "draws": 11,
+        "img_btn": "gacha_btns_gold_11",
+        "exe_count": 1
+      },
+      "notes": "The standard PAY-tab 'Featured Summon' -- the family the archive's rare-summon banner belongs to (the VIDEO's detail screen is titled 'Featured Summon'). MULTI-BUTTON (authored 2026-09-22): the trio Summon 500 / 11 Summons 5000 / Ticket Summon. `ticket_group_id` 10010 adds the ticket button (its art is the PRIMARY row's base + '_ticket': `gacha_btns_gold_1_ticket_1.png`); `secondary_offer` emits the second `GachaDetailMst` row (`ijEey5f7=2`), the only lever on the button count. `img_btn_primary`/`img_btn` are the retail gold template -- the ornate `gacha_btn_r` is the BASE template's art and overlaps these 204x96 anchors. See docs/notes/gacha_multi_button.md §14."
+    },
+    {
+      "id": "9",
+      "region": "jp",
+      "type": "normal",
+      "name": "Rare Summon",
+      "detail_id": "9001",
+      "exe_type": "primary",
+      "cost": {
+        "kind": "lapis",
+        "amount": 500
+      },
+      "draws": 1,
+      "ticket_group_id": 10010,
+      "img_btn_primary": "gacha_btns_gold_1",
+      "secondary_offer": {
+        "cost": {
+          "kind": "lapis",
+          "amount": 5000
+        },
+        "draws": 11,
+        "img_btn": "gacha_btns_gold_11",
+        "exe_count": 1
+      },
+      "schedule": {
+        "disp_order": 1,
+        "banner_type": 0,
+        "window": {
+          "from": "2026-01-01 00:00:00",
+          "to": "2030-12-31 23:59:59"
+        }
+      },
+      "art": {
+        "banner": "gacha_20200511_FFBE_pickup_top.png",
+        "detail_banner": "gacha_20200430_special_rare5.png",
+        "anime_file": "gacha_animation",
+        "anime_name": "gacha_moogle_normal/anime",
+        "img_btn": "gacha_btn_n"
+      },
+      "provenance": "mixed",
+      "source": "community",
+      "pool": {
+        "tiers": [
+          {
+            "rarity": 5,
+            "rate": 0.01
+          },
+          {
+            "rarity": 4,
+            "rate": 0.19,
+            "featured": [
+              "201000104"
+            ],
+            "featured_share": 0.5
+          },
+          {
+            "rarity": 3,
+            "rate": 0.8,
+            "featured": [
+              "205000203",
+              "204000503"
+            ],
+            "featured_share": 0.3
+          }
+        ]
+      },
+      "notes": "The PAY-tab Rare Summon. **ID + COST + FEATURED UNITS ARE FROM THE SHIPPED TEXT**: `MST_GACHA_EXPLAIN_LONG_9` = 'Huge drop rate boosts for Warrior of Light, Lenna & Tellah! ... Summon once for 500 lapis, or 1 summon ticket.' Featured ids: Warrior of Light `201000104` (base 4), Lenna (FFV) `205000203` (base 3), Tellah `204000503` (base 3) -- all shipped F_UNIT_MST rows. RATES: `[Community]` 2018-era model (docs/notes/gacha_community_rates.md S1a) -- rainbow 1% / gold 19% / blue 80%; the featured units take 50% of their tier (4-star WOL) and 30% of the 3-star tier (Lenna/Tellah). The 5-star tier has no authored feature. ART: a shipped `generalpu_bn_gacha1_*` file; the art<->id match is AUTHORED (the real mapping was transmitted). MULTI-BUTTON (authored 2026-09-22): `ticket_group_id` 10010 is required by this banner's OWN shipped text (\"Summon once for 500 lapis, or 1 summon ticket\") -- it adds the ticket button. `secondary_offer` (lapis 5000 / 11 draws) emits a SECOND `GachaDetailMst` row with `exeType=2`, which is the ONLY lever on the summon-button count, giving the archive's three-button layout; the 11-pull is NOT in the shipped text (no shipped banner describes a single AND a multi together -- measured), so it is a layout probe. `GACHA_MULTI_BTN=0` suppresses it for an A/B. Mechanism: `docs/notes/gacha_multi_button.md`."
+    },
+    {
+      "id": "24",
+      "region": "jp",
+      "type": "normal",
+      "name": "Premium 10+1 Summon",
+      "detail_id": "24001",
+      "exe_type": "primary",
+      "cost": {
+        "kind": "lapis",
+        "amount": 5000
+      },
+      "draws": 11,
+      "schedule": {
+        "disp_order": 2,
+        "banner_type": 0,
+        "window": {
+          "from": "2026-01-01 00:00:00",
+          "to": "2030-12-31 23:59:59"
+        }
+      },
+      "art": {
+        "banner": "gacha_20200503_super_premium_box_top.png",
+        "detail_banner": "gacha_20200503_super_premium_box.png",
+        "anime_file": "gacha_animation",
+        "anime_name": "gacha_moogle_rare/anime",
+        "img_btn": "gacha_btn_n"
+      },
+      "provenance": "mixed",
+      "source": "community",
+      "pool": {
+        "tiers": [
+          {
+            "rarity": 5,
+            "rate": 0.05
+          },
+          {
+            "rarity": 4,
+            "rate": 0.95
+          }
+        ]
+      },
+      "notes": "PAY-tab 10+1. `MST_GACHA_EXPLAIN_LONG_24` = 'Summon only 4★ and 5★ units!' -- so the pool EXCLUDES the 3-star tier. Cost 5000 lapis for `draws=11` (one execution; the cost grammar's `exeCount` field carries the 11). RATES: `[Community]` -- the standard 1%/19% renormalised over the 4-star+only pool => 5%/95%. No feature. ART authored->file."
+    },
+    {
+      "id": "33",
+      "region": "jp",
+      "type": "normal",
+      "name": "5★ Guaranteed 10+1 Summon",
+      "detail_id": "33001",
+      "exe_type": "primary",
+      "cost": {
+        "kind": "lapis",
+        "amount": 5000
+      },
+      "draws": 11,
+      "guarantee": {
+        "rarity": 5
+      },
+      "schedule": {
+        "disp_order": 3,
+        "banner_type": 0,
+        "window": {
+          "from": "2026-01-01 00:00:00",
+          "to": "2030-12-31 23:59:59"
+        }
+      },
+      "art": {
+        "banner": "gacha_20200430_FF7R_pickup11ren_top.png",
+        "detail_banner": "gacha_20200430_free_FF7R.png",
+        "anime_file": "gacha_animation",
+        "anime_name": "gacha_moogle_rare/anime",
+        "img_btn": "gacha_btn_n"
+      },
+      "provenance": "mixed",
+      "source": "community",
+      "pool": {
+        "tiers": [
+          {
+            "rarity": 5,
+            "rate": 0.01
+          },
+          {
+            "rarity": 4,
+            "rate": 0.19
+          },
+          {
+            "rarity": 3,
+            "rate": 0.8
+          }
+        ]
+      },
+      "notes": "PAY-tab guaranteed banner. `MST_GACHA_EXPLAIN_LONG_33` = 'Get a guaranteed 5★ unit!'. `guarantee.rarity = 5` means the server forces at least one 5-star draw among the 11 (the guarantee is server-side; the client does not model it). RATES: standard `[Community]` 1%/19%/80%. ART authored->file."
+    },
+    {
+      "id": "49",
+      "region": "jp",
+      "type": "limited",
+      "name": "Summer 2018 Summon",
+      "detail_id": "49001",
+      "exe_type": "primary",
+      "cost": {
+        "kind": "lapis",
+        "amount": 5000
+      },
+      "draws": 11,
+      "schedule": {
+        "disp_order": 1,
+        "banner_type": 0,
+        "window": {
+          "from": "2026-01-01 00:00:00",
+          "to": "2030-12-31 23:59:59"
+        }
+      },
+      "art": {
+        "banner": "gacha_20200511_FFBE_omake_top.png",
+        "detail_banner": "gacha_20200511_FFBE_omake.png",
+        "anime_file": "gacha_animation",
+        "anime_name": "gacha_moogle_rare/anime",
+        "img_btn": "gacha_btn_n"
+      },
+      "provenance": "mixed",
+      "source": "community",
+      "pool": {
+        "tiers": [
+          {
+            "rarity": 5,
+            "rate": 0.03,
+            "featured": [
+              "100020505",
+              "100020905"
+            ],
+            "featured_share": 0.6
+          },
+          {
+            "rarity": 4,
+            "rate": 0.19
+          },
+          {
+            "rarity": 3,
+            "rate": 0.78,
+            "featured": [
+              "100007303"
+            ],
+            "featured_share": 0.2
+          }
+        ]
+      },
+      "notes": "LIMITED-tab seasonal banner (`type: limited` -> GachaMst.type 50). `MST_GACHA_NAME_49 = 'Summer 2018 Summon'`. Featured summer units: Summer Fina & Lid `100020505` (base 5), Summer Folka & Citra `100020905` (base 5), Summer Lid `100007303` (base 3) -- shipped rows. RATES authored on the `[Community]` standard shape, 5-star tier lifted to 3% (seasonal featured) with 60% of it on the featured pair. ART is the shipped `generalpu_bn_gacha1_summer.png`. WINDOW is authored (campaign windows were never shipped -- gacha_reconstruction.md S5b)."
+    },
+    {
+      "id": "75",
+      "region": "jp",
+      "type": "normal",
+      "name": "5★ Guaranteed (100% Black Mage Golbez) Ticket Summon",
+      "detail_id": "75001",
+      "exe_type": "primary",
+      "ticket_group_id": 10010,
+      "draws": 1,
+      "guarantee": {
+        "rarity": 5
+      },
+      "schedule": {
+        "disp_order": 4,
+        "banner_type": 0,
+        "window": {
+          "from": "2026-01-01 00:00:00",
+          "to": "2030-12-31 23:59:59"
+        }
+      },
+      "art": {
+        "banner": "gacha_20200511_bossrush_top.png",
+        "detail_banner": "gacha_20200511_bossrush.png",
+        "anime_file": "gacha_animation",
+        "anime_name": "gacha_moogle_rare/anime",
+        "img_btn": "gacha_btn_ex"
+      },
+      "provenance": "mixed",
+      "source": "authored",
+      "pool": {
+        "tiers": [
+          {
+            "rarity": 5,
+            "units": [
+              "204001705"
+            ],
+            "rate": 1.0
+          }
+        ]
+      },
+      "notes": "**TICKET-ONLY banner** (the class the archive footage shows). No `cost` (empty costInfo) + `ticket_group_id = 10010` => `isTicketOnlyGacha` true => `TicketOnlyGachaDetailScene` (gacha_banner_types.md S6a). The pool is a single explicit unit, Black Mage Golbez `204001705` (base 5), so the '100% Golbez' text is literally true. Group 10010 is a REAL shipped `F_TICKET_MST` group (items 160/170/180 = 3/4/5-star tickets). To DISPLAY held tickets the server must hold those type-23 items in the player's inventory (`UserItemInfo`) -- the display half of SW-67; the pull itself is tappable regardless (S5)."
+    },
+    {
+      "id": "150",
+      "region": "jp",
+      "type": "step",
+      "name": "40M DL Step-Up Summon",
+      "gacha_layout": 2,
+      "exe_type": "primary",
+      "detail_id": "150001",
+      "schedule": {
+        "disp_order": 5,
+        "banner_type": 0,
+        "window": {
+          "from": "2026-01-01 00:00:00",
+          "to": "2030-12-31 23:59:59"
+        }
+      },
+      "art": {
+        "banner": "gacha_20200511_brave_ability_top.png",
+        "detail_banner": "gacha_20200511_brave_ability.png",
+        "anime_file": "gacha_animation",
+        "anime_name": "gacha_moogle_rare/anime",
+        "img_btn": "gacha_btn_n"
+      },
+      "provenance": "mixed",
+      "source": "community",
+      "pool": {
+        "tiers": [
+          {
+            "rarity": 5,
+            "rate": 0.03,
+            "featured": [
+              "100000315"
+            ],
+            "featured_share": 0.5
+          },
+          {
+            "rarity": 4,
+            "rate": 0.22
+          },
+          {
+            "rarity": 3,
+            "rate": 0.75
+          }
+        ]
+      },
+      "steps": [
+        {
+          "cost": {
+            "kind": "lapis",
+            "amount": 1000
+          },
+          "draws": 5
+        },
+        {
+          "cost": {
+            "kind": "lapis",
+            "amount": 2000
+          },
+          "draws": 7
+        },
+        {
+          "cost": {
+            "kind": "lapis",
+            "amount": 3000
+          },
+          "draws": 10,
+          "guarantee": {
+            "rarity": 5
+          }
+        },
+        {
+          "cost": {
+            "kind": "lapis",
+            "amount": 3000
+          },
+          "draws": 10
+        },
+        {
+          "cost": {
+            "kind": "lapis",
+            "amount": 3000
+          },
+          "draws": 11,
+          "guarantee": {
+            "rarity": 5
+          }
+        }
+      ],
+      "notes": "**STEP-UP banner** (gacha_banner_types.md S7). `type: step` -> GachaMst.type 5 (PAY tab) and `gacha_layout: 2` -> `isNewStepUpGacha` -> the BASE `GachaDetailScene` step-up layout. `MST_GACHA_NAME_150 = '40M DL Step-Up Summon'`, LONG = 'You will receive a bonus item or unit for each step reached.' One `GachaDetailMst` row per step is emitted (exeType 1), and the server advances `UserGachaStepInfo` (`7k0FbQ8B`, token `upv38FtD`) after each pull -- it is SERVER state; the request carries no step. STEP COSTS/DRAWS are authored on the `[Community]` pstepup template (gacha_community_rates.md S2: 5 steps, escalating cost, a guaranteed rainbow at step 3 and the final step); the real 40M DL composition was not in the community set. Featured unit authored (Dark Fina `100000315`)."
+    }
+  ]
+}

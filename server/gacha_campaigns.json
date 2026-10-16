@@ -1,0 +1,5542 @@
+{
+ "_meta": {
+  "what": "A CAMPAIGN-SCOPED view of the served gacha set: the evergreen STANDARD banners plus ONE campaign period. A selection over existing sources -- no data is created here.",
+  "serve": "GACHA_CAMPAIGN=<key> in capture_server (e.g. GACHA_CAMPAIGN=2019-07); unset = serve everything.",
+  "dates": "[Community] the Fandom wiki's `community.release` per banner; the served schedule window stays evergreen, so a campaign is a SELECTION and not a time gate.",
+  "tab": "the tab column is the RECOVERED classifier (`gacha_banner_types.md` §2) applied to `GachaMst.type`; the type-code table itself is a server encoding (`GACHA_TYPE_CODE`).",
+  "standard": "curated (authored) banners + the lowest served id for each evergreen shipped name (Standard Summon, Rare Summon, Featured Summon, Free Lapis Daily Summon, Free Daily 3 Summon, Tutorial Summon).",
+  "generated_by": "harness/gen_gacha_campaigns.py"
+ },
+ "standard": [
+  {
+   "id": "1",
+   "name": "Standard Summon",
+   "type": "friend",
+   "type_code": 0,
+   "tab": "FREE",
+   "source": "authored",
+   "cost": {
+    "kind": "friend_point",
+    "amount": 200
+   },
+   "draws": 1,
+   "note": "curated (`gacha_authored.json`) -- the known-good focused set"
+  },
+  {
+   "id": "9",
+   "name": "Rare Summon",
+   "type": "normal",
+   "type_code": 1,
+   "tab": "PAY",
+   "source": "community",
+   "cost": {
+    "kind": "lapis",
+    "amount": 500
+   },
+   "draws": 1,
+   "note": "curated (`gacha_authored.json`) -- the known-good focused set"
+  },
+  {
+   "id": "24",
+   "name": "Premium 10+1 Summon",
+   "type": "normal",
+   "type_code": 1,
+   "tab": "PAY",
+   "source": "community",
+   "cost": {
+    "kind": "lapis",
+    "amount": 5000
+   },
+   "draws": 11,
+   "note": "curated (`gacha_authored.json`) -- the known-good focused set"
+  },
+  {
+   "id": "33",
+   "name": "5★ Guaranteed 10+1 Summon",
+   "type": "normal",
+   "type_code": 1,
+   "tab": "PAY",
+   "source": "community",
+   "cost": {
+    "kind": "lapis",
+    "amount": 5000
+   },
+   "draws": 11,
+   "note": "curated (`gacha_authored.json`) -- the known-good focused set"
+  },
+  {
+   "id": "49",
+   "name": "Summer 2018 Summon",
+   "type": "limited",
+   "type_code": 50,
+   "tab": "LIMITED",
+   "source": "community",
+   "cost": {
+    "kind": "lapis",
+    "amount": 5000
+   },
+   "draws": 11,
+   "note": "curated (`gacha_authored.json`) -- the known-good focused set"
+  },
+  {
+   "id": "75",
+   "name": "5★ Guaranteed (100% Black Mage Golbez) Ticket Summon",
+   "type": "normal",
+   "type_code": 1,
+   "tab": "PAY",
+   "source": "authored",
+   "cost": null,
+   "draws": 1,
+   "note": "curated (`gacha_authored.json`) -- the known-good focused set"
+  },
+  {
+   "id": "150",
+   "name": "40M DL Step-Up Summon",
+   "type": "step",
+   "type_code": 5,
+   "tab": "PAY",
+   "source": "community",
+   "cost": null,
+   "draws": 1,
+   "note": "curated (`gacha_authored.json`) -- the known-good focused set"
+  },
+  {
+   "id": "11",
+   "name": "Featured Summon",
+   "type": "normal",
+   "type_code": 1,
+   "tab": "PAY",
+   "source": "generated",
+   "cost": {
+    "kind": "lapis",
+    "amount": 500
+   },
+   "draws": 1,
+   "note": "shipped `MST_GACHA_NAME_11` = 'Featured Summon' (lowest served id for this name)"
+  }
+ ],
+ "default": "2019-07",
+ "campaigns": {
+  "2016-07": {
+   "label": "Jul 2016",
+   "from": "2016-07-01",
+   "to": "2016-07-31",
+   "banners": [
+    {
+     "id": "9100000",
+     "name": "Kefka, Golbez, Chizuru",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100001",
+     "name": "Hayate, Locke, Artemios",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 2
+  },
+  "2016-08": {
+   "label": "Aug 2016",
+   "from": "2016-08-01",
+   "to": "2016-08-31",
+   "banners": [
+    {
+     "id": "9100002",
+     "name": "Lenna, Warrior of Light, Tellah",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100003",
+     "name": "Kuja, Amarant, Zidane, Lani, Vivi",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100004",
+     "name": "Kuja, Amarant, Garnet, Zidane, Freya, Lani, Vivi",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 3
+  },
+  "2016-09": {
+   "label": "Sep 2016 — Final Fantasy Tactics 1st Wave",
+   "from": "2016-09-01",
+   "to": "2016-09-30",
+   "banners": [
+    {
+     "id": "9100005",
+     "name": "Leo, Terra, Celes, Locke",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100006",
+     "name": "Fencer, Juggler, Thief",
+     "type": "limited",
+     "type_code": 50,
+     "tab": "LIMITED",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100007",
+     "name": "Players' Choice Banner",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100008",
+     "name": "Lightning, Ludmille, Charlotte",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100009",
+     "name": "Final Fantasy Tactics 1st Wave",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 5
+  },
+  "2016-10": {
+   "label": "Oct 2016 — Final Fantasy Tactics 2nd Wave, Final Fantasy IV, Final Fantasy Brave Exvius Halloween",
+   "from": "2016-10-01",
+   "to": "2016-10-31",
+   "banners": [
+    {
+     "id": "9100010",
+     "name": "Final Fantasy Tactics 2nd Wave",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100011",
+     "name": "Final Fantasy IV",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100012",
+     "name": "Final Fantasy Brave Exvius Halloween Event",
+     "type": "limited",
+     "type_code": 50,
+     "tab": "LIMITED",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 3
+  },
+  "2016-11": {
+   "label": "Nov 2016 — Final Fantasy III, Final Fantasy V",
+   "from": "2016-11-01",
+   "to": "2016-11-30",
+   "banners": [
+    {
+     "id": "9100013",
+     "name": "Final Fantasy III",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100014",
+     "name": "Brave Frontier",
+     "type": "limited",
+     "type_code": 50,
+     "tab": "LIMITED",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100015",
+     "name": "Dark Destroyers",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100016",
+     "name": "Final Fantasy V",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 4
+  },
+  "2016-12": {
+   "label": "Dec 2016 — Final Fantasy XIII 1st Wave, Final Fantasy XIII 2nd Wave",
+   "from": "2016-12-01",
+   "to": "2016-12-31",
+   "banners": [
+    {
+     "id": "9100017",
+     "name": "Final Fantasy XIII 1st Wave",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100018",
+     "name": "Final Fantasy XIII 2nd Wave",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100019",
+     "name": "Noctis Arrives!",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100020",
+     "name": "Holiday Special",
+     "type": "limited",
+     "type_code": 50,
+     "tab": "LIMITED",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 4
+  },
+  "2017-01": {
+   "label": "Jan 2017 — Final Fantasy Type-0",
+   "from": "2017-01-01",
+   "to": "2017-01-31",
+   "banners": [
+    {
+     "id": "9100021",
+     "name": "Dark Fina Revealed",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100022",
+     "name": "Final Fantasy Type-0",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100023",
+     "name": "Celebrating Lunar New Year (Free Summon)",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100024",
+     "name": "Lunar New Year",
+     "type": "limited",
+     "type_code": 50,
+     "tab": "LIMITED",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 4
+  },
+  "2017-02": {
+   "label": "Feb 2017 — Secret of Mana, Final Fantasy II",
+   "from": "2017-02-01",
+   "to": "2017-02-28",
+   "banners": [
+    {
+     "id": "9100025",
+     "name": "Secret of Mana",
+     "type": "limited",
+     "type_code": 50,
+     "tab": "LIMITED",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100026",
+     "name": "Valentine Special",
+     "type": "limited",
+     "type_code": 50,
+     "tab": "LIMITED",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100027",
+     "name": "Final Fantasy II",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100028",
+     "name": "Celebrating 20 Million Downloads",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100029",
+     "name": "Olive, Shine, Shera",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 5
+  },
+  "2017-03": {
+   "label": "Mar 2017 — Final Fantasy Type-0, Final Fantasy XIV, Final Fantasy Tactics",
+   "from": "2017-03-01",
+   "to": "2017-03-31",
+   "banners": [
+    {
+     "id": "9100030",
+     "name": "Final Fantasy Type-0",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100031",
+     "name": "Gilgamesh Vanquishers",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100032",
+     "name": "Final Fantasy XIV",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100033",
+     "name": "People's Choice",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100034",
+     "name": "Final Fantasy Tactics",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 5
+  },
+  "2017-04": {
+   "label": "Apr 2017 — Final Fantasy VI",
+   "from": "2017-04-01",
+   "to": "2017-04-30",
+   "banners": [
+    {
+     "id": "9100035",
+     "name": "The Egg Seekers",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100036",
+     "name": "The Egg Seekers",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100037",
+     "name": "Awakened Warriors",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100038",
+     "name": "Final Fantasy VI",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 4
+  },
+  "2017-05": {
+   "label": "May 2017 — Final Fantasy Brave Exvius, Final Fantasy Type-0",
+   "from": "2017-05-01",
+   "to": "2017-05-31",
+   "banners": [
+    {
+     "id": "9100039",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100040",
+     "name": "200k Likes Celebration!",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100041",
+     "name": "Dragon Killers",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100042",
+     "name": "Final Fantasy Type-0",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100043",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 5
+  },
+  "2017-06": {
+   "label": "Jun 2017 — Final Fantasy XIV, Final Fantasy Brave Exvius, Final Fantasy X",
+   "from": "2017-06-01",
+   "to": "2017-06-30",
+   "banners": [
+    {
+     "id": "9100044",
+     "name": "Kelsus",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100045",
+     "name": "Final Fantasy XIV",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100046",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100047",
+     "name": "Brave Frontier",
+     "type": "limited",
+     "type_code": 50,
+     "tab": "LIMITED",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100048",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100049",
+     "name": "1st Year Anniversary Celebration",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100050",
+     "name": "1st Year Anniversary Celebration",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100051",
+     "name": "Final Fantasy X",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 8
+  },
+  "2017-07": {
+   "label": "Jul 2017 — Final Fantasy XII, Final Fantasy Brave Exvius, Final Fantasy Tactics",
+   "from": "2017-07-01",
+   "to": "2017-07-31",
+   "banners": [
+    {
+     "id": "9100052",
+     "name": "Final Fantasy XII",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100053",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100054",
+     "name": "Awakened Warriors",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100055",
+     "name": "Final Fantasy Tactics",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 4
+  },
+  "2017-08": {
+   "label": "Aug 2017 — Final Fantasy Brave Exvius",
+   "from": "2017-08-01",
+   "to": "2017-08-31",
+   "banners": [
+    {
+     "id": "9100056",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100057",
+     "name": "NieR:Automata",
+     "type": "limited",
+     "type_code": 50,
+     "tab": "LIMITED",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100058",
+     "name": "Malboro Killers",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100059",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 4
+  },
+  "2017-09": {
+   "label": "Sep 2017 — Final Fantasy III, Final Fantasy XI",
+   "from": "2017-09-01",
+   "to": "2017-09-30",
+   "banners": [
+    {
+     "id": "9100060",
+     "name": "Final Fantasy III",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100061",
+     "name": "Developer's Choice",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100062",
+     "name": "Final Fantasy XI",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100063",
+     "name": "Festival of the Autumn Moon",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 4
+  },
+  "2017-10": {
+   "label": "Oct 2017 — Final Fantasy Brave Exvius, Final Fantasy XV",
+   "from": "2017-10-01",
+   "to": "2017-10-31",
+   "banners": [
+    {
+     "id": "9100064",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100065",
+     "name": "Final Fantasy XV",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100066",
+     "name": "Halloween",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 3
+  },
+  "2017-11": {
+   "label": "Nov 2017 — Final Fantasy Brave Exvius, Final Fantasy IV, Final Fantasy XV",
+   "from": "2017-11-01",
+   "to": "2017-11-30",
+   "banners": [
+    {
+     "id": "9100068",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100069",
+     "name": "Final Fantasy IV",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100070",
+     "name": "Performers Special",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100071",
+     "name": "Final Fantasy XV",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 4
+  },
+  "2017-12": {
+   "label": "Dec 2017 — Final Fantasy Brave Exvius",
+   "from": "2017-12-01",
+   "to": "2017-12-31",
+   "banners": [
+    {
+     "id": "9100072",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100073",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100074",
+     "name": "Cloud Arrives!",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100075",
+     "name": "Eternal Winter",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100076",
+     "name": "Holiday Special",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 5
+  },
+  "2018-01": {
+   "label": "Jan 2018 — Final Fantasy Brave Exvius, Final Fantasy XII",
+   "from": "2018-01-01",
+   "to": "2018-01-31",
+   "banners": [
+    {
+     "id": "9100077",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100078",
+     "name": "Final Fantasy XII",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100079",
+     "name": "Developer's Choice (Healer)",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100080",
+     "name": "Developer's Choice (Support)",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100081",
+     "name": "King's Knight",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 5
+  },
+  "2018-10": {
+   "label": "Oct 2018 — Final Fantasy Brave Exvius, Final Fantasy XV",
+   "from": "2018-10-01",
+   "to": "2018-10-31",
+   "banners": [
+    {
+     "id": "9100082",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100083",
+     "name": "7★ Release Special Part 5",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100084",
+     "name": "7★ Release Special Part 6",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100085",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100086",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100087",
+     "name": "VALKYRIE PROFILE -LENNETH-",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100088",
+     "name": "Final Fantasy XV",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 7
+  },
+  "2018-11": {
+   "label": "Nov 2018 — Final Fantasy Brave Exvius, Final Fantasy TYPE-0",
+   "from": "2018-11-01",
+   "to": "2018-11-30",
+   "banners": [
+    {
+     "id": "9100089",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100090",
+     "name": "7★ Release Special Part 7",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100091",
+     "name": "Final Fantasy TYPE-0",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100092",
+     "name": "7★ Release Special Part 8",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100093",
+     "name": "NieR:Automata",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100094",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 6
+  },
+  "2018-12": {
+   "label": "Dec 2018 — Final Fantasy Brave Exvius, Kingdom Hearts",
+   "from": "2018-12-01",
+   "to": "2018-12-31",
+   "banners": [
+    {
+     "id": "9100095",
+     "name": "7★ Release Special Part 9",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100096",
+     "name": "7★ Release Special Part 10",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100097",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100098",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100099",
+     "name": "Kingdom Hearts",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100100",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 6
+  },
+  "2018-02": {
+   "label": "Feb 2018 — Final Fantasy Brave Exvius, Final Fantasy XV",
+   "from": "2018-02-01",
+   "to": "2018-02-28",
+   "banners": [
+    {
+     "id": "9100101",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100102",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100103",
+     "name": "Final Fantasy XV",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100104",
+     "name": "Festival of Love",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 4
+  },
+  "2018-03": {
+   "label": "Mar 2018 — Final Fantasy IX, Final Fantasy Brave Exvius, Final Fantasy X",
+   "from": "2018-03-01",
+   "to": "2018-03-31",
+   "banners": [
+    {
+     "id": "9100105",
+     "name": "International Women's Day (Batch 1)",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100106",
+     "name": "International Women's Day (Batch 2)",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100107",
+     "name": "Final Fantasy IX",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100108",
+     "name": "International Women's Day (Batch 3)",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100109",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100110",
+     "name": "Final Fantasy X",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100111",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 7
+  },
+  "2018-04": {
+   "label": "Apr 2018 — Final Fantasy Brave Exvius, Dragon Quest, Final Fantasy X",
+   "from": "2018-04-01",
+   "to": "2018-04-30",
+   "banners": [
+    {
+     "id": "9100112",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100113",
+     "name": "5★ TYPE SUMMON (Attack Type)",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100114",
+     "name": "5★ TYPE SUMMON (Support Type)",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100115",
+     "name": "Dragon Quest",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100116",
+     "name": "Final Fantasy X",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 5
+  },
+  "2018-05": {
+   "label": "May 2018 — Final Fantasy Brave Exvius",
+   "from": "2018-05-01",
+   "to": "2018-05-31",
+   "banners": [
+    {
+     "id": "9100117",
+     "name": "Sephiroth Arrives",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100118",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100119",
+     "name": "Cloud Special!",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100120",
+     "name": "5★ TYPE SUMMON (Attack Type)",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100121",
+     "name": "5★ TYPE SUMMON (Magic/Hybrid Type)",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 5
+  },
+  "2018-06": {
+   "label": "Jun 2018 — Final Fantasy Brave Exvius, Just Cause 3, Final Fantasy IV",
+   "from": "2018-06-01",
+   "to": "2018-06-30",
+   "banners": [
+    {
+     "id": "9100122",
+     "name": "5★ TYPE SUMMON (Tank Type)",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100123",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100124",
+     "name": "Just Cause 3",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100125",
+     "name": "5★ TYPE STEP-UP SUMMON (Attack Type)",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100126",
+     "name": "5★ TYPE STEP-UP SUMMON (Magic/Tank Type)",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100127",
+     "name": "5★ TYPE STEP-UP SUMMON (Support/Healer Type)",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100128",
+     "name": "Final Fantasy IV",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100129",
+     "name": "King's Knight",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 8
+  },
+  "2018-07": {
+   "label": "Jul 2018 — Final Fantasy Brave Exvius Heroes 3, Final Fantasy Brave Exvius, Final Fantasy Brave Exvius Heroes Par",
+   "from": "2018-07-01",
+   "to": "2018-07-31",
+   "banners": [
+    {
+     "id": "9100130",
+     "name": "Final Fantasy Brave Exvius Heroes 3",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100131",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100132",
+     "name": "Final Fantasy Brave Exvius Heroes Part 2",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100133",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100134",
+     "name": "Star Ocean Anamnesis",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100135",
+     "name": "Ability Awakening Special",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100136",
+     "name": "Final Fantasy Brave Exvius Heroes 1",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100137",
+     "name": "Final Fantasy Brave Exvius Heroes 2",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 8
+  },
+  "2018-08": {
+   "label": "Aug 2018 — Final Fantasy Brave Exvius, Final Fantasy XI",
+   "from": "2018-08-01",
+   "to": "2018-08-31",
+   "banners": [
+    {
+     "id": "9100138",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100139",
+     "name": "7★ Release Special Part 1",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100140",
+     "name": "7★ Release Special Part 2",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100141",
+     "name": "Deus Ex: Mankind Divided",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100142",
+     "name": "Squall Arrives",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100143",
+     "name": "Final Fantasy XI",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 6
+  },
+  "2018-09": {
+   "label": "Sep 2018 — Final Fantasy Brave Exvius, Dragon Quest",
+   "from": "2018-09-01",
+   "to": "2018-09-30",
+   "banners": [
+    {
+     "id": "9100144",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100145",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100146",
+     "name": "7★ Release Special Part 3",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100147",
+     "name": "7★ Release Special Part 4",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100148",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100149",
+     "name": "Dragon Quest",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100150",
+     "name": "Dragon Quest",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 7
+  },
+  "2019-01": {
+   "label": "Jan 2019 — Final Fantasy VII, Final Fantasy Brave Exvius, Star Ocean Anamnesis",
+   "from": "2019-01-01",
+   "to": "2019-01-31",
+   "banners": [
+    {
+     "id": "9100151",
+     "name": "Final Fantasy VII",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100152",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100153",
+     "name": "Star Ocean Anamnesis",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100154",
+     "name": "7★ Release Special Part 11",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100155",
+     "name": "7★ Release Special Part 12",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 5
+  },
+  "2019-10": {
+   "label": "Oct 2019 — Final Fantasy V, Final Fantasy Brave Exvius, Final Fantasy VI",
+   "from": "2019-10-01",
+   "to": "2019-10-31",
+   "banners": [
+    {
+     "id": "9100156",
+     "name": "Final Fantasy V",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100157",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100158",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100159",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100160",
+     "name": "Final Fantasy VI",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100161",
+     "name": "Final Fantasy II",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 6
+  },
+  "2019-11": {
+   "label": "Nov 2019 — Final Fantasy VI, Dragon Quest XI S, Final Fantasy Brave Exvius",
+   "from": "2019-11-01",
+   "to": "2019-11-30",
+   "banners": [
+    {
+     "id": "9100162",
+     "name": "Final Fantasy VI",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100163",
+     "name": "Dragon Quest XI S",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100164",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100165",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 4
+  },
+  "2019-12": {
+   "label": "Dec 2019 — Final Fantasy XV, Final Fantasy Brave Exvius",
+   "from": "2019-12-01",
+   "to": "2019-12-31",
+   "banners": [
+    {
+     "id": "9100166",
+     "name": "Final Fantasy XV",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100167",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100168",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100169",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100170",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100171",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 6
+  },
+  "2019-02": {
+   "label": "Feb 2019 — Final Fantasy X, Final Fantasy Brave Exvius",
+   "from": "2019-02-01",
+   "to": "2019-02-28",
+   "banners": [
+    {
+     "id": "9100172",
+     "name": "Final Fantasy X",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100173",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100174",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100175",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100176",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 5
+  },
+  "2019-03": {
+   "label": "Mar 2019 — Final Fantasy Brave Exvius, Final Fantasy III",
+   "from": "2019-03-01",
+   "to": "2019-03-31",
+   "banners": [
+    {
+     "id": "9100177",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100178",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100179",
+     "name": "Xenogears",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100180",
+     "name": "Final Fantasy III",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 4
+  },
+  "2019-04": {
+   "label": "Apr 2019 — Final Fantasy Brave Exvius, Final Fantasy Tactics",
+   "from": "2019-04-01",
+   "to": "2019-04-30",
+   "banners": [
+    {
+     "id": "9100181",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100182",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100183",
+     "name": "Xenogears",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100184",
+     "name": "Final Fantasy Tactics",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 4
+  },
+  "2019-05": {
+   "label": "May 2019 — Final Fantasy Brave Exvius, Final Fantasy VI, Final Fantasy IV",
+   "from": "2019-05-01",
+   "to": "2019-05-31",
+   "banners": [
+    {
+     "id": "9100185",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100186",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100187",
+     "name": "Final Fantasy VI",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100188",
+     "name": "Final Fantasy IV",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100189",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 5
+  },
+  "2019-06": {
+   "label": "Jun 2019 — Final Fantasy VII, Secret of Mana, Final Fantasy Brave Exvius",
+   "from": "2019-06-01",
+   "to": "2019-06-30",
+   "banners": [
+    {
+     "id": "9100190",
+     "name": "Final Fantasy VII",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100191",
+     "name": "Secret of Mana",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100192",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100193",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 4
+  },
+  "2019-07": {
+   "label": "Jul 2019 — 3rd Anniversary, Final Fantasy VII, Final Fantasy Brave Exvius",
+   "from": "2019-07-01",
+   "to": "2019-07-31",
+   "banners": [
+    {
+     "id": "9100194",
+     "name": "3rd Anniversary",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100195",
+     "name": "Final Fantasy VII",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100196",
+     "name": "5★ Guaranteed TYPE SUMMON (Attack - Physical/Magic Type)",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100197",
+     "name": "5★ Guaranteed TYPE SUMMON (Support - Buff/Debuff Type)",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100198",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100199",
+     "name": "5★ Guaranteed TYPE SUMMON (Healer/Summoner Type)",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100200",
+     "name": "5★ Guaranteed TYPE SUMMON (Tank - Physical/Magic Type)",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100201",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100202",
+     "name": "Final Fantasy XIII",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100203",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 10
+  },
+  "2019-08": {
+   "label": "Aug 2019 — Final Fantasy Brave Exvius, Final Fantasy V",
+   "from": "2019-08-01",
+   "to": "2019-08-31",
+   "banners": [
+    {
+     "id": "9100204",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100205",
+     "name": "Octopath Traveler",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100206",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100207",
+     "name": "Final Fantasy V",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 4
+  },
+  "2019-09": {
+   "label": "Sep 2019 — Final Fantasy Brave Exvius, Kingdom Hearts, Dragon Quest XI S",
+   "from": "2019-09-01",
+   "to": "2019-09-30",
+   "banners": [
+    {
+     "id": "9100208",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100209",
+     "name": "KATY PERRY (Step-up only)",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100210",
+     "name": "Kingdom Hearts",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100211",
+     "name": "Kingdom Hearts",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100212",
+     "name": "Dragon Quest XI S",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 5
+  },
+  "2020-01": {
+   "label": "Jan 2020 — Final Fantasy Brave Exvius, Final Fantasy I, Final Fantasy XV",
+   "from": "2020-01-01",
+   "to": "2020-01-31",
+   "banners": [
+    {
+     "id": "9100213",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100214",
+     "name": "Final Fantasy I",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100215",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100216",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100217",
+     "name": "Final Fantasy XV",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 5
+  },
+  "2020-10": {
+   "label": "Oct 2020 — Final Fantasy XII, Final Fantasy Brave Exvius, Final Fantasy II",
+   "from": "2020-10-01",
+   "to": "2020-10-31",
+   "banners": [
+    {
+     "id": "9100218",
+     "name": "Final Fantasy XII",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100219",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100220",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100221",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100222",
+     "name": "Final Fantasy II",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 5
+  },
+  "2020-11": {
+   "label": "Nov 2020 — Final Fantasy Brave Exvius, Final Fantasy III, Kingdom Hearts",
+   "from": "2020-11-01",
+   "to": "2020-11-30",
+   "banners": [
+    {
+     "id": "9100223",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100224",
+     "name": "Final Fantasy III",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100225",
+     "name": "Kingdom Hearts",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100226",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 4
+  },
+  "2020-12": {
+   "label": "Dec 2020 — Final Fantasy VI, Final Fantasy Brave Exvius",
+   "from": "2020-12-01",
+   "to": "2020-12-31",
+   "banners": [
+    {
+     "id": "9100227",
+     "name": "Final Fantasy VI",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100228",
+     "name": "Final Fantasy VI",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100229",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100230",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100231",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 5
+  },
+  "2020-02": {
+   "label": "Feb 2020 — Final Fantasy Brave Exvius, Final Fantasy III, Final Fantasy IV",
+   "from": "2020-02-01",
+   "to": "2020-02-29",
+   "banners": [
+    {
+     "id": "9100232",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100233",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100234",
+     "name": "Final Fantasy III",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100235",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100236",
+     "name": "Final Fantasy IV",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 5
+  },
+  "2020-03": {
+   "label": "Mar 2020 — Final Fantasy X, Final Fantasy X-2, Final Fantasy XI",
+   "from": "2020-03-01",
+   "to": "2020-03-31",
+   "banners": [
+    {
+     "id": "9100237",
+     "name": "Final Fantasy X",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100238",
+     "name": "Final Fantasy X-2",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100240",
+     "name": "Fullmetal Alchemist Brotherhood",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100241",
+     "name": "Final Fantasy XI",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 4
+  },
+  "2020-04": {
+   "label": "Apr 2020 — WOTV FFBE, Final Fantasy Brave Exvius, Final Fantasy IX",
+   "from": "2020-04-01",
+   "to": "2020-04-30",
+   "banners": [
+    {
+     "id": "9100242",
+     "name": "WOTV FFBE",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100243",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100244",
+     "name": "Final Fantasy IX",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100245",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100246",
+     "name": "VALKYRIE PROFILE -LENNETH-",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100247",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 6
+  },
+  "2020-05": {
+   "label": "May 2020 — Final Fantasy Brave Exvius, Final Fantasy XIII, Final Fantasy VII: Advent Children",
+   "from": "2020-05-01",
+   "to": "2020-05-31",
+   "banners": [
+    {
+     "id": "9100248",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100249",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100250",
+     "name": "Final Fantasy XIII",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100251",
+     "name": "Final Fantasy VII: Advent Children",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 4
+  },
+  "2020-06": {
+   "label": "Jun 2020 — Final Fantasy VIII, Final Fantasy XIII-2",
+   "from": "2020-06-01",
+   "to": "2020-06-30",
+   "banners": [
+    {
+     "id": "9100253",
+     "name": "Final Fantasy VIII",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100254",
+     "name": "Final Fantasy VIII",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100255",
+     "name": "Final Fantasy XIII-2",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 3
+  },
+  "2020-07": {
+   "label": "Jul 2020 — Final Fantasy Brave Exvius, WOTV FFBE, Final Fantasy XII",
+   "from": "2020-07-01",
+   "to": "2020-07-31",
+   "banners": [
+    {
+     "id": "9100256",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100257",
+     "name": "WOTV FFBE",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100258",
+     "name": "Final Fantasy XII",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100259",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100260",
+     "name": "Final Fantasy TYPE-0",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 5
+  },
+  "2020-08": {
+   "label": "Aug 2020 — Final Fantasy XII, Final Fantasy VII REMAKE, Final Fantasy Brave Exvius",
+   "from": "2020-08-01",
+   "to": "2020-08-31",
+   "banners": [
+    {
+     "id": "9100261",
+     "name": "Final Fantasy XII",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100262",
+     "name": "Final Fantasy VII REMAKE",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100263",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100264",
+     "name": "Final Fantasy IX",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 4
+  },
+  "2020-09": {
+   "label": "Sep 2020 — Final Fantasy Brave Exvius, Final Fantasy VII REMAKE",
+   "from": "2020-09-01",
+   "to": "2020-09-30",
+   "banners": [
+    {
+     "id": "9100265",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100266",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100267",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100268",
+     "name": "Final Fantasy VII REMAKE",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 4
+  },
+  "2021-01": {
+   "label": "Jan 2021 — Final Fantasy Brave Exvius",
+   "from": "2021-01-01",
+   "to": "2021-01-31",
+   "banners": [
+    {
+     "id": "9100269",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100270",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100271",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100272",
+     "name": "New Year's Equipment Enhancement Summon",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 4
+  },
+  "2021-10": {
+   "label": "Oct 2021 — Final Fantasy Brave Exvius",
+   "from": "2021-10-01",
+   "to": "2021-10-31",
+   "banners": [
+    {
+     "id": "9100273",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100274",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100275",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100276",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100277",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 5
+  },
+  "2021-11": {
+   "label": "Nov 2021 — Final Fantasy Brave Exvius, Final Fantasy X, Final Fantasy X (Step-up only)",
+   "from": "2021-11-01",
+   "to": "2021-11-30",
+   "banners": [
+    {
+     "id": "9100278",
+     "name": "Trials of Mana",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100279",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100280",
+     "name": "Final Fantasy X",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100281",
+     "name": "Final Fantasy X (Step-up only)",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100282",
+     "name": "Trials of Mana",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 5
+  },
+  "2021-12": {
+   "label": "Dec 2021 — Dragon Quest Monsters: Super Light, Final Fantasy X, Final Fantasy Brave Exvius",
+   "from": "2021-12-01",
+   "to": "2021-12-31",
+   "banners": [
+    {
+     "id": "9100283",
+     "name": "Dragon Quest Monsters: Super Light",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100284",
+     "name": "Final Fantasy X",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100285",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100286",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 4
+  },
+  "2021-02": {
+   "label": "Feb 2021 — Final Fantasy Brave Exvius, Final Fantasy XIII",
+   "from": "2021-02-01",
+   "to": "2021-02-28",
+   "banners": [
+    {
+     "id": "9100287",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100288",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100289",
+     "name": "Lightning Returns: Final Fantasy XIII",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100290",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 4
+  },
+  "2021-03": {
+   "label": "Mar 2021 — Final Fantasy XIII, Final Fantasy V, WOTV FFBE",
+   "from": "2021-03-01",
+   "to": "2021-03-31",
+   "banners": [
+    {
+     "id": "9100291",
+     "name": "Lightning Returns: Final Fantasy XIII",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100292",
+     "name": "Final Fantasy V",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100293",
+     "name": "WOTV FFBE",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100294",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 4
+  },
+  "2021-04": {
+   "label": "Apr 2021 — Final Fantasy Brave Exvius, Final Fantasy XV",
+   "from": "2021-04-01",
+   "to": "2021-04-30",
+   "banners": [
+    {
+     "id": "9100295",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100296",
+     "name": "Final Fantasy XV",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100297",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100298",
+     "name": "Final Fantasy XV",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100299",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 5
+  },
+  "2021-05": {
+   "label": "May 2021 — Final Fantasy IX, Final Fantasy Brave Exvius, Final Fantasy XV",
+   "from": "2021-05-01",
+   "to": "2021-05-31",
+   "banners": [
+    {
+     "id": "9100300",
+     "name": "Fullmetal Alchemist Brotherhood",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100301",
+     "name": "Final Fantasy IX",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100302",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100303",
+     "name": "Final Fantasy XV",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 4
+  },
+  "2021-06": {
+   "label": "Jun 2021 — Final Fantasy Brave Exvius, Final Fantasy IX",
+   "from": "2021-06-01",
+   "to": "2021-06-30",
+   "banners": [
+    {
+     "id": "9100304",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100306",
+     "name": "Final Fantasy IX",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 2
+  },
+  "2021-07": {
+   "label": "Jul 2021 — Final Fantasy Brave Exvius, Final Fantasy VII REMAKE",
+   "from": "2021-07-01",
+   "to": "2021-07-31",
+   "banners": [
+    {
+     "id": "9100307",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100308",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100309",
+     "name": "Final Fantasy VII REMAKE",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100310",
+     "name": "Final Fantasy VII REMAKE",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100311",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 5
+  },
+  "2021-08": {
+   "label": "Aug 2021 — Final Fantasy Brave Exvius, Final Fantasy VI, Final Fantasy VII REMAKE",
+   "from": "2021-08-01",
+   "to": "2021-08-31",
+   "banners": [
+    {
+     "id": "9100312",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100313",
+     "name": "Final Fantasy VI",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100314",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100315",
+     "name": "Final Fantasy VII REMAKE",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 4
+  },
+  "2021-09": {
+   "label": "Sep 2021 — Final Fantasy Type-0, Final Fantasy VI, Final Fantasy Brave Exvius",
+   "from": "2021-09-01",
+   "to": "2021-09-30",
+   "banners": [
+    {
+     "id": "9100316",
+     "name": "Final Fantasy Type-0",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100317",
+     "name": "Final Fantasy VI",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100318",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100319",
+     "name": "Tomb Raider",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100320",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 5
+  },
+  "2022-01": {
+   "label": "Jan 2022 — Final Fantasy Brave Exvius, Final Fantasy V",
+   "from": "2022-01-01",
+   "to": "2022-01-31",
+   "banners": [
+    {
+     "id": "9100321",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100322",
+     "name": "Final Fantasy V",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100323",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100324",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 4
+  },
+  "2022-10": {
+   "label": "Oct 2022 — Final Fantasy Brave Exvius, Final Fantasy IV",
+   "from": "2022-10-01",
+   "to": "2022-10-31",
+   "banners": [
+    {
+     "id": "9100325",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100326",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100327",
+     "name": "Final Fantasy IV",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100328",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100329",
+     "name": "Legend of Mana",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 5
+  },
+  "2022-11": {
+   "label": "Nov 2022 — Final Fantasy III, Final Fantasy VI",
+   "from": "2022-11-01",
+   "to": "2022-11-30",
+   "banners": [
+    {
+     "id": "9100330",
+     "name": "Final Fantasy III",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100331",
+     "name": "Final Fantasy VI",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100332",
+     "name": "NieR:Automata",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 3
+  },
+  "2022-12": {
+   "label": "Dec 2022 — Final Fantasy Brave Exvius",
+   "from": "2022-12-01",
+   "to": "2022-12-31",
+   "banners": [
+    {
+     "id": "9100334",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 1
+  },
+  "2022-02": {
+   "label": "Feb 2022 — Final Fantasy IV, Final Fantasy Brave Exvius",
+   "from": "2022-02-01",
+   "to": "2022-02-28",
+   "banners": [
+    {
+     "id": "9100337",
+     "name": "Xenogears",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100338",
+     "name": "Final Fantasy IV",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100339",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 3
+  },
+  "2022-03": {
+   "label": "Mar 2022 — Final Fantasy Brave Exvius, Final Fantasy IV",
+   "from": "2022-03-01",
+   "to": "2022-03-31",
+   "banners": [
+    {
+     "id": "9100340",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100341",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100342",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100343",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100344",
+     "name": "Final Fantasy IV",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100345",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 6
+  },
+  "2022-04": {
+   "label": "Apr 2022 — Final Fantasy Brave Exvius, Final Fantasy VIII",
+   "from": "2022-04-01",
+   "to": "2022-04-30",
+   "banners": [
+    {
+     "id": "9100346",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100347",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100348",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100349",
+     "name": "Final Fantasy VIII",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100350",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 5
+  },
+  "2022-05": {
+   "label": "May 2022 — WOTV FFBE, Final Fantasy I, Final Fantasy Brave Exvius",
+   "from": "2022-05-01",
+   "to": "2022-05-31",
+   "banners": [
+    {
+     "id": "9100351",
+     "name": "WOTV FFBE",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100352",
+     "name": "Final Fantasy I",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100353",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100354",
+     "name": "Final Fantasy VIII",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 4
+  },
+  "2022-06": {
+   "label": "Jun 2022 — Final Fantasy II, Dragon Quest: The Adventure of Dai, Final Fantasy Brave Exvius",
+   "from": "2022-06-01",
+   "to": "2022-06-30",
+   "banners": [
+    {
+     "id": "9100355",
+     "name": "Final Fantasy II",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100356",
+     "name": "Dragon Quest: The Adventure of Dai",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100357",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100358",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100359",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100360",
+     "name": "Dragon Quest: The Adventure of Dai",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 6
+  },
+  "2022-07": {
+   "label": "Jul 2022 — Final Fantasy Brave Exvius, Final Fantasy Brave Exvius (Step-up o",
+   "from": "2022-07-01",
+   "to": "2022-07-31",
+   "banners": [
+    {
+     "id": "9100361",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100362",
+     "name": "Final Fantasy Brave Exvius (Step-up only)",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100363",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100364",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100365",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 5
+  },
+  "2022-08": {
+   "label": "Aug 2022 — Final Fantasy Brave Exvius (Step-up o, Final Fantasy XII TZA, Final Fantasy Brave Exvius",
+   "from": "2022-08-01",
+   "to": "2022-08-31",
+   "banners": [
+    {
+     "id": "9100366",
+     "name": "Final Fantasy Brave Exvius (Step-up only)",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100367",
+     "name": "Final Fantasy XII TZA",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100368",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100369",
+     "name": "Final Fantasy X",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100370",
+     "name": "Final Fantasy X",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100371",
+     "name": "Final Fantasy XII TZA",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 6
+  },
+  "2022-09": {
+   "label": "Sep 2022 — Final Fantasy Brave Exvius, Final Fantasy X-2, Final Fantasy IX",
+   "from": "2022-09-01",
+   "to": "2022-09-30",
+   "banners": [
+    {
+     "id": "9100372",
+     "name": "Final Fantasy Brave Exvius",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100373",
+     "name": "Final Fantasy X-2",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100374",
+     "name": "Final Fantasy IX",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    },
+    {
+     "id": "9100375",
+     "name": "Final Fantasy X",
+     "type": "normal",
+     "type_code": 1,
+     "tab": "PAY",
+     "source": "community",
+     "cost": {
+      "kind": "lapis",
+      "amount": 500
+     },
+     "draws": 1
+    }
+   ],
+   "n": 4
+  }
+ }
+}

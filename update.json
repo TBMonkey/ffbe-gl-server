@@ -1,0 +1,5 @@
+{
+  "version": "0.1.7",
+  "url": "https://github.com/TBMonkey/ffbe-gl-server/releases/tag/v0.1.7",
+  "notes": "First build: Linux x86_64 bundle; the frozen engine serves with no Python, PyYAML or openssl."
+}
