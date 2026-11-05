@@ -34,6 +34,14 @@ import os
 ENGINE_VERSION = "0.1.4"
 CONTRACT_VERSION = 1
 
+#: How the engine names itself on the wire: the HTTP `Server:` header on every response, and the first
+#: field of the startup line. It is here rather than in the handler because it is provenance for the whole
+#: engine, and because a packet capture -- or a bug report quoting one -- should name the build that
+#: produced it without anyone having to guess. The name in the comment is the copyright holder in LICENSE.
+#: A copy that strips this answers `ffbe-lab/0.1` (the old hardcoded string, already drifted from
+#: ENGINE_VERSION) or the stdlib's `BaseHTTP/0.6 Python/...` instead, and that is itself a tell.
+SERVER_BANNER = f"ffbe-gl/{ENGINE_VERSION} (TBMonkey)"
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 WORK = os.path.dirname(HERE)                 # APK_emulator_work/
 LEGACY = os.path.dirname(WORK)               # the ffbe worktree / checkout

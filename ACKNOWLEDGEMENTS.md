@@ -60,6 +60,15 @@ reconstructing the protocol and the battle content. Every such claim was verifie
 the client; agreement with a community source was never treated as proof. No community work is
 redistributed here.
 
+## Provenance
+
+This engine names itself when it runs: **`ffbe-gl/<engine version> (TBMonkey)`**. The string is in
+`server/data_paths.py` (`SERVER_BANNER`) and reaches the outside three ways — the HTTP `Server:` header on
+every response, the first field of the startup line, and the `server_banner=` field the app's doctor reads
+from `--print-paths`. It is published here on purpose: a mark nobody can claim to have removed by accident
+is the only kind worth having. If you fork and change the engine, say so — but do not quietly rename it to
+look like the upstream build.
+
 ## Reusing this
 
 MIT — see [`LICENSE`](LICENSE). If you fork or redistribute it, keep the copyright notice and this file:

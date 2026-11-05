@@ -135,7 +135,12 @@ BATTLE_BUNDLE_REPLY_ID = "jnw49dUq"
 
 class Handler(BaseHTTPRequestHandler):
     protocol_version = "HTTP/1.1"
-    server_version = "ffbe-lab/0.1"
+
+    def version_string(self):
+        # Name the engine, not the stdlib and not a build number that can drift: this used to be the literal
+        # `ffbe-lab/0.1`, which had been stale for several releases. One source of truth -- see
+        # `data_paths.SERVER_BANNER` for why the string carries the name it carries.
+        return data_paths.SERVER_BANNER
 
     def log_message(self, fmt, *args):  # silence the default stderr line; we log structurally
         pass
@@ -700,6 +705,10 @@ def main() -> int:
         else:
             state_file = os.path.abspath(data_paths.STATE_FILE)
         for key, value in (("engine_version", data_paths.ENGINE_VERSION),
+                           # The name the engine answers with (`Server:` header, startup line). Reported here so
+                           # the app's doctor shows it: it is the string that says which build produced a
+                           # bundle, and one field is cheaper than asking a user to grep a header.
+                           ("server_banner", data_paths.SERVER_BANNER),
                            ("contract", data_paths.CONTRACT_VERSION),
                            # Which AES implementation this engine will use: `cryptography` (the bundle
                            # ships it; no external binary) or `openssl` (the CLI fallback, which must
@@ -1016,7 +1025,7 @@ def main() -> int:
         # whether the reply came from the cache or a fresh derivation (APP-33).
         ("battle_derive", battle_content.derive_mode()),
     ]), flush=True)
-    print(f"listening on {args.bind}:{args.port} ({'http' if args.no_tls else 'https'}); "
+    print(f"{data_paths.SERVER_BANNER} listening on {args.bind}:{args.port} ({'http' if args.no_tls else 'https'}); "
           f"{len(State.by_reqid)} request classes; log -> {os.path.relpath(State.outdir, WORK)}", flush=True)
     try:
         httpd.serve_forever()
