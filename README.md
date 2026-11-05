@@ -1,8 +1,12 @@
 # ffbe-gl-server
 
 A **local server for the global client of FINAL FANTASY BRAVE EXVIUS** (v9.0.0), so the game can run against
-your own machine. It answers the client's HTTPS requests and serves the content the client asks for. **No game
-content is included** — you bring your own copy of the game.
+your own machine. It answers the client's HTTPS requests and serves the content the client asks for. **The game
+client is not included** — you bring your own copy of the game.
+
+An **unofficial fan project**, not affiliated with Square Enix. It does ship battle content derived from the
+game's data, and Square Enix's rights in that remain theirs — [`ACKNOWLEDGEMENTS.md`](ACKNOWLEDGEMENTS.md) states
+exactly what is and is not included, and under what licence.
 
 | directory | what it is |
 |---|---|
