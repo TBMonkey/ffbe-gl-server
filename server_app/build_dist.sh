@@ -73,7 +73,14 @@ for f in "$ENGINE_SRC"/*.json "$ENGINE_SRC"/*.yaml "$ENGINE_SRC"/*.txt; do
 done
 # The two decoders and the text key manifest ride beside the frozen modules: `ffbe_prepare` resolves them
 # with `os.path.dirname(__file__)`, so a bundle needs no `scripts/` directory (APP-50/APP-57).
-CHECKOUT="$(dirname "$WORK")"                # the repo root in a checkout (scripts/ + docs/ live here)
+# The repo root (scripts/ + docs/analysis/ live there). Two layouts exist: the workspace keeps the engine
+# under APK_emulator_work/, the published repo keeps it at the root -- so walk up to the first ancestor that
+# actually holds the decoders instead of assuming one level.
+CHECKOUT="$WORK"
+while [ ! -f "$CHECKOUT/scripts/mst_decode.py" ] && [ "$CHECKOUT" != "/" ]; do
+  CHECKOUT="$(dirname "$CHECKOUT")"
+done
+[ -f "$CHECKOUT/scripts/mst_decode.py" ] || { echo "no scripts/mst_decode.py above $WORK" >&2; exit 1; }
 DATA_ARGS+=(--add-data "$CHECKOUT/scripts/mst_decode.py:."
             --add-data "$CHECKOUT/scripts/text_decode.py:."
             --add-data "$CHECKOUT/docs/analysis/localized_text_keys.json:.")
@@ -133,7 +140,14 @@ test -f "$STAGE/run-me-first.sh" || { echo "run-me-first.sh did not stage" >&2; 
 # engine's child) was invisible to --version/--print-paths and got as far as a built bundle. Prepare a
 # throwaway root from the checkout and drive the real path on a free port. It needs the data store,
 # which is untracked -- so a clean clone says SKIPPED loudly instead of passing the only test that starts.
-if [ -d "$WORK/../mst_decoded" ] && [ -d "$WORK/out" ]; then
+# Where the store comes from: `FFBE_SMOKE_STORE=<dir>` names one explicitly (the published repo keeps the
+# engine at the root, so the workspace's `$WORK/..` is not a store there); otherwise the workspace layout is
+# detected. A clean clone has neither, and says SKIPPED.
+SMOKE_STORE="${FFBE_SMOKE_STORE:-}"
+if [ -z "$SMOKE_STORE" ] && [ -d "$WORK/../mst_decoded" ] && [ -d "$WORK/out" ]; then
+  SMOKE_STORE="$(cd "$WORK/.." && pwd)"
+fi
+if [ -n "$SMOKE_STORE" ]; then
   SMOKE_ROOT="$BUILD/smoke-root"
   SMOKE_PORT=$(( 20000 + (RANDOM % 20000) ))
   # The smoke PATH holds only `ss` (the app's port-ownership check). That is the point of audit F1: the
@@ -142,7 +156,7 @@ if [ -d "$WORK/../mst_decoded" ] && [ -d "$WORK/out" ]; then
   rm -rf "$SMOKE_BIN"; mkdir -p "$SMOKE_BIN"
   if [ -n "$(command -v ss)" ]; then ln -sf "$(command -v ss)" "$SMOKE_BIN/ss"; fi
   rm -rf "$SMOKE_ROOT"
-  "$STAGE/ffbe-server-app" prepare --data "$SMOKE_ROOT" --from "$(cd "$WORK/.." && pwd)" >/dev/null \
+  "$STAGE/ffbe-server-app" prepare --data "$SMOKE_ROOT" --from "$SMOKE_STORE" >/dev/null \
     || { echo "bundle prepare failed" >&2; exit 1; }
   PATH="$SMOKE_BIN" "$STAGE/ffbe-server-app" start --data "$SMOKE_ROOT" --port "$SMOKE_PORT" --mode campaign \
     || { echo "bundle start failed on port $SMOKE_PORT (the 0.1.3 onefile-pid class)" >&2; exit 1; }
@@ -152,7 +166,9 @@ if [ -d "$WORK/../mst_decoded" ] && [ -d "$WORK/out" ]; then
     "$STAGE/ffbe-server-app" stop --data "$SMOKE_ROOT" >/dev/null || true
     exit 1
   fi
-  grep -q "^listening on 0.0.0.0:${SMOKE_PORT}" "$SMOKE_ROOT/state/server.log" \
+  # The startup line now begins with the build banner (`ffbe-gl/<ver>+<id> (TBMonkey) listening on ...`),
+  # so match the phrase, not the line start -- the banner is the whole point of the mark.
+  grep -q "listening on 0.0.0.0:${SMOKE_PORT}" "$SMOKE_ROOT/state/server.log" \
     || { echo "engine never logged listening on :$SMOKE_PORT" >&2; exit 1; }
   # One real encrypted request/response. The in-process goldens cannot see the wire cipher, so without this
   # a request-time crypto regression in the FROZEN engine would ship (audit F1, 2026-10-16).
@@ -164,9 +180,10 @@ if [ -d "$WORK/../mst_decoded" ] && [ -d "$WORK/out" ]; then
   rm -rf "$SMOKE_ROOT"
   say "start smoke ok (prepare + start + status + wire probe + stop on :$SMOKE_PORT, frozen engine)"
 else
-  say "start smoke SKIPPED: no data store at $WORK/.. (mst_decoded or out/ absent)"
+  say "start smoke SKIPPED: no data store (set FFBE_SMOKE_STORE=<checkout with mst_decoded/ + APK_emulator_work/>)"
 fi
 
+mkdir -p "$DIST"
 rm -rf "$OUT"
 mv "$STAGE" "$OUT"
 
