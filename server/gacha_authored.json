@@ -186,6 +186,7 @@
       "name": "Featured Summon",
       "detail_id": "2011",
       "exe_type": "primary",
+      "gacha_layout": 0,
       "cost": {
         "kind": "lapis",
         "amount": 500
@@ -200,8 +201,8 @@
         }
       },
       "art": {
-        "banner": "gacha_20180810_top_banner_rankup_10.png",
-        "detail_banner": "gacha_20180810_banner_rankup_10.png",
+        "banner": "Gacha-Xenogears-Fei.png",
+        "detail_banner": "generalpu_bn_gacha1_xeno.png",
         "anime_file": "gacha_animation",
         "anime_name": "gacha_moogle_normal/anime",
         "img_btn": "gacha_btn_n"
@@ -210,31 +211,46 @@
         "tiers": [
           {
             "rarity": 5,
-            "rate": 0.01
+            "rate": 0.03,
+            "featured": [
+              "331000105",
+              "331000205",
+              "331000405"
+            ],
+            "featured_share": 0.5
           },
           {
             "rarity": 4,
-            "rate": 0.19
+            "rate": 0.17,
+            "featured": [
+              "331000304"
+            ],
+            "featured_share": 0.5
           },
           {
             "rarity": 3,
-            "rate": 0.8
+            "rate": 0.8,
+            "featured": [
+              "331000503"
+            ],
+            "featured_share": 0.5
           }
         ]
       },
       "source": "authored",
+      "provenance": "mixed",
       "ticket_group_id": 10010,
-      "img_btn_primary": "gacha_btns_gold_1",
+      "img_btn_primary": "gacha_btn_r",
       "secondary_offer": {
         "cost": {
           "kind": "lapis",
           "amount": 5000
         },
         "draws": 11,
-        "img_btn": "gacha_btns_gold_11",
+        "img_btn": "gacha_btn_r_multi",
         "exe_count": 1
       },
-      "notes": "The standard PAY-tab 'Featured Summon' -- the family the archive's rare-summon banner belongs to (the VIDEO's detail screen is titled 'Featured Summon'). MULTI-BUTTON (authored 2026-09-22): the trio Summon 500 / 11 Summons 5000 / Ticket Summon. `ticket_group_id` 10010 adds the ticket button (its art is the PRIMARY row's base + '_ticket': `gacha_btns_gold_1_ticket_1.png`); `secondary_offer` emits the second `GachaDetailMst` row (`ijEey5f7=2`), the only lever on the button count. `img_btn_primary`/`img_btn` are the retail gold template -- the ornate `gacha_btn_r` is the BASE template's art and overlaps these 204x96 anchors. See docs/notes/gacha_multi_button.md §14."
+      "notes": "XENOGEARS Featured Summon, using the existing PAY-tab id 11 (`MST_GACHA_NAME_11` = 'Featured Summon'). ART MAPPING AUTHORED: the LIST slot uses `Gacha-Xenogears-Fei.png` (640x160; the exact 2019 Featured Summon list art in the archive clip's `legacybanner.png`, from `gacha_community/art/`), while the DETAIL slot uses `generalpu_bn_gacha1_xeno.png` (500x450; the square detail art in `cpk_extract/en/banner/Ver328_banner1/`). POOL from the `[Community]` 2019-03-29 row id `9100179`: Fei 331000105, Elly 331000205 and Bart 331000405 take half of the 5★ tier; Emeralda 331000304 is the featured 4★ and Rico 331000503 the featured 3★. Tier split 3%/17%/80%; those rates are community-sourced, not recovered. (The id-11 wrapper is the existing rare-tab multi-button banner; the list art and pool are the 2019 event, not the later `xeno2` art.) The multi-button shell is unchanged: Summon 500 / 11 Summons 5000 / Ticket Summon (`ticket_group_id` 10010; second `GachaDetailMst` row via `secondary_offer`). The art-to-id and rates are authored, not recovered; unit ids are shipped `F_UNIT_MST` ids. `gacha_layout: 0` deliberately selects the base `GachaDetailScene` (the 2019 archive's large-banner-only detail, with no `GachaPayDetailScene` Fei-vs-Ochu field), and its base-scene buttons use the `gacha_btn_r` base: `gacha_btn_r_1` (Summon), `gacha_btn_r_multi` (11 Summons) and `gacha_btn_r_ticket` (Ticket), not the gold pay-scene plates. `gacha_btn_r_default_l` was wrong for the shared base because it has no `_ticket` sibling. See docs/notes/gacha_multi_button.md §14."
     },
     {
       "id": "9",

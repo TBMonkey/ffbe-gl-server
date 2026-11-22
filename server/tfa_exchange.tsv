@@ -1,0 +1,365 @@
+page	kind	reward_name	currency_name	currency_id	price	limit	reward_id	confidence
+Celestite Helm of Will	equipment	Celestite Helm of Will	Xenostone Shard	1209001426	100	1	21:1100000500	exact
+Celestite Helm of Will	recipe	Celestite Helm of Will - recipe	Xenostone Shard	1209001426	250	1	20:1000000233	exact
+Celestite Helm of Will	recipe	Celestite Helm of Will - recipe	Xenostone Shard	1209001426	250	1	20:1000000234	exact
+Celestite Helm of Will	recipe	Celestite Helm of Will+ - recipe	Xenostone Shard	1209001426	300	1	20:1000000235	exact
+Celestite Helm of Will	recipe	Celestite Helm of Will+ - recipe	Xenostone Shard	1209001426	450	1	20:1000000236	exact
+Celestite Helm of Will	recipe	Celestite Helm of Will++ - recipe	Xenostone Shard	1209001426	500	1	20:1000000237	exact
+Celestite Helm of Will	recipe	Celestite Helm of Will++ - recipe	Xenostone Shard	1209001426	650	1	20:1000000238	exact
+Celestite Helm of Will	recipebook	Celestite Crown of Will Recipebook	Xenostone Shard	1209001426	1000	1		unresolved
+Celestite Helm of Will	recipebook	Champion's Esoterica	Xenostone Shard	1209001426	500	1		unresolved
+Celestite Helm of Will	recipebook	Gravekeeper's Esoterica	Xenostone Shard	1209001426	500	1		unresolved
+Celestite Helm of Will	recipebook	Magister's Esoterica	Xenostone Shard	1209001426	1000	1		unresolved
+Celestite Helm of Will	recipebook	Ruler's Esoterica	Xenostone Shard	1209001426	2000	1		unresolved
+Celestite Helm of Will	recipebook	Conqueror's Celestite Crown of Will+ Recipebook	Xenostone Shard	1209001426	1500	1		unresolved
+Celestite Helm of Will	recipebook	Champion's Celestite Crown of Will+ Recipebook	Xenostone Shard	1209001426	2000	1		unresolved
+Celestite Helm of Will	recipebook	Gravekeeper's Celestite Crown of Will+ Recipebook	Xenostone Shard	1209001426	2000	1		unresolved
+Celestite Helm of Will	recipebook	Magister's Celestite Crown of Will+ Recipebook	Xenostone Shard	1209001426	2500	1		unresolved
+Celestite Helm of Will	recipebook	Ruler's Celestite Crown of Will+ Recipebook	Xenostone Shard	1209001426	2500	1		unresolved
+Celestite Garb of Will	equipment	Celestite Garb of Will	Xenostone Shard	1209001426	100	1	21:1100000543	exact
+Celestite Garb of Will	recipe	Celestite Garb of Will - recipe	Xenostone Shard	1209001426	250	1	20:1000000263	exact
+Celestite Garb of Will	recipe	Celestite Garb of Will - recipe	Xenostone Shard	1209001426	250	1	20:1000000264	exact
+Celestite Garb of Will	recipe	Celestite Garb of Will+ - recipe	Xenostone Shard	1209001426	300	1	20:1000000265	exact
+Celestite Garb of Will	recipe	Celestite Garb of Will+ - recipe	Xenostone Shard	1209001426	450	1	20:1000000266	exact
+Celestite Garb of Will	recipe	Celestite Garb of Will++ - recipe	Xenostone Shard	1209001426	500	1	20:1000000267	exact
+Celestite Garb of Will	recipe	Celestite Garb of Will++ - recipe	Xenostone Shard	1209001426	650	1	20:1000000268	exact
+Celestite Garb of Will	recipebook	Celestite Regalia of Will Recipebook	Xenostone Shard	1209001426	1000	1		unresolved
+Celestite Garb of Will	recipebook	Sprinter's Esoterica	Xenostone Shard	1209001426	500	1		unresolved
+Celestite Garb of Will	recipebook	Huntsman's Esoterica	Xenostone Shard	1209001426	500	1		unresolved
+Celestite Garb of Will	recipebook	Magister's Esoterica	Xenostone Shard	1209001426	1000	1		unresolved
+Celestite Garb of Will	recipebook	Ruler's Esoterica	Xenostone Shard	1209001426	2000	1		unresolved
+Celestite Garb of Will	recipebook	Summoner's Celestite Regalia of Will+ Recipebook	Xenostone Shard	1209001426	1500	1		unresolved
+Celestite Garb of Will	recipebook	Sprinter's Celestite Regalia of Will+ Recipebook	Xenostone Shard	1209001426	2000	1		unresolved
+Celestite Garb of Will	recipebook	Huntsman's Celestite Regalia of Will+ Recipebook	Xenostone Shard	1209001426	2000	1		unresolved
+Celestite Garb of Will	recipebook	Magister's Celestite Regalia of Will+ Recipebook	Xenostone Shard	1209001426	2500	1		unresolved
+Celestite Garb of Will	recipebook	Ruler's Celestite Regalia of Will+ Recipebook	Xenostone Shard	1209001426	2500	1		unresolved
+Celestite Circlet of Will	equipment	Celestite Circlet of Will	Xenostone Shard	1209001426	100	1	21:1100000562	exact
+Celestite Circlet of Will	recipe	Celestite Circlet of Will - recipe	Xenostone Shard	1209001426	250	1	20:1000000289	exact
+Celestite Circlet of Will	recipe	Celestite Circlet of Will - recipe	Xenostone Shard	1209001426	250	1	20:1000000290	exact
+Celestite Circlet of Will	recipe	Celestite Circlet of Will+ - recipe	Xenostone Shard	1209001426	300	1	20:1000000291	exact
+Celestite Circlet of Will	recipe	Celestite Circlet of Will+ - recipe	Xenostone Shard	1209001426	450	1	20:1000000292	exact
+Celestite Circlet of Will	recipe	Celestite Circlet of Will++ - recipe	Xenostone Shard	1209001426	500	1	20:1000000293	exact
+Celestite Circlet of Will	recipe	Celestite Circlet of Will++ - recipe	Xenostone Shard	1209001426	650	1	20:1000000294	exact
+Celestite Circlet of Will	recipebook	Celestite Diadem of Will Recipebook	Xenostone Shard	1209001426	1000	1		unresolved
+Celestite Circlet of Will	recipebook	Dancer's Esoterica	Xenostone Shard	1209001426	1000	1		unresolved
+Celestite Circlet of Will	recipebook	Prophet's Esoterica	Xenostone Shard	1209001426	1000	1		unresolved
+Celestite Circlet of Will	recipebook	Priest's Esoterica	Xenostone Shard	1209001426	1000	1		unresolved
+Celestite Circlet of Will	recipebook	Priestess's Esoterica	Xenostone Shard	1209001426	1000	1		unresolved
+Celestite Circlet of Will	recipebook	Paladin's Celestite Diadem of Will+ Recipebook	Xenostone Shard	1209001426	1500	1		unresolved
+Celestite Circlet of Will	recipebook	Dancer's Celestite Diadem of Will+ Recipebook	Xenostone Shard	1209001426	2500	1		unresolved
+Celestite Circlet of Will	recipebook	Prophet's Celestite Diadem of Will+ Recipebook	Xenostone Shard	1209001426	2000	1		unresolved
+Celestite Circlet of Will	recipebook	Priest's Celestite Diadem of Will+ Recipebook	Xenostone Shard	1209001426	2000	1		unresolved
+Celestite Circlet of Will	recipebook	Priestess's Celestite Diadem of Will+ Recipebook	Xenostone Shard	1209001426	2000	1		unresolved
+Celestite Ring of Will	equipment	Celestite Ring of Will	Xenostone Shard	1209001426	100	1	21:1100000604	exact
+Celestite Ring of Will	equipment	Celestite Ring of Will	Xenostone Shard	1209001426	750	1	21:1100000604	exact
+Celestite Ring of Will	recipe	Celestite Ring of Will - recipe	Xenostone Shard	1209001426	250	1	20:1000000306	exact
+Celestite Ring of Will	recipe	Celestite Ring of Will - recipe	Xenostone Shard	1209001426	250	1	20:1000000307	exact
+Celestite Ring of Will	recipe	Celestite Ring of Will+ - recipe	Xenostone Shard	1209001426	300	1	20:1000000308	exact
+Celestite Ring of Will	recipe	Celestite Ring of Will+ - recipe	Xenostone Shard	1209001426	450	1	20:1000000309	exact
+Celestite Ring of Will	recipe	Celestite Ring of Will++ - recipe	Xenostone Shard	1209001426	500	1	20:1000000310	exact
+Celestite Ring of Will	recipe	Celestite Ring of Will++ - recipe	Xenostone Shard	1209001426	650	1	20:1000000311	exact
+Celestite Ring of Will	recipebook	Celestite Signet of Will Recipebook	Xenostone Shard	1209001426	1000	1		unresolved
+Celestite Ring of Will	recipebook	Explorer's Esoterica	Xenostone Shard	1209001426	1250	1		unresolved
+Celestite Ring of Will	recipebook	Nomad's Esoterica	Xenostone Shard	1209001426	1250	1		unresolved
+Celestite Ring of Will	recipebook	Archon's Esoterica	Xenostone Shard	1209001426	1250	1		unresolved
+Celestite Ring of Will	recipebook	Flagbearer's Esoterica	Xenostone Shard	1209001426	1250	1		unresolved
+Celestite Ring of Will	recipebook	Hermit's Esoterica	Xenostone Shard	1209001426	1250	1		unresolved
+Celestite Ring of Will	recipebook	Craftsman's Esoterica	Xenostone Shard	1209001426	1250	1		unresolved
+Celestite Ring of Will	recipebook	Medium's Esoterica	Xenostone Shard	1209001426	1250	1		unresolved
+Celestite Ring of Will	recipebook	Emperor's Esoterica	Xenostone Shard	1209001426	1250	1		unresolved
+Celestite Ring of Will	recipebook	Magister's Esoterica	Xenostone Shard	1209001426	1250	1		unresolved
+Celestite Ring of Will	recipebook	Physician's Celestite Signet of Will+ Recipebook	Xenostone Shard	1209001426	2000	1		unresolved
+Celestite Ring of Will	recipebook	Explorer's Celestite Signet of Will+ Recipebook	Xenostone Shard	1209001426	2000	1		unresolved
+Celestite Ring of Will	recipebook	Nomad's Celestite Signet of Will+ Recipebook	Xenostone Shard	1209001426	2000	1		unresolved
+Celestite Ring of Will	recipebook	Emperor's Celestite Signet of Will+ Recipebook	Xenostone Shard	1209001426	2500	1		unresolved
+Celestite Ring of Will	recipebook	Magister's Celestite Signet of Will+ Recipebook	Xenostone Shard	1209001426	2500	1		unresolved
+Celestite Ring of Will	recipebook	Archon's Celestite Signet of Will+ Recipebook	Xenostone Shard	1209001426	2000	1		unresolved
+Celestite Ring of Will	recipebook	Flagbearer's Celestite Signet of Will+ Recipebook	Xenostone Shard	1209001426	2000	1		unresolved
+Celestite Ring of Will	recipebook	Hermit's Celestite Signet of Will+ Recipebook	Xenostone Shard	1209001426	2000	1		unresolved
+Celestite Ring of Will	recipebook	Craftsman's Celestite Signet of Will+ Recipebook	Xenostone Shard	1209001426	2000	1		unresolved
+Celestite Ring of Will	recipebook	Medium's Celestite Signet of Will+ Recipebook	Xenostone Shard	1209001426	2000	1		unresolved
+Celestite Vest of Will	equipment	Celestite Vest of Will	Xenostone Shard	1209001426	100	1	21:1100000672	exact
+Celestite Vest of Will	recipe	Celestite Vest of Will - recipe	Xenostone Shard	1209001426	250	1	20:1000000357	exact
+Celestite Vest of Will	recipe	Celestite Vest of Will - recipe	Xenostone Shard	1209001426	250	1	20:1000000358	exact
+Celestite Vest of Will	recipe	Celestite Vest of Will+ - recipe	Xenostone Shard	1209001426	300	1	20:1000000359	exact
+Celestite Vest of Will	recipe	Celestite Vest of Will+ - recipe	Xenostone Shard	1209001426	450	1	20:1000000360	exact
+Celestite Vest of Will	recipe	Celestite Vest of Will++ - recipe	Xenostone Shard	1209001426	500	1	20:1000000361	exact
+Celestite Vest of Will	recipe	Celestite Vest of Will++ - recipe	Xenostone Shard	1209001426	650	1	20:1000000362	exact
+Celestite Vest of Will	recipebook	Celestite Chainmail of Will Recipebook	Xenostone Shard	1209001426	1000	1		unresolved
+Celestite Vest of Will	recipebook	Ruler's Esoterica	Xenostone Shard	1209001426	1000	1		unresolved
+Celestite Vest of Will	recipebook	Ninja's Esoterica	Xenostone Shard	1209001426	1000	1		unresolved
+Celestite Vest of Will	recipebook	Conductor's Esoterica	Xenostone Shard	1209001426	1000	1		unresolved
+Celestite Vest of Will	recipebook	Avatar's Esoterica	Xenostone Shard	1209001426	1000	1		unresolved
+Celestite Vest of Will	recipebook	Guardian's Celestite Chainmail of Will+ Recipebook	Xenostone Shard	1209001426	2000	1		unresolved
+Celestite Vest of Will	recipebook	Ruler's Celestite Chainmail of Will+ Recipebook	Xenostone Shard	1209001426	2000	1		unresolved
+Celestite Vest of Will	recipebook	Ninja's Celestite Chainmail of Will+ Recipebook	Xenostone Shard	1209001426	2000	1		unresolved
+Celestite Vest of Will	recipebook	Conductor's Celestite Chainmail of Will+ Recipebook	Xenostone Shard	1209001426	2000	1		unresolved
+Celestite Vest of Will	recipebook	Avatar's Celestite Chainmail of Will+ Recipebook	Xenostone Shard	1209001426	2000	1		unresolved
+Celestite Breastplate of Will	equipment	Celestite Breastplate of Will	Xenostone Shard	1209001426	100	1	21:1100000771	exact
+Celestite Breastplate of Will	recipe	Celestite Breastplate of Will - recipe	Xenostone Shard	1209001426	250	1	20:1000000454	exact
+Celestite Breastplate of Will	recipe	Celestite Breastplate of Will - recipe	Xenostone Shard	1209001426	250	1	20:1000000455	exact
+Celestite Breastplate of Will	recipe	Celestite Breastplate of Will+ - recipe	Xenostone Shard	1209001426	300	1	20:1000000456	exact
+Celestite Breastplate of Will	recipe	Celestite Breastplate of Will+ - recipe	Xenostone Shard	1209001426	450	1	20:1000000457	exact
+Celestite Breastplate of Will	recipe	Celestite Breastplate of Will++ - recipe	Xenostone Shard	1209001426	500	1	20:1000000458	exact
+Celestite Breastplate of Will	recipe	Celestite Breastplate of Will++ - recipe	Xenostone Shard	1209001426	650	1	20:1000000459	exact
+Celestite Breastplate of Will	recipebook	Celestite Cuirass of Will Recipebook	Xenostone Shard	1209001426	1000	1		unresolved
+Celestite Breastplate of Will	recipebook	Defender's Esoterica	Xenostone Shard	1209001426	1000	1		unresolved
+Celestite Breastplate of Will	recipebook	Arcanist's Esoterica	Xenostone Shard	1209001426	1000	1		unresolved
+Celestite Breastplate of Will	recipebook	Swordsman's Esoterica	Xenostone Shard	1209001426	1000	1		unresolved
+Celestite Breastplate of Will	recipebook	Swordswoman's Esoterica	Xenostone Shard	1209001426	1000	1		unresolved
+Celestite Breastplate of Will	recipebook	Savior's Celestite Cuirass of Will+ Recipebook	Xenostone Shard	1209001426	2000	1		unresolved
+Celestite Breastplate of Will	recipebook	Defender's Celestite Cuirass of Will+ Recipebook	Xenostone Shard	1209001426	2000	1		unresolved
+Celestite Breastplate of Will	recipebook	Arcanist's Celestite Cuirass of Will+ Recipebook	Xenostone Shard	1209001426	2000	1		unresolved
+Celestite Breastplate of Will	recipebook	Swordsman's Celestite Cuirass of Will+ Recipebook	Xenostone Shard	1209001426	2000	1		unresolved
+Celestite Breastplate of Will	recipebook	Swordswoman's Celestite Cuirass of Will+ Recipebook	Xenostone Shard	1209001426	2000	1		unresolved
+High Celestite Exchange	item	High Celestite Orb	Xenostone Shard	1209001426	1000	10	20:1209002019	exact
+High Celestite Exchange	item	High Celestite Orb	Xenostone Shard	1209001426	2500	-	20:1209002019	exact
+High Celestite Exchange	item	High Celestite Fragment (Mask)	Xenostone Shard	1209001426	250	1	20:1209002020	exact
+High Celestite Exchange	item	High Celestite Fragment (Coat)	Xenostone Shard	1209001426	250	1	20:1209002021	exact
+High Celestite Exchange	item	High Celestite Fragment (Pendant)	Xenostone Shard	1209001426	250	1	20:1209002022	exact
+High Celestite Exchange	recipe	High Celestite Mask of Will - recipe	Xenostone Shard	1209001426	500	1	20:1000000491	exact
+High Celestite Exchange	recipe	High Celestite Coat of Will - recipe	Xenostone Shard	1209001426	500	1	20:1000000492	exact
+High Celestite Exchange	recipe	High Celestite Pendant of Will - recipe	Xenostone Shard	1209001426	500	1	20:1000000493	exact
+High Celestite Exchange	item	High Celestite Fragment (Crown)	Xenostone Shard	1209001426	250	1	20:1209002087	exact
+High Celestite Exchange	item	High Celestite Fragment (Robe)	Xenostone Shard	1209001426	250	1	20:1209002088	exact
+High Celestite Exchange	item	High Celestite Fragment (Bracer)	Xenostone Shard	1209001426	250	1	20:1209002089	exact
+High Celestite Exchange	recipe	High Celestite Crown of Will - recipe	Xenostone Shard	1209001426	500	1	20:1000000494	exact
+High Celestite Exchange	recipe	High Celestite Robe of Will - recipe	Xenostone Shard	1209001426	500	1	20:1000000495	exact
+High Celestite Exchange	recipe	High Celestite Bracer of Will - recipe	Xenostone Shard	1209001426	500	1	20:1000000496	exact
+High Celestite Exchange	recipe	High Celestite Mask of Will+ - recipe	Xenostone Shard	1209001426	500	1	20:1000000499	exact
+High Celestite Exchange	recipe	High Celestite Coat of Will+ - recipe	Xenostone Shard	1209001426	500	1	20:1000000500	exact
+High Celestite Exchange	recipe	High Celestite Pendant of Will+ - recipe	Xenostone Shard	1209001426	500	1	20:1000000501	exact
+High Celestite Exchange	recipe	High Celestite Crown of Will+ - recipe	Xenostone Shard	1209001426	500	1	20:1000000502	exact
+High Celestite Exchange	recipe	High Celestite Robe of Will+ - recipe	Xenostone Shard	1209001426	500	1	20:1000000503	exact
+High Celestite Exchange	recipe	High Celestite Bracer of Will+ - recipe	Xenostone Shard	1209001426	500	1	20:1000000504	exact
+Obnixus Drop Exchange Shop	unit	Solitary Patron Snow	Obnixus Drop	1209001427	3000	2	10:258000107	fuzzy
+Obnixus Drop Exchange Shop	unit	Shoreline Fina & Daisy	Obnixus Drop	1209001427	3000	2	10:100031707	fuzzy
+Obnixus Drop Exchange Shop	unit	Oracle Maiden Lunafreya	Obnixus Drop	1209001427	3000	2	10:215002407	fuzzy
+Obnixus Drop Exchange Shop	unit	Faris -Neo Vision-	Obnixus Drop	1209001427	3000	2	10:205001407	fuzzy
+Obnixus Drop Exchange Shop	unit	Savior of Souls Lightning	Obnixus Drop	1209001427	3000	2	10:258000207	fuzzy
+Obnixus Drop Exchange Shop	unit	Melia	Obnixus Drop	1209001427	3000	2	10:401011307	fuzzy
+Obnixus Drop Exchange Shop	vision card	Onward to the Disc	Obnixus Drop	1209001427	1000	2	27:215000201	exact
+Obnixus Drop Exchange Shop	vision card	Face My Full Power!	Obnixus Drop	1209001427	1000	2	27:100002601	exact
+Obnixus Drop Exchange Shop	vision card	Metal Gigantuar's Here!	Obnixus Drop	1209001427	500	15	27:900020101	exact
+Obnixus Drop Exchange Shop	unit	Trust Moogle (ALL 50%)	Obnixus Drop	1209001427	100	6	10:904000105	exact
+Obnixus Drop Exchange Shop	unit	Super Trust Moogle (ALL 50%)	Obnixus Drop	1209001427	2000	2	10:906000105	exact
+Obnixus Drop Exchange Shop	item	5★ Select Summon Ticket	Obnixus Drop	1209001427	200	10		unresolved
+Obnixus Drop Exchange Shop	item	Rare Summon Ticket (3★/4★/5★/NV)	Obnixus Drop	1209001427	100	2		unresolved
+Obnixus Drop Exchange Shop	item	10+1 Summon Ticket (3★/4★/5★/NV)	Obnixus Drop	1209001427	1000	1	20:1300000007	exact
+Obnixus Drop Exchange Shop	item	Omniprism	Obnixus Drop	1209001427	1000	2	20:900000001	exact
+Obnixus Drop (Frost) Exchange Shop	unit	Cobalt Blade Noctis	Obnixus Drop (Frost)	1209001493	3000	2	10:215002907	fuzzy
+Obnixus Drop (Frost) Exchange Shop	unit	Royal Puppeteer Aphmau	Obnixus Drop (Frost)	1209001493	3000	2	10:211001507	fuzzy
+Obnixus Drop (Frost) Exchange Shop	unit	Diverti	Obnixus Drop (Frost)	1209001493	3000	2	10:100034107	fuzzy
+Obnixus Drop (Frost) Exchange Shop	unit	Pure-Hearted Vivi	Obnixus Drop (Frost)	1209001493	3000	2	10:209002907	fuzzy
+Obnixus Drop (Frost) Exchange Shop	unit	White Dragon Ling	Obnixus Drop (Frost)	1209001493	3000	2	10:401011707	fuzzy
+Obnixus Drop (Frost) Exchange Shop	unit	Rain & Fina	Obnixus Drop (Frost)	1209001493	3000	2	10:100032707	fuzzy
+Obnixus Drop (Frost) Exchange Shop	vision card	A World United	Obnixus Drop (Frost)	1209001493	1000	2	27:100003401	exact
+Obnixus Drop (Frost) Exchange Shop	vision card	Judge Magister	Obnixus Drop (Frost)	1209001493	1000	2	27:212000101	exact
+Obnixus Drop (Frost) Exchange Shop	vision card	Metal Gigantuar's Here!	Obnixus Drop (Frost)	1209001493	500	15	27:900020101	exact
+Obnixus Drop (Frost) Exchange Shop	unit	Trust Moogle (ALL 50%)	Obnixus Drop (Frost)	1209001493	100	6	10:904000105	exact
+Obnixus Drop (Frost) Exchange Shop	unit	Super Trust Moogle (ALL 50%)	Obnixus Drop (Frost)	1209001493	2000	2	10:906000105	exact
+Obnixus Drop (Frost) Exchange Shop	item	5★ Select Summon Ticket	Obnixus Drop (Frost)	1209001493	200	10		unresolved
+Obnixus Drop (Frost) Exchange Shop	item	Rare Summon Ticket (3★/4★/5★/NV)	Obnixus Drop (Frost)	1209001493	100	2		unresolved
+Obnixus Drop (Frost) Exchange Shop	item	10+1 Summon Ticket (3★/4★/5★/NV)	Obnixus Drop (Frost)	1209001493	1000	1	20:1300000007	exact
+Obnixus Drop (Frost) Exchange Shop	item	Omniprism	Obnixus Drop (Frost)	1209001493	1000	2	20:900000001	exact
+Obnixus Drop (Blaze) Exchange Shop	unit	King Behemy	Obnixus Drop (Blaze)	1209001510	3000	2	10:401010907	fuzzy
+Obnixus Drop (Blaze) Exchange Shop	unit	Kaktiria	Obnixus Drop (Blaze)	1209001510	3000	2	10:401010807	fuzzy
+Obnixus Drop (Blaze) Exchange Shop	unit	Noppy	Obnixus Drop (Blaze)	1209001510	3000	2	10:401010407	fuzzy
+Obnixus Drop (Blaze) Exchange Shop	unit	Ygni	Obnixus Drop (Blaze)	1209001510	3000	2	10:401010507	fuzzy
+Obnixus Drop (Blaze) Exchange Shop	unit	Cressnik	Obnixus Drop (Blaze)	1209001510	3000	2	10:401010607	fuzzy
+Obnixus Drop (Blaze) Exchange Shop	unit	Bulwark & the Melodic Mascots	Obnixus Drop (Blaze)	1209001510	3000	2	10:401010707	fuzzy
+Obnixus Drop (Blaze) Exchange Shop	materia	Reclaimed Serenity	Obnixus Drop (Blaze)	1209001510	1000	2	22:1500000139	exact
+Obnixus Drop (Blaze) Exchange Shop	materia	Way of the Samurai	Obnixus Drop (Blaze)	1209001510	1000	2	22:1500000142	exact
+Obnixus Drop (Blaze) Exchange Shop	vision card	Metal Gigantuar's Here!	Obnixus Drop (Blaze)	1209001510	500	15	27:900020101	exact
+Obnixus Drop (Blaze) Exchange Shop	unit	Trust Moogle (ALL 50%)	Obnixus Drop (Blaze)	1209001510	100	6	10:904000105	exact
+Obnixus Drop (Blaze) Exchange Shop	unit	Super Trust Moogle (ALL 50%)	Obnixus Drop (Blaze)	1209001510	2000	2	10:906000105	exact
+Obnixus Drop (Blaze) Exchange Shop	item	5★ Select Summon Ticket	Obnixus Drop (Blaze)	1209001510	200	10		unresolved
+Obnixus Drop (Blaze) Exchange Shop	item	Rare Summon Ticket (3★/4★/5★/NV)	Obnixus Drop (Blaze)	1209001510	100	2		unresolved
+Obnixus Drop (Blaze) Exchange Shop	item	10+1 Summon Ticket (3★/4★/5★/NV)	Obnixus Drop (Blaze)	1209001510	1000	1	20:1300000007	exact
+Obnixus Drop (Blaze) Exchange Shop	item	Omniprism	Obnixus Drop (Blaze)	1209001510	1000	2	20:900000001	exact
+Obnixus Drop (Gale) Exchange Shop	unit	Louise	Obnixus Drop (Gale)	1209001578	3000	2	10:401011607	fuzzy
+Obnixus Drop (Gale) Exchange Shop	unit	Olivera	Obnixus Drop (Gale)	1209001578	3000	2	10:401012107	exact
+Obnixus Drop (Gale) Exchange Shop	unit	Roca	Obnixus Drop (Gale)	1209001578	3000	2	10:100035107	fuzzy
+Obnixus Drop (Gale) Exchange Shop	unit	Al Bhed Girl Rikku	Obnixus Drop (Gale)	1209001578	3000	2	10:210002207	fuzzy
+Obnixus Drop (Gale) Exchange Shop	unit	Triumphant General Celes	Obnixus Drop (Gale)	1209001578	3000	2	10:206002807	fuzzy
+Obnixus Drop (Gale) Exchange Shop	unit	Guardian Blade Charlotte	Obnixus Drop (Gale)	1209001578	3000	2	10:100034307	fuzzy
+Obnixus Drop (Gale) Exchange Shop	materia	Dragonfly Destroyer	Obnixus Drop (Gale)	1209001578	1000	2	22:1500000186	exact
+Obnixus Drop (Gale) Exchange Shop	materia	Prideful Incarnate	Obnixus Drop (Gale)	1209001578	1000	2	22:1500000141	exact
+Obnixus Drop (Gale) Exchange Shop	vision card	Metal Gigantuar's Here!	Obnixus Drop (Gale)	1209001578	500	15	27:900020101	exact
+Obnixus Drop (Gale) Exchange Shop	unit	Trust Moogle (ALL 50%)	Obnixus Drop (Gale)	1209001578	100	6	10:904000105	exact
+Obnixus Drop (Gale) Exchange Shop	unit	Super Trust Moogle (ALL 50%)	Obnixus Drop (Gale)	1209001578	2000	2	10:906000105	exact
+Obnixus Drop (Gale) Exchange Shop	item	5★ Select Summon Ticket	Obnixus Drop (Gale)	1209001578	200	10		unresolved
+Obnixus Drop (Gale) Exchange Shop	item	Rare Summon Ticket (3★/4★/5★/NV)	Obnixus Drop (Gale)	1209001578	100	2		unresolved
+Obnixus Drop (Gale) Exchange Shop	item	10+1 Summon Ticket (3★/4★/5★/NV)	Obnixus Drop (Gale)	1209001578	1000	1	20:1300000007	exact
+Obnixus Drop (Gale) Exchange Shop	item	Omniprism	Obnixus Drop (Gale)	1209001578	1000	2	20:900000001	exact
+Obnixus Drop (Spark) Exchange Shop	unit	Maeve	Obnixus Drop (Spark)	1209001628	3000	2	10:401012307	fuzzy
+Obnixus Drop (Spark) Exchange Shop	unit	Magic Mermaid Freesia	Obnixus Drop (Spark)	1209001628	3000	2	10:100037107	fuzzy
+Obnixus Drop (Spark) Exchange Shop	unit	Lightning-Fast Zidane	Obnixus Drop (Spark)	1209001628	3000	2	10:209002807	fuzzy
+Obnixus Drop (Spark) Exchange Shop	unit	Savior of Souls Lightning	Obnixus Drop (Spark)	1209001628	3000	2	10:258000207	fuzzy
+Obnixus Drop (Spark) Exchange Shop	unit	White Dragon Ling	Obnixus Drop (Spark)	1209001628	3000	2	10:401011707	fuzzy
+Obnixus Drop (Spark) Exchange Shop	unit	Oracle Maiden Lunafreya	Obnixus Drop (Spark)	1209001628	3000	2	10:215002407	fuzzy
+Obnixus Drop (Spark) Exchange Shop	materia	Seaweed Slayer	Obnixus Drop (Spark)	1209001628	1000	2	22:1500000193	exact
+Obnixus Drop (Spark) Exchange Shop	materia	Cold Current	Obnixus Drop (Spark)	1209001628	1000	2	22:1500000194	exact
+Obnixus Drop (Spark) Exchange Shop	vision card	Metal Gigantuar's Here!	Obnixus Drop (Spark)	1209001628	250	15	27:900020101	exact
+Obnixus Drop (Spark) Exchange Shop	unit	Trust Moogle (ALL 50%)	Obnixus Drop (Spark)	1209001628	100	6	10:904000105	exact
+Obnixus Drop (Spark) Exchange Shop	unit	Super Trust Moogle (ALL 50%)	Obnixus Drop (Spark)	1209001628	1000	2	10:906000105	exact
+Obnixus Drop (Spark) Exchange Shop	item	5★ Select Summon Ticket	Obnixus Drop (Spark)	1209001628	200	10		unresolved
+Obnixus Drop (Spark) Exchange Shop	item	Rare Summon Ticket (3★/4★/5★/NV)	Obnixus Drop (Spark)	1209001628	100	2		unresolved
+Obnixus Drop (Spark) Exchange Shop	item	Guaranteed Ticket (4★/5★/NV)	Obnixus Drop (Spark)	1209001628	500	1		unresolved
+Obnixus Drop (Spark) Exchange Shop	item	10+1 Summon Ticket (3★/4★/5★/NV)	Obnixus Drop (Spark)	1209001628	1000	1	20:1300000007	exact
+Obnixus Drop (Spark) Exchange Shop	item	Omniprism	Obnixus Drop (Spark)	1209001628	500	2	20:900000001	exact
+Obnixus Drop (Spark) Exchange Shop	item	1/10 NV Summon Ticket	Obnixus Drop (Spark)	1209001628	1500	2		unresolved
+Obnixus Drop (Spark) Exchange Shop	item	Mystery Crystal	Obnixus Drop (Spark)	1209001628	2000	1	20:235037300	exact
+Obnixus Drop (Spark) Exchange Shop	item	Faceted Orb	Obnixus Drop (Spark)	1209001628	1000	1	20:1209001428	exact
+Obnixus Drop (Geo) Exchange Shop	unit	Skye	Obnixus Drop (Geo)	1209001691	3000	2	10:401011907	fuzzy
+Obnixus Drop (Geo) Exchange Shop	unit	Ninja Edge	Obnixus Drop (Geo)	1209001691	3000	2	10:204003107	fuzzy
+Obnixus Drop (Geo) Exchange Shop	unit	Summoner Rydia	Obnixus Drop (Geo)	1209001691	3000	2	10:204003007	exact
+Obnixus Drop (Geo) Exchange Shop	unit	Pure-Hearted Vivi	Obnixus Drop (Geo)	1209001691	3000	2	10:209002907	fuzzy
+Obnixus Drop (Geo) Exchange Shop	unit	Solitary Patron Snow	Obnixus Drop (Geo)	1209001691	3000	2	10:258000107	fuzzy
+Obnixus Drop (Geo) Exchange Shop	unit	Shoreline Fina & Daisy	Obnixus Drop (Geo)	1209001691	3000	2	10:100031707	fuzzy
+Obnixus Drop (Geo) Exchange Shop	materia	Light Armor Mastery	Obnixus Drop (Geo)	1209001691	1000	2	22:1500000217	exact
+Obnixus Drop (Geo) Exchange Shop	materia	Helm Mastery	Obnixus Drop (Geo)	1209001691	1000	2	22:1500000218	exact
+Obnixus Drop (Geo) Exchange Shop	vision card	Metal Gigantuar's Here!	Obnixus Drop (Geo)	1209001691	250	15	27:900020101	exact
+Obnixus Drop (Geo) Exchange Shop	unit	Trust Moogle (ALL 50%)	Obnixus Drop (Geo)	1209001691	100	6	10:904000105	exact
+Obnixus Drop (Geo) Exchange Shop	unit	Super Trust Moogle (ALL 50%)	Obnixus Drop (Geo)	1209001691	1000	2	10:906000105	exact
+Obnixus Drop (Geo) Exchange Shop	item	5★ Select Summon Ticket	Obnixus Drop (Geo)	1209001691	200	10		unresolved
+Obnixus Drop (Geo) Exchange Shop	item	Rare Summon Ticket (3★/4★/5★/NV)	Obnixus Drop (Geo)	1209001691	100	2		unresolved
+Obnixus Drop (Geo) Exchange Shop	item	Guaranteed Ticket (4★/5★/NV)	Obnixus Drop (Geo)	1209001691	500	1		unresolved
+Obnixus Drop (Geo) Exchange Shop	item	10+1 Summon Ticket (3★/4★/5★/NV)	Obnixus Drop (Geo)	1209001691	1000	1	20:1300000007	exact
+Obnixus Drop (Geo) Exchange Shop	item	Omniprism	Obnixus Drop (Geo)	1209001691	500	2	20:900000001	exact
+Obnixus Drop (Geo) Exchange Shop	item	1/10 NV Summon Ticket	Obnixus Drop (Geo)	1209001691	1500	2		unresolved
+Obnixus Drop (Geo) Exchange Shop	item	Mystery Crystal	Obnixus Drop (Geo)	1209001691	2000	1	20:235037300	exact
+Obnixus Drop (Geo) Exchange Shop	item	Faceted Orb	Obnixus Drop (Geo)	1209001691	1000	1	20:1209001428	exact
+Obnixus Drop (Hydro) Exchange Shop	unit	Frostblade Fryevia	Obnixus Drop (Hydro)	1209001754	3000	2	10:401013007	exact
+Obnixus Drop (Hydro) Exchange Shop	unit	Ricard & Wyvern	Obnixus Drop (Hydro)	1209001754	3000	2	10:202002407	exact
+Obnixus Drop (Hydro) Exchange Shop	unit	Fledgling Warrior	Obnixus Drop (Hydro)	1209001754	3000	2	10:201000607	fuzzy
+Obnixus Drop (Hydro) Exchange Shop	unit	Kaktiria	Obnixus Drop (Hydro)	1209001754	3000	2	10:401010807	fuzzy
+Obnixus Drop (Hydro) Exchange Shop	unit	Ygni	Obnixus Drop (Hydro)	1209001754	3000	2	10:401010507	fuzzy
+Obnixus Drop (Hydro) Exchange Shop	unit	Louise	Obnixus Drop (Hydro)	1209001754	3000	2	10:401011607	fuzzy
+Obnixus Drop (Hydro) Exchange Shop	materia	Priestess's Vengeance	Obnixus Drop (Hydro)	1209001754	1000	2	22:1500000221	exact
+Obnixus Drop (Hydro) Exchange Shop	materia	Priest's Vengeance	Obnixus Drop (Hydro)	1209001754	1000	2	22:1500000222	exact
+Obnixus Drop (Hydro) Exchange Shop	vision card	Metal Gigantuar's Here!	Obnixus Drop (Hydro)	1209001754	250	15	27:900020101	exact
+Obnixus Drop (Hydro) Exchange Shop	unit	Trust Moogle (ALL 50%)	Obnixus Drop (Hydro)	1209001754	100	6	10:904000105	exact
+Obnixus Drop (Hydro) Exchange Shop	unit	Super Trust Moogle (ALL 50%)	Obnixus Drop (Hydro)	1209001754	1000	2	10:906000105	exact
+Obnixus Drop (Hydro) Exchange Shop	item	5★ Select Summon Ticket	Obnixus Drop (Hydro)	1209001754	200	10		unresolved
+Obnixus Drop (Hydro) Exchange Shop	item	Rare Summon Ticket (3★/4★/5★/NV)	Obnixus Drop (Hydro)	1209001754	100	2		unresolved
+Obnixus Drop (Hydro) Exchange Shop	item	Guaranteed Ticket (4★/5★/NV)	Obnixus Drop (Hydro)	1209001754	500	1		unresolved
+Obnixus Drop (Hydro) Exchange Shop	item	10+1 Summon Ticket (3★/4★/5★/NV)	Obnixus Drop (Hydro)	1209001754	1000	1	20:1300000007	exact
+Obnixus Drop (Hydro) Exchange Shop	item	Omniprism	Obnixus Drop (Hydro)	1209001754	500	2	20:900000001	exact
+Obnixus Drop (Hydro) Exchange Shop	item	1/10 NV Summon Ticket	Obnixus Drop (Hydro)	1209001754	1500	2		unresolved
+Obnixus Drop (Hydro) Exchange Shop	item	Mystery Crystal	Obnixus Drop (Hydro)	1209001754	2000	1	20:235037300	exact
+Obnixus Drop (Hydro) Exchange Shop	item	Faceted Orb	Obnixus Drop (Hydro)	1209001754	1000	1	20:1209001428	exact
+Obnixus Drop (Helio) Exchange Shop	unit	Tide Bringer Kaito	Obnixus Drop (Helio)	1209001832	3000	2	10:401013107	fuzzy
+Obnixus Drop (Helio) Exchange Shop	unit	Besaid Mage Lulu	Obnixus Drop (Helio)	1209001832	3000	2	10:210002507	fuzzy
+Obnixus Drop (Helio) Exchange Shop	unit	Youth from Rabanastre Vaan	Obnixus Drop (Helio)	1209001832	3000	2	10:212002607	fuzzy
+Obnixus Drop (Helio) Exchange Shop	unit	Cressnik	Obnixus Drop (Helio)	1209001832	3000	2	10:401010607	fuzzy
+Obnixus Drop (Helio) Exchange Shop	unit	Noppy	Obnixus Drop (Helio)	1209001832	3000	2	10:401010407	fuzzy
+Obnixus Drop (Helio) Exchange Shop	unit	King Behemy	Obnixus Drop (Helio)	1209001832	3000	2	10:401010907	fuzzy
+Obnixus Drop (Helio) Exchange Shop	materia	Wing Clipping	Obnixus Drop (Helio)	1209001832	1000	2	22:1500000227	exact
+Obnixus Drop (Helio) Exchange Shop	materia	Perfect Provocation	Obnixus Drop (Helio)	1209001832	1000	2	22:1500000228	exact
+Obnixus Drop (Helio) Exchange Shop	vision card	Metal Gigantuar's Here!	Obnixus Drop (Helio)	1209001832	250	15	27:900020101	exact
+Obnixus Drop (Helio) Exchange Shop	unit	Trust Moogle (ALL 50%)	Obnixus Drop (Helio)	1209001832	100	6	10:904000105	exact
+Obnixus Drop (Helio) Exchange Shop	unit	Super Trust Moogle (ALL 50%)	Obnixus Drop (Helio)	1209001832	1000	2	10:906000105	exact
+Obnixus Drop (Helio) Exchange Shop	item	5★ Select Summon Ticket	Obnixus Drop (Helio)	1209001832	200	10		unresolved
+Obnixus Drop (Helio) Exchange Shop	item	Rare Summon Ticket (3★/4★/5★/NV)	Obnixus Drop (Helio)	1209001832	100	2		unresolved
+Obnixus Drop (Helio) Exchange Shop	item	Guaranteed Ticket (4★/5★/NV)	Obnixus Drop (Helio)	1209001832	500	1		unresolved
+Obnixus Drop (Helio) Exchange Shop	item	10+1 Summon Ticket (3★/4★/5★/NV)	Obnixus Drop (Helio)	1209001832	1000	1	20:1300000007	exact
+Obnixus Drop (Helio) Exchange Shop	item	Omniprism	Obnixus Drop (Helio)	1209001832	500	2	20:900000001	exact
+Obnixus Drop (Helio) Exchange Shop	item	1/10 NV Summon Ticket	Obnixus Drop (Helio)	1209001832	1500	2		unresolved
+Obnixus Drop (Helio) Exchange Shop	item	Mystery Crystal	Obnixus Drop (Helio)	1209001832	2000	1	20:235037300	exact
+Obnixus Drop (Helio) Exchange Shop	item	Faceted Orb	Obnixus Drop (Helio)	1209001832	1000	1	20:1209001428	exact
+Obnixus Drop (Umbra) Exchange Shop	unit	Triumphant General Celes	Obnixus Drop (Umbra)	1209001886	3000	2	10:206002807	fuzzy
+Obnixus Drop (Umbra) Exchange Shop	unit	Ricard & Wyvern	Obnixus Drop (Umbra)	1209001886	3000	2	10:202002407	exact
+Obnixus Drop (Umbra) Exchange Shop	unit	Magic Mermaid Freesia	Obnixus Drop (Umbra)	1209001886	3000	2	10:100037107	fuzzy
+Obnixus Drop (Umbra) Exchange Shop	unit	Emperor of Palamecia	Obnixus Drop (Umbra)	1209001886	3000	2	10:202002307	fuzzy
+Obnixus Drop (Umbra) Exchange Shop	unit	Storm Seeker Esther	Obnixus Drop (Umbra)	1209001886	3000	2	10:401012807	fuzzy
+Obnixus Drop (Umbra) Exchange Shop	unit	Tulien	Obnixus Drop (Umbra)	1209001886	3000	2	10:100037307	fuzzy
+Obnixus Drop (Umbra) Exchange Shop	materia	Heavy Armor Mastery	Obnixus Drop (Umbra)	1209001886	1000	2	22:1500000232	exact
+Obnixus Drop (Umbra) Exchange Shop	materia	Supernatural Subversion	Obnixus Drop (Umbra)	1209001886	1000	2	22:1500000233	exact
+Obnixus Drop (Umbra) Exchange Shop	vision card	Metal Gigantuar's Here!	Obnixus Drop (Umbra)	1209001886	250	15	27:900020101	exact
+Obnixus Drop (Umbra) Exchange Shop	unit	Trust Moogle (ALL 50%)	Obnixus Drop (Umbra)	1209001886	100	6	10:904000105	exact
+Obnixus Drop (Umbra) Exchange Shop	unit	Super Trust Moogle (ALL 50%)	Obnixus Drop (Umbra)	1209001886	1000	2	10:906000105	exact
+Obnixus Drop (Umbra) Exchange Shop	item	5★ Select Summon Ticket	Obnixus Drop (Umbra)	1209001886	200	10		unresolved
+Obnixus Drop (Umbra) Exchange Shop	item	Rare Summon Ticket (3★/4★/5★/NV)	Obnixus Drop (Umbra)	1209001886	100	2		unresolved
+Obnixus Drop (Umbra) Exchange Shop	item	Guaranteed Ticket (4★/5★/NV)	Obnixus Drop (Umbra)	1209001886	500	1		unresolved
+Obnixus Drop (Umbra) Exchange Shop	item	10+1 Summon Ticket (3★/4★/5★/NV)	Obnixus Drop (Umbra)	1209001886	1000	1	20:1300000007	exact
+Obnixus Drop (Umbra) Exchange Shop	item	Omniprism	Obnixus Drop (Umbra)	1209001886	500	2	20:900000001	exact
+Obnixus Drop (Umbra) Exchange Shop	item	1/10 NV Summon Ticket	Obnixus Drop (Umbra)	1209001886	1500	2		unresolved
+Obnixus Drop (Umbra) Exchange Shop	item	Mystery Crystal	Obnixus Drop (Umbra)	1209001886	2000	1	20:235037300	exact
+Obnixus Drop (Umbra) Exchange Shop	item	Faceted Orb	Obnixus Drop (Umbra)	1209001886	1000	1	20:1209001428	exact
+Obnixus Drop (Snow) Exchange Shop	unit	Taivas & Yshe	Obnixus Drop (Snow)	1209001954	3000	2	10:100040307	fuzzy
+Obnixus Drop (Snow) Exchange Shop	unit	Veritas of the Frost	Obnixus Drop (Snow)	1209001954	3000	2	10:100041007	fuzzy
+Obnixus Drop (Snow) Exchange Shop	unit	Nichol -The Return-	Obnixus Drop (Snow)	1209001954	3000	2	10:100038207	fuzzy
+Obnixus Drop (Snow) Exchange Shop	unit	Frostblade Fryevia	Obnixus Drop (Snow)	1209001954	3000	2	10:401013007	exact
+Obnixus Drop (Snow) Exchange Shop	unit	Bulwark & the Melodic Mascots	Obnixus Drop (Snow)	1209001954	3000	2	10:401010707	fuzzy
+Obnixus Drop (Snow) Exchange Shop	unit	Rain & Fina	Obnixus Drop (Snow)	1209001954	3000	2	10:100032707	fuzzy
+Obnixus Drop (Snow) Exchange Shop	materia	Mystic Acuity	Obnixus Drop (Snow)	1209001954	1000	2	22:1500000243	exact
+Obnixus Drop (Snow) Exchange Shop	materia	Mystic Tenacity	Obnixus Drop (Snow)	1209001954	1000	2	22:1500000244	exact
+Obnixus Drop (Snow) Exchange Shop	vision card	Metal Gigantuar's Here!	Obnixus Drop (Snow)	1209001954	250	15	27:900020101	exact
+Obnixus Drop (Snow) Exchange Shop	unit	Trust Moogle (ALL 50%)	Obnixus Drop (Snow)	1209001954	100	6	10:904000105	exact
+Obnixus Drop (Snow) Exchange Shop	unit	Super Trust Moogle (ALL 50%)	Obnixus Drop (Snow)	1209001954	1000	2	10:906000105	exact
+Obnixus Drop (Snow) Exchange Shop	item	5★ Select Summon Ticket	Obnixus Drop (Snow)	1209001954	200	10		unresolved
+Obnixus Drop (Snow) Exchange Shop	item	Rare Summon Ticket (3★/4★/5★/NV)	Obnixus Drop (Snow)	1209001954	100	2		unresolved
+Obnixus Drop (Snow) Exchange Shop	item	Guaranteed Ticket (4★/5★/NV)	Obnixus Drop (Snow)	1209001954	500	1		unresolved
+Obnixus Drop (Snow) Exchange Shop	item	10+1 Summon Ticket (3★/4★/5★/NV)	Obnixus Drop (Snow)	1209001954	1000	1	20:1300000007	exact
+Obnixus Drop (Snow) Exchange Shop	item	Omniprism	Obnixus Drop (Snow)	1209001954	500	2	20:900000001	exact
+Obnixus Drop (Snow) Exchange Shop	item	1/10 NV Summon Ticket	Obnixus Drop (Snow)	1209001954	1500	2		unresolved
+Obnixus Drop (Snow) Exchange Shop	item	Mystery Crystal	Obnixus Drop (Snow)	1209001954	2000	1	20:235037300	exact
+Obnixus Drop (Snow) Exchange Shop	item	Faceted Orb	Obnixus Drop (Snow)	1209001954	1000	1	20:1209001428	exact
+Obnixus Drop (Inferno) Exchange Shop	unit	Ruin Explorer Nora	Obnixus Drop (Inferno)	1209002040	3000	2	10:401014607	fuzzy
+Obnixus Drop (Inferno) Exchange Shop	unit	Raegen -Dark Lineage-	Obnixus Drop (Inferno)	1209002040	3000	2	10:100040707	fuzzy
+Obnixus Drop (Inferno) Exchange Shop	unit	Dark Knight Duane	Obnixus Drop (Inferno)	1209002040	3000	2	10:401014507	fuzzy
+Obnixus Drop (Inferno) Exchange Shop	unit	Olivera	Obnixus Drop (Inferno)	1209002040	3000	2	10:401012107	exact
+Obnixus Drop (Inferno) Exchange Shop	unit	Cobalt Blade Noctis	Obnixus Drop (Inferno)	1209002040	3000	2	10:215002907	fuzzy
+Obnixus Drop (Inferno) Exchange Shop	unit	Al Bhed Girl Rikku	Obnixus Drop (Inferno)	1209002040	3000	2	10:210002207	fuzzy
+Obnixus Drop (Inferno) Exchange Shop	materia	Scorched Earth	Obnixus Drop (Inferno)	1209002040	1000	2	22:1500000256	exact
+Obnixus Drop (Inferno) Exchange Shop	materia	Warrior's Bulwark	Obnixus Drop (Inferno)	1209002040	1000	2	22:1500000257	exact
+Obnixus Drop (Inferno) Exchange Shop	vision card	Metal Gigantuar's Here!	Obnixus Drop (Inferno)	1209002040	250	15	27:900020101	exact
+Obnixus Drop (Inferno) Exchange Shop	unit	Trust Moogle (ALL 50%)	Obnixus Drop (Inferno)	1209002040	100	6	10:904000105	exact
+Obnixus Drop (Inferno) Exchange Shop	unit	Super Trust Moogle (ALL 50%)	Obnixus Drop (Inferno)	1209002040	1000	2	10:906000105	exact
+Obnixus Drop (Inferno) Exchange Shop	item	5★ Select Summon Ticket	Obnixus Drop (Inferno)	1209002040	200	10		unresolved
+Obnixus Drop (Inferno) Exchange Shop	item	Rare Summon Ticket (3★/4★/5★/NV)	Obnixus Drop (Inferno)	1209002040	100	2		unresolved
+Obnixus Drop (Inferno) Exchange Shop	item	Guaranteed Ticket (4★/5★/NV)	Obnixus Drop (Inferno)	1209002040	500	1		unresolved
+Obnixus Drop (Inferno) Exchange Shop	item	10+1 Summon Ticket (3★/4★/5★/NV)	Obnixus Drop (Inferno)	1209002040	1000	1	20:1300000007	exact
+Obnixus Drop (Inferno) Exchange Shop	item	Omniprism	Obnixus Drop (Inferno)	1209002040	500	2	20:900000001	exact
+Obnixus Drop (Inferno) Exchange Shop	item	1/10 NV Summon Ticket B	Obnixus Drop (Inferno)	1209002040	1500	2	20:1209001902	exact
+Obnixus Drop (Inferno) Exchange Shop	item	Mystery Crystal	Obnixus Drop (Inferno)	1209002040	2000	1	20:235037300	exact
+Obnixus Drop (Inferno) Exchange Shop	item	Faceted Orb	Obnixus Drop (Inferno)	1209002040	1000	1	20:1209001428	exact
+Obnixus Drop (Tempest) Exchange Shop	unit	Master Machinist Abigail	Obnixus Drop (Tempest)	1209002072	3000	2	10:401014207	fuzzy
+Obnixus Drop (Tempest) Exchange Shop	unit	Paladin Sylvie	Obnixus Drop (Tempest)	1209002072	3000	2	10:401013307	fuzzy
+Obnixus Drop (Tempest) Exchange Shop	unit	Vermilion Class Zero Ace	Obnixus Drop (Tempest)	1209002072	3000	2	10:254002307	fuzzy
+Obnixus Drop (Tempest) Exchange Shop	unit	Fledgling Warrior	Obnixus Drop (Tempest)	1209002072	3000	2	10:201000607	fuzzy
+Obnixus Drop (Tempest) Exchange Shop	unit	Emperor of Palamecia	Obnixus Drop (Tempest)	1209002072	3000	2	10:202002307	fuzzy
+Obnixus Drop (Tempest) Exchange Shop	unit	Ninja Edge	Obnixus Drop (Tempest)	1209002072	3000	2	10:204003107	fuzzy
+Obnixus Drop (Tempest) Exchange Shop	materia	Gleaming Rain	Obnixus Drop (Tempest)	1209002072	1000	2	22:1500000262	exact
+Obnixus Drop (Tempest) Exchange Shop	materia	Escape Artist	Obnixus Drop (Tempest)	1209002072	1000	2	22:1500000263	exact
+Obnixus Drop (Tempest) Exchange Shop	vision card	Metal Gigantuar's Here!	Obnixus Drop (Tempest)	1209002072	250	15	27:900020101	exact
+Obnixus Drop (Tempest) Exchange Shop	unit	Trust Moogle (ALL 50%)	Obnixus Drop (Tempest)	1209002072	100	6	10:904000105	exact
+Obnixus Drop (Tempest) Exchange Shop	unit	Super Trust Moogle (ALL 50%)	Obnixus Drop (Tempest)	1209002072	1000	2	10:906000105	exact
+Obnixus Drop (Tempest) Exchange Shop	item	5★ Select Summon Ticket	Obnixus Drop (Tempest)	1209002072	200	10		unresolved
+Obnixus Drop (Tempest) Exchange Shop	item	Rare Summon Ticket (3★/4★/5★/NV)	Obnixus Drop (Tempest)	1209002072	100	2		unresolved
+Obnixus Drop (Tempest) Exchange Shop	item	Guaranteed Ticket (4★/5★/NV)	Obnixus Drop (Tempest)	1209002072	500	1		unresolved
+Obnixus Drop (Tempest) Exchange Shop	item	10+1 Summon Ticket (3★/4★/5★/NV)	Obnixus Drop (Tempest)	1209002072	1000	1	20:1300000007	exact
+Obnixus Drop (Tempest) Exchange Shop	item	Omniprism	Obnixus Drop (Tempest)	1209002072	500	2	20:900000001	exact
+Obnixus Drop (Tempest) Exchange Shop	item	1/10 NV Summon Ticket B	Obnixus Drop (Tempest)	1209002072	1500	2	20:1209001902	exact
+Obnixus Drop (Tempest) Exchange Shop	item	Mystery Crystal	Obnixus Drop (Tempest)	1209002072	2000	1	20:235037300	exact
+Obnixus Drop (Tempest) Exchange Shop	item	Faceted Orb	Obnixus Drop (Tempest)	1209002072	1000	1	20:1209001428	exact
+Obnixus Drop (Volt) Exchange Shop	unit	Curse of Immunity Melissa	Obnixus Drop (Volt)	1209002133	3000	2	10:401014307	fuzzy
+Obnixus Drop (Volt) Exchange Shop	unit	Flaring Aether Rain	Obnixus Drop (Volt)	1209002133	3000	2	10:100041207	fuzzy
+Obnixus Drop (Volt) Exchange Shop	unit	Genesis	Obnixus Drop (Volt)	1209002133	3000	2	10:207002807	fuzzy
+Obnixus Drop (Volt) Exchange Shop	unit	Storm Seeker Esther	Obnixus Drop (Volt)	1209002133	3000	2	10:401012807	fuzzy
+Obnixus Drop (Volt) Exchange Shop	unit	Roca	Obnixus Drop (Volt)	1209002133	3000	2	10:100035107	fuzzy
+Obnixus Drop (Volt) Exchange Shop	unit	Tulien	Obnixus Drop (Volt)	1209002133	3000	2	10:100037307	fuzzy
+Obnixus Drop (Volt) Exchange Shop	materia	United As One	Obnixus Drop (Volt)	1209002133	1000	2	22:1500000274	exact
+Obnixus Drop (Volt) Exchange Shop	materia	Final Stand	Obnixus Drop (Volt)	1209002133	1000	2	22:1500000275	exact
+Obnixus Drop (Volt) Exchange Shop	unit	Trust Moogle (ALL 50%)	Obnixus Drop (Volt)	1209002133	100	6	10:904000105	exact
+Obnixus Drop (Volt) Exchange Shop	unit	Super Trust Moogle (ALL 50%)	Obnixus Drop (Volt)	1209002133	1000	2	10:906000105	exact
+Obnixus Drop (Volt) Exchange Shop	vision card	Metal Gigantuar's Here!	Obnixus Drop (Volt)	1209002133	250	15	27:900020101	exact
+Obnixus Drop (Volt) Exchange Shop	item	5★ Select Summon Ticket	Obnixus Drop (Volt)	1209002133	200	10		unresolved
+Obnixus Drop (Volt) Exchange Shop	item	Rare Summon Ticket (3★/4★/5★/NV)	Obnixus Drop (Volt)	1209002133	100	2		unresolved
+Obnixus Drop (Volt) Exchange Shop	item	Guaranteed Ticket (4★/5★/NV)	Obnixus Drop (Volt)	1209002133	500	1		unresolved
+Obnixus Drop (Volt) Exchange Shop	item	10+1 Summon Ticket (3★/4★/5★/NV)	Obnixus Drop (Volt)	1209002133	1000	1	20:1300000007	exact
+Obnixus Drop (Volt) Exchange Shop	item	Omniprism	Obnixus Drop (Volt)	1209002133	500	2	20:900000001	exact
+Obnixus Drop (Volt) Exchange Shop	item	1/10 NV Summon Ticket	Obnixus Drop (Volt)	1209002133	1500	2		unresolved
+Obnixus Drop (Volt) Exchange Shop	item	Mystery Crystal	Obnixus Drop (Volt)	1209002133	2000	1	20:235037300	exact
+Obnixus Drop (Volt) Exchange Shop	item	Faceted Orb	Obnixus Drop (Volt)	1209002133	1000	1	20:1209001428	exact

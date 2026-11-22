@@ -31,20 +31,20 @@ import os
 # engine predates this file; a smaller number than the app expects is an app/engine mismatch worth a
 # warning, not a crash. Bump ENGINE_VERSION with any served-behaviour change, CONTRACT_VERSION only
 # when the layout or the CLI below changes shape.
-ENGINE_VERSION = "0.1.4"
+ENGINE_VERSION = "0.1.5"
 CONTRACT_VERSION = 1
 
 #: The build this engine came from: a short commit id (or a release tag) stamped by the export that
-#: publishes it. Empty in a development checkout, which is itself a fingerprint -- a bundle that answers
-#: without one either predates this field or was built by hand.
-BUILD_ID = ""
+#: publishes it (`harness/export_gl_server.py`). Empty in a development checkout, which is itself a
+#: fingerprint -- a bundle that answers without one either predates this field or was built by hand.
+BUILD_ID = "v0.1.8"      # stamped by the export that cut this release bundle
 
-#: How the engine names itself on the wire: the HTTP `Server:` header on every response, and the first
-#: field of the startup line. It is here rather than in the handler because it is provenance for the whole
-#: engine, and because a packet capture -- or a bug report quoting one -- should name the build that
-#: produced it without anyone having to guess. The name in the comment is the copyright holder in LICENSE.
-#: A copy that strips this answers `ffbe-lab/0.1` (the old hardcoded string, already drifted from
-#: ENGINE_VERSION) or the stdlib's `BaseHTTP/0.6 Python/...` instead, and that is itself a tell.
+#: How the engine names itself on the wire: the HTTP `Server:` header on every response and the first
+#: field of the startup line. It is here rather than in the handler because it is provenance for the
+#: whole engine, and because a packet capture -- or a bug report quoting one -- should name the build
+#: that produced it without anyone having to guess. The name in parentheses is the copyright holder in
+#: LICENSE. A copy that strips this answers `ffbe-lab/0.1` (the old hardcoded string, already drifted
+#: from ENGINE_VERSION) or the stdlib's `BaseHTTP/0.6 Python/...` instead -- and that is itself a tell.
 SERVER_BANNER = f"ffbe-gl/{ENGINE_VERSION}{('+' + BUILD_ID) if BUILD_ID else ''} (TBMonkey)"
 
 HERE = os.path.dirname(os.path.abspath(__file__))

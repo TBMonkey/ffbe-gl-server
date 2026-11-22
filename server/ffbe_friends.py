@@ -20,12 +20,13 @@ already proves). Offline check without the client:
 """
 from __future__ import annotations
 
+import json
 import os
 import time
 
 import yaml
 
-from player_state import (STAT_TOKENS, TEAM_NEED_EXP, UNIT_KEY, beast_stats, unit_stats,
+from player_state import (STAT_TOKENS, TEAM_NEED_EXP, UNIT_KEY, beast_stats, limit_burst, unit_stats,
                           vision_card_mst)
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -33,6 +34,24 @@ FRIENDS_FILE = os.environ.get("FRIENDS_FILE") or os.path.join(HERE, "friends.yam
 
 REINFORCE_REPLY = "AJhnI37s"    # GetReinforcementInfoRequest
 FRIENDLIST_REPLY = "u7Id4bMg"   # FriendListRequest
+# The four friend-page actions the recorded corpus never answered (SW-128). Every one of them is a
+# REQUEST id, so the step has to parse the body; the reply class is identified by the TAG map, not by a
+# guess: 2vuhy0Ex and f6yGgCj2 are both FriendUnitInfoResponse (the same class 56gJBnVh already serves),
+# and 2K05IxtX is FriendSearchResultResponse, whose token list our field map could NOT locate - so that
+# one is answered with an empty list rather than with a row shape we would be inventing.
+FRIEND_DETAIL_REPLY = "7kG0JAvE"    # FriendDetailRequest -> 2vuhy0Ex
+FRIEND_SEARCH_REPLY = "3siZRSU4"    # FriendSearchRequest -> 2K05IxtX
+FRIEND_SUGGEST_REPLY = "iAs67PhJ"   # FriendSuggestRequest -> f6yGgCj2
+FRIEND_FAVORITE_REPLY = "1oE3Fwn4"  # FriendFavoriteRequest
+# The four remaining friend actions. All four answer `I53AVzSo` (OpeFriendInfoResponse) - our request map
+# says every one of the six sends the same single friend group and the reply class is the same shape.
+FRIEND_AGREE_REPLY = "kx13SLUY"     # FriendAgreeRequest
+FRIEND_DELETE_REPLY = "a2d6omAy"    # FriendDeleteRequest
+FRIEND_REFUSE_REPLY = "1nbWRV9w"    # FriendRefuseRequest
+FRIEND_REQUEST_REPLY = "j0A5vQd8"   # FriendRequest
+DETAIL_TAG = "2vuhy0Ex"
+SEARCH_TAG = "2K05IxtX"
+SUGGEST_TAG = "f6yGgCj2"
 REINFORCE_TAG = "9Tp2fiyB"      # ReinforcementResponse, the NON-clearing tag (pzf5se6V empties it)
 FRIENDINFO_TAG = "I53AVzSo"     # OpeFriendInfoResponse
 FRIENDLIST_TAG = "56gJBnVh"     # FriendUnitInfoResponse
@@ -114,7 +133,7 @@ def _entry(index: int, raw: dict) -> dict:
         "unit": {
             "master_id": master_id,
             "level": level,
-            "lb_level": int(unit.get("lb_level") or 0),
+            "lb_level": max(int(unit.get("lb_level") or 0), 1 if limit_burst(master_id) else 0),
             "lb_exp": int(unit.get("lb_exp") or 0),
             "vision_card": str(unit.get("vision_card") or ""),
             "esper": int(unit.get("esper") or 0),
@@ -126,8 +145,37 @@ def _entry(index: int, raw: dict) -> dict:
     }
 
 
+def _suppressed_ids() -> set:
+    """Friend ids this SAVE has removed (see `local_friend`'s DELETE branch).
+
+    Keyed by friend id, value truthy. The roster YAML is the shipped truth and a request must never edit
+    it, so "deleted" is per-save state; a new save starts with the whole roster again.
+    """
+    player = _player_state()
+    if player is None:
+        return set()
+    removed = player.data.get("exvius_friends", {}).get("removed", {})
+    if not isinstance(removed, dict):
+        return set()
+    return {str(k) for k, v in removed.items() if v}
+
+
+def _without_removed(friends: list) -> list:
+    """The roster minus this save's removals. Cheap enough to run per call: the roster is a handful."""
+    gone = _suppressed_ids()
+    if not gone:
+        return friends
+    return [f for f in friends if str(f["friend_id"]) not in gone]
+
+
 def load_friends(path: str | None = None) -> list:
-    """friends.yaml, re-read whenever its mtime changes. A missing file means no friends, not an error."""
+    """friends.yaml, re-read whenever its mtime changes. A missing file means no friends, not an error.
+
+    REMOVED COMPANIONS ARE FILTERED HERE, on every call, and NOT in the cache: the roster file is the
+    shipped truth and a request must never edit it, so a `FriendDeleteRequest` is per-SAVE state
+    (`exivius_friends.removed`). Filtering in `load_friends` means one place decides what the roster is,
+    and both consumers (the support list and the friends area) honour a delete without a second list.
+    """
     p = path or FRIENDS_FILE
     try:
         mtime = os.path.getmtime(p)
@@ -135,7 +183,7 @@ def load_friends(path: str | None = None) -> list:
         _cache.update(mtime=None, friends=[])
         return []
     if _cache["mtime"] == mtime:
-        return _cache["friends"]
+        return _without_removed(_cache["friends"])
     with open(p, encoding="utf-8") as fh:
         doc = yaml.safe_load(fh) or {}
     if not isinstance(doc, dict):
@@ -150,7 +198,7 @@ def load_friends(path: str | None = None) -> list:
             _fail("friend_id %d appears twice" % f["friend_id"])
         seen.add(f["friend_id"])
     _cache.update(mtime=mtime, friends=friends)
-    return friends
+    return _without_removed(friends)
 
 
 def _reinforce_row(f: dict) -> dict:
@@ -256,13 +304,163 @@ def _friend_list_row(f: dict, now: str) -> dict:
     return row
 
 
-def serve_friends(spec, reply_id=None):
+def _friend_request_node(plaintext):
+    """The client's own row for a friend action, or `{}` — and never silently.
+
+    `ffbe_gacha._request_body` returns `{}` on an unparseable body, which is right for a transform that
+    only reads a hint and wrong here: a friend action with no target must be visible in the log, because
+    "nothing happened" and "we could not read the request" are byte-identical on the wire (idiom #47).
+    """
+    if not plaintext:
+        print("friends: action request carried no body")
+        return {}
+    try:
+        body = json.JSONDecoder().raw_decode(plaintext)[0]
+    except Exception as exc:  # noqa: BLE001 - report, never default silently
+        print("friends: action body did not parse (%r) -- reply left unchanged" % (exc,))
+        return {}
+    rows = body.get(FRIENDINFO_TAG) if isinstance(body, dict) else None
+    row = rows[0] if isinstance(rows, list) and rows and isinstance(rows[0], dict) else {}
+    if not row:
+        print("friends: action carried no %s row" % FRIENDINFO_TAG)
+    return row
+
+
+def _player_state():
+    """The live player state, or None — imported lazily so this module stays importable on its own."""
+    from ffbe_state import State
+    return State.player
+
+
+def _friend_bucket(name):
+    """One per-save dictionary under `data['exvius_friends']`, created on first use."""
+    player = _player_state()
+    if player is None:
+        return None
+    return player.data.setdefault("exvius_friends", {}).setdefault(name, {})
+
+
+def favourite_map() -> dict:
+    """friend id -> the client's own `8zE6w9RP` value, for the rows this reply renders.
+
+    `8zE6w9RP` DOES ride the friend request group (`0b6e9cwr`, `8zE6w9RP`, `m3Wghr1j` in
+    `harness/request_api_map.json`'s `body_keys` for all six friend actions), so the flag is a
+    FRIEND field as well as the vision card's `setFavoriteFlg` — the same token on two classes
+    (idiom #26). What is still unproven is whether the CLIENT reads it back off a friend row; we echo
+    the value it sent, which is type-safe by construction, and a live run settles the rest.
+    """
+    saved = (_player_state().data.get("exvius_friends", {}).get("favorites", {})
+             if _player_state() is not None else {})
+    return saved if isinstance(saved, dict) else {}
+
+
+def local_friend(spec, reply_id, plaintext):
+    """Answer the friend family from the local roster (SW-128).
+
+    Our roster is a YAML file, so there is no online population to search, suggest from, or send an
+    invitation to: the truthful answer there is an EMPTY list, not a fabricated user. Only DETAIL has a
+    real row to serve, and it is the row the friends area already renders — the tag map puts `2vuhy0Ex`
+    and `56gJBnVh` on the SAME class (FriendUnitInfoResponse), so the shape is shared, and the requested
+    InfoType is carried through because the page's tab selector reads it.
+
+    AGREE / REFUSE / REQUEST all answer `OpeFriendInfoResponse` (`I53AVzSo`) with no deletions, because
+    nothing can be pending in an offline save: the roster is a file and no one can send to it. That is
+    the same info row `serve_friends` already emits for the support list.
+
+    DELETE is the one action with a real effect, and it is BOTH halves: the reply names the id in
+    `0NVFk2fD`, which `OpeFriendInfoResponse::onReadFinished` (`0x193d0e8`) splits and removes from the
+    client's own `FriendUnitInfoList` (`0x1328180`, unresolved ids skipped —
+    `docs/notes/home_screen_payloads.md`), AND the id is recorded under `exivius_friends.removed` so the
+    next list reply does not re-add it. Only the second half survives a restart: the roster is shipped
+    YAML and we must not edit it from a request, so "deleted" is per-save state.
+    """
+    out = dict(spec) if isinstance(spec, dict) else {}
+    row = _friend_request_node(plaintext)
+    target = str(row.get("m3Wghr1j") or "")           # FriendId
+    if reply_id == FRIEND_FAVORITE_REPLY:
+        flag = row.get("8zE6w9RP")
+        player = _player_state()
+        if player is not None and target and str(flag) in ("0", "1"):
+            favorites = _friend_bucket("favorites")
+            if player._mutate() and favorites is not None:
+                favorites[target] = str(flag)
+                player.dirty = True
+        print("friends: favorite target=%r 8zE6w9RP=%r -> %s"
+              % (target, flag,
+                 "recorded; echoed on the next row" if str(flag) in ("0", "1") else
+                 "NOT recorded (flag outside 0/1) -- the client's value is not a bool here"))
+        return out
+    if reply_id == FRIEND_SEARCH_REPLY:
+        out[SEARCH_TAG] = []
+        print("friends: search for %r -> empty (no online population; FriendSearchResultResponse "
+              "has no located tokens in our field map)" % (target,))
+        return out
+    if reply_id == FRIEND_SUGGEST_REPLY:
+        out[SUGGEST_TAG] = []
+        print("friends: suggest for %r -> empty (no online senders)" % (target,))
+        return out
+    if reply_id in (FRIEND_AGREE_REPLY, FRIEND_REFUSE_REPLY, FRIEND_REQUEST_REPLY):
+        out[FRIENDINFO_TAG] = [{"0NVFk2fD": DEL_FRIEND_INFO, "H4zD2IQ5": WAIT_NO_WAIT}]
+        act = {FRIEND_AGREE_REPLY: "agree", FRIEND_REFUSE_REPLY: "refuse",
+               FRIEND_REQUEST_REPLY: "request"}[reply_id]
+        print("friends: %s %r -> no-op (offline save: no pending requests exist to accept, refuse or "
+              "send; the roster is friends.yaml)" % (act, target))
+        return out
+    if reply_id == FRIEND_DELETE_REPLY:
+        player = _player_state()
+        known = {str(f["friend_id"]) for f in load_friends()}
+        removed = _friend_bucket("removed")
+        if player is not None and target and removed is not None:
+            if player._mutate():
+                removed[target] = True
+                favorites = _friend_bucket("favorites")
+                if favorites is not None:
+                    favorites.pop(target, None)
+                player.dirty = True
+        # Name it in the reply either way: onReadFinished removes it from the CLIENT's list, and an
+        # unknown id is skipped there, so a stale id is harmless while omitting a known one is not.
+        out[FRIENDINFO_TAG] = [{"0NVFk2fD": target, "H4zD2IQ5": WAIT_NO_WAIT}]
+        print("friends: delete %r -> client list removes it (%s); suppression recorded=%s"
+              % (target, "in friends.yaml" if target in known else "NOT in friends.yaml",
+                 removed is not None))
+        return out
+    # FRIEND_DETAIL_REPLY: the one action with a real answer.
+    favs = favourite_map()
+    known = {str(f["friend_id"]): f for f in load_friends()}
+    if target in known:
+        category = str(row.get("K3BV17gk") or FRIEND_LIST_INFO_TYPE)   # InfoType
+        if category not in ("1", "2", "3", "4", "5"):
+            print("friends: detail category %r is outside the client's 1..5 set; serving %s"
+                  % (category, FRIEND_LIST_INFO_TYPE))
+            category = FRIEND_LIST_INFO_TYPE
+        detail = _friend_list_row(known[target], time.strftime(FRIEND_LIST_DATE_FMT))
+        detail["K3BV17gk"] = category
+        if target in favs:
+            detail["8zE6w9RP"] = str(favs[target])
+        out[DETAIL_TAG] = [detail]
+        print("friends: detail %r category=%s -> 1 row" % (target, category))
+
+    else:
+        out[DETAIL_TAG] = []
+        print("friends: detail %r -> empty (not in friends.yaml)" % (target,))
+    return out
+
+
+def serve_friends(spec, reply_id=None, plaintext=None):
     """The pipeline step: fill the two friend replies from friends.yaml (no-op for any other reply).
 
     GATED on the reply id, the apply_carry_edit precedent: when that step was ungated the golden
     replay caught it growing nine unrelated replies. With no friends.yaml and no rows, both replies
     keep exactly the shape they had (an empty list), so this step cannot regress the empty case.
+
+    The four friend ACTIONS (SW-128) dispatch first, because each answers a request rather than filling
+    a list: an unknown target must still get its empty list back instead of falling through to the
+    no-friends early return.
     """
+    if reply_id in (FRIEND_DETAIL_REPLY, FRIEND_SEARCH_REPLY, FRIEND_SUGGEST_REPLY,
+                    FRIEND_FAVORITE_REPLY, FRIEND_AGREE_REPLY, FRIEND_DELETE_REPLY,
+                    FRIEND_REFUSE_REPLY, FRIEND_REQUEST_REPLY):
+        return local_friend(spec, reply_id, plaintext)
     friends = load_friends()
     if not friends:
         return spec
@@ -280,5 +478,11 @@ def serve_friends(spec, reply_id=None):
             spec[FRIENDINFO_TAG] = [{"0NVFk2fD": DEL_FRIEND_INFO, "H4zD2IQ5": WAIT_NO_WAIT}]
     elif reply_id == FRIENDLIST_REPLY and isinstance(spec, dict) and FRIEND_LIST_ENABLED:
         now = time.strftime(FRIEND_LIST_DATE_FMT)
-        spec[FRIENDLIST_TAG] = [_friend_list_row(f, now) for f in friends]
+        rows = [_friend_list_row(f, now) for f in friends]
+        favs = favourite_map()
+        for row in rows:
+            fid = str(row.get("m3Wghr1j"))
+            if fid in favs:
+                row["8zE6w9RP"] = str(favs[fid])     # echo the client's own flag; see favourite_map
+        spec[FRIENDLIST_TAG] = rows
     return spec

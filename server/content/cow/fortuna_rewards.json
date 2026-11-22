@@ -1,0 +1,239 @@
+{
+  "source": "https://exvius.fandom.com/wiki/Category:Clash_of_Wills#Fortuna_Rewards",
+  "policy": "Original published Fortuna quantities and base rates for all five echelons. Original per-level backend rate increments were not preserved; retain the published echelon base rates. Offline reward choices are persisted immediately, and unclaimed selections can be finalized before switching seasons.",
+  "slots": 4,
+  "tiers": {
+    "1": [
+      {
+        "name": "5★ Select Summon Ticket (2)",
+        "reward": "23:260:2",
+        "weight": 9800,
+        "rare": false
+      },
+      {
+        "name": "EX Coin (1000)",
+        "reward": "20:1209001380:1000",
+        "weight": 63700,
+        "rare": false
+      },
+      {
+        "name": "NV EX Ticket (3★/4★/5★/NV)",
+        "reward": "23:110160:1",
+        "weight": 17640,
+        "rare": false
+      },
+      {
+        "name": "150 Lapis",
+        "reward": "50:1:150",
+        "weight": 1960,
+        "rare": false
+      },
+      {
+        "name": "NV EX Ticket (4★/5★/NV)",
+        "reward": "23:110170:1",
+        "weight": 4900,
+        "rare": false
+      },
+      {
+        "name": "Rare Summon Ticket (3★/4★/5★/NV)",
+        "reward": "23:50:1",
+        "weight": 200,
+        "rare": true
+      },
+      {
+        "name": "Ascension Pearl (2)",
+        "reward": "20:293000200:2",
+        "weight": 1800,
+        "rare": false
+      }
+    ],
+    "2": [
+      {
+        "name": "NV EX Ticket (4★/5★/NV)",
+        "reward": "23:110170:1",
+        "weight": 19600,
+        "rare": false
+      },
+      {
+        "name": "150 Lapis",
+        "reward": "50:1:150",
+        "weight": 1960,
+        "rare": false
+      },
+      {
+        "name": "NV EX Ticket (5★/NV)",
+        "reward": "23:110180:1",
+        "weight": 4900,
+        "rare": false
+      },
+      {
+        "name": "5★ Select Summon Ticket (2)",
+        "reward": "23:260:2",
+        "weight": 7840,
+        "rare": false
+      },
+      {
+        "name": "EX Coin (1000)",
+        "reward": "20:1209001380:1000",
+        "weight": 63700,
+        "rare": false
+      },
+      {
+        "name": "Ascension Pearl (2)",
+        "reward": "20:293000200:2",
+        "weight": 1800,
+        "rare": false
+      },
+      {
+        "name": "Rare Summon Ticket (3★/4★/5★/NV)",
+        "reward": "23:50:1",
+        "weight": 200,
+        "rare": true
+      }
+    ],
+    "3": [
+      {
+        "name": "5★ Select Summon Ticket (2)",
+        "reward": "23:260:2",
+        "weight": 5760,
+        "rare": false
+      },
+      {
+        "name": "NV EX Ticket (5★/NV)",
+        "reward": "23:110180:1",
+        "weight": 7680,
+        "rare": false
+      },
+      {
+        "name": "150 Lapis",
+        "reward": "50:1:150",
+        "weight": 2880,
+        "rare": false
+      },
+      {
+        "name": "NV EX Ticket (4★/5★/NV)",
+        "reward": "23:110170:1",
+        "weight": 24000,
+        "rare": false
+      },
+      {
+        "name": "EX Coin (1000)",
+        "reward": "20:1209001380:1000",
+        "weight": 55680,
+        "rare": false
+      },
+      {
+        "name": "Transcension Pearl",
+        "reward": "20:293000100:1",
+        "weight": 200,
+        "rare": true
+      },
+      {
+        "name": "Ascension Pearl (2)",
+        "reward": "20:293000200:2",
+        "weight": 3400,
+        "rare": false
+      },
+      {
+        "name": "Rare Summon Ticket (3★/4★/5★/NV)",
+        "reward": "23:50:1",
+        "weight": 400,
+        "rare": true
+      }
+    ],
+    "4": [
+      {
+        "name": "150 Lapis",
+        "reward": "50:1:150",
+        "weight": 4600,
+        "rare": false
+      },
+      {
+        "name": "NV EX Ticket (4★/5★/NV)",
+        "reward": "23:110170:1",
+        "weight": 59800,
+        "rare": false
+      },
+      {
+        "name": "VIP Coin (50)",
+        "reward": "23:110003:50",
+        "weight": 9200,
+        "rare": false
+      },
+      {
+        "name": "NV EX Ticket (5★/NV)",
+        "reward": "23:110180:1",
+        "weight": 18400,
+        "rare": false
+      },
+      {
+        "name": "Ascension Pearl (2)",
+        "reward": "20:293000200:2",
+        "weight": 6800,
+        "rare": false
+      },
+      {
+        "name": "Guaranteed Ticket (4★/5★/NV)",
+        "reward": "23:70:1",
+        "weight": 800,
+        "rare": false
+      },
+      {
+        "name": "Transcension Pearl",
+        "reward": "20:293000100:1",
+        "weight": 400,
+        "rare": true
+      }
+    ],
+    "5": [
+      {
+        "name": "VIP Coin (50)",
+        "reward": "23:110003:50",
+        "weight": 13500,
+        "rare": false
+      },
+      {
+        "name": "NV EX Ticket (5★/NV)",
+        "reward": "23:110180:1",
+        "weight": 22500,
+        "rare": false
+      },
+      {
+        "name": "Super Trust Moogle Exchange Ticket (5)",
+        "reward": "20:106211340:5",
+        "weight": 9000,
+        "rare": false
+      },
+      {
+        "name": "NV EX Ticket (4★/5★/NV)",
+        "reward": "23:110170:1",
+        "weight": 38700,
+        "rare": false
+      },
+      {
+        "name": "150 Lapis",
+        "reward": "50:1:150",
+        "weight": 6300,
+        "rare": false
+      },
+      {
+        "name": "Ascension Pearl (2)",
+        "reward": "20:293000200:2",
+        "weight": 7500,
+        "rare": false
+      },
+      {
+        "name": "Transcension Pearl",
+        "reward": "20:293000100:1",
+        "weight": 500,
+        "rare": true
+      },
+      {
+        "name": "Guaranteed Ticket (4★/5★/NV)",
+        "reward": "23:70:1",
+        "weight": 2000,
+        "rare": false
+      }
+    ]
+  }
+}

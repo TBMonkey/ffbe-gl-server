@@ -12,11 +12,12 @@ Extracted 2026-09-26 from `capture_server.py` (docs/SERVER_REFACTOR_PLAN.md, Pha
 from __future__ import annotations
 
 import copy, hashlib, json, os, time
+from datetime import date, timedelta
 
 from ffbe_config import *          # noqa: F401,F403 -- constants; the table has no behaviour
 import ffbe_state as st           # the REBOUND runtime state; see ffbe_state's docstring
 from ffbe_state import State, _note
-from player_state import STORAGE_CURRENCY, unit_stats, BAG_ITEM_TYPE, item_mst
+from player_state import (BAG_ITEM_TYPE, STORAGE_CURRENCY, UNIT_POINT_TAG, item_mst, unit_stats)
 # The MST loader, for the Survival FAMILY resolver. Imported by name because it is the one loader that
 # preserves FILE ORDER, and "first row" is exactly what `getFirstMissionSubType` means -- re-reading the
 # ndjson here would risk a second, differently-ordered copy of the same table.
@@ -49,6 +50,7 @@ __all__ = [
     "serve_challenge_clear_all",
     "serve_daily_quest",
     "serve_diamonds",
+    "serve_dmg_rank",
     "serve_emblem_event",
     "serve_favourite_info",
     "serve_home_badges",
@@ -58,10 +60,13 @@ __all__ = [
     "serve_sp_challenge",
     "serve_survival",
     "serve_switches",
+    "auto_convert_materials",
+    "serve_unit_exchange",
     "serve_unit_favourite",
     "serve_unit_mix",
     "serve_unit_sell",
     "serve_unit_storage",
+    "serve_unit_use_point",
     "sp_challenge_info_rows",
     "sp_challenge_picked",
     "sp_challenge_tables",
@@ -499,7 +504,8 @@ def serve_unit_mix(spec, plaintext: str | None):
     lb_exp = int(base.get("lb_exp", 0) or 0)
     (b_lv, b_ex), (a_lv, a_ex) = res["before"], res["after"]
     before = _lv_half(b_lv, b_ex, unit_stats(base["master_id"], b_lv), lb_level, lb_exp)
-    after = _lv_half(a_lv, a_ex, unit_stats(base["master_id"], a_lv), lb_level, lb_exp)
+    after = _lv_half(a_lv, a_ex, unit_stats(base["master_id"], a_lv), lb_level, lb_exp,
+                     gained=res["gain"])
     out[MIX_GROUP] = [{"og2GHy49": base_id,
                        "WbGYcN17": ",".join(res["materials"]),
                        "B6H34Mea": str(res["gain"]),          # Exp
@@ -516,6 +522,90 @@ def serve_unit_mix(spec, plaintext: str | None):
     print(f"unit: MIX {len(res['removed'])} material(s) into {base_id} -> +{res['gain']} exp{lb_note}; "
           f"level {b_lv} -> {a_lv}, roster {len(State.player.data['roster'])}", flush=True)
     return out
+def serve_unit_exchange(spec, reply_id: str | None, plaintext: str | None):
+    """`UnitExchangeRequest` (`3ekgi8bh`): turn selected enhancement-material units into power-up points.
+
+    The client's `UnitEnhanceTransformPointScene` optimistically removes the selected units and only reads
+    the scene-local result flag, so this request used to get an empty reply and NOTHING was banked -- the
+    exact report "it says converting to points, but Enhance shows none" (APP-83). The values are the
+    client's own:
+      * role 9  (EXP-up)       -> `XeRVw3s2` = `unit_mix_exp(unit)` in the generic bank "0"
+      * role 12 (param pot)    -> the six DOPING_* pot tokens + DOPING_LB from `1Rf2VDoI`
+      * role 13 (overlimit door)-> the six MAX_LIMIT_EX_* door tokens
+      * useType 2 + role 10    -> gil (`F_UNIT_MST.u18nfD7p`, the Gil Snapper family)
+    The role table is `F_UNIT_MST.27GkYdEu`; the reference implementation is exvius-offline's
+    `convert_material_units`. Favourite/deployed/zero-credit units are left in the roster.
+    """
+    if reply_id != UNIT_EXCHANGE_REQUEST or State.player is None:
+        return spec
+    req = _request_json(plaintext)
+    rows = req.get(UNIT_EXCHANGE_GROUP) if req else None
+    if not isinstance(rows, list) or not rows:
+        return spec
+    ids = [str(row.get("og2GHy49")) for row in rows
+           if isinstance(row, dict) and row.get("og2GHy49")]
+    if not ids:
+        return spec
+    converted = State.player.convert_material_units(ids)
+    if not converted:
+        _note("unit-exchange: no selected unit carried a point or gil value; nothing converted")
+        return spec
+    out = dict(spec) if isinstance(spec, dict) else {}
+    # Full player projection: the removed units must disappear, and `groups()` now carries the point bank
+    # (`z36FApms`) when one exists. This is the same shape as serve_unit_mix.
+    out.update(State.player.groups())
+    points = (out.get(UNIT_POINT_TAG) or [{}])[0]
+    print(f"unit-exchange: converted {len(converted)} material(s); "
+          f"EXP points={points.get('XeRVw3s2', '0')}, roster={len(State.player.data['roster'])}",
+          flush=True)
+    return out
+
+
+def serve_unit_use_point(spec, reply_id: str | None, plaintext: str | None):
+    """`UnitUsePointRequest` (`nsxUW3Y7`): spend a point-bank row on one unit.
+
+    The EXP bank (series "0", `XeRVw3s2`) is applied with `PlayerState.add_unit_exp`; the reply carries
+    the updated bank and the projected roster. Status-up tokens are deliberately REFUSED for now (the
+    roster has no `stat_pots`/`stat_doors` model yet), with a note, rather than debited for no effect.
+    """
+    if reply_id != UNIT_USE_POINT_REQUEST or State.player is None:
+        return spec
+    req = _request_json(plaintext)
+    rows = req.get(UNIT_USE_POINT_GROUP) if req else None
+    if not isinstance(rows, list) or not rows:
+        return spec
+    target = next((str(row.get("og2GHy49")) for row in rows
+                   if isinstance(row, dict) and row.get("og2GHy49")), "")
+    if not target or not State.player.use_unit_points(target, rows):
+        return spec
+    out = dict(spec) if isinstance(spec, dict) else {}
+    out.update(State.player.groups())
+    print(f"unit-points: spent on {target}; roster level="
+          f"{State.player.roster_row(target).get('level')}", flush=True)
+    return out
+
+
+def auto_convert_materials(spec, reply_id: str | None = None):
+    """A/B lever: bank every eligible material unit on a USER-STATE refresh.
+
+    This is the collaborator's policy (`exvius_actions_shops.serve_feature_state` calls
+    `convert_material_units(State.player)` with `ids=None` on every user-state reply), kept behind
+    `AUTO_CONVERT_MATERIALS=1` so it can be observed without changing the explicit-exchange path. It runs
+    only when the reply actually carries `LhVz6aD2`; MissionEnd/gacha replies that merely carry a unit
+    group are excluded, because auto-consuming a unit in the same reply that awards it would hide the
+    award's reveal. A conversion with no eligible material is a no-op and does not touch the payload.
+    """
+    if not AUTO_CONVERT_MATERIALS or not isinstance(spec, dict) or State.player is None:
+        return spec
+    if "LhVz6aD2" not in spec:
+        return spec
+    converted = State.player.convert_material_units(None)
+    if converted:
+        print(f"auto-convert: banked {len(converted)} material unit(s) on {reply_id or 'user-state'}; "
+              f"roster={len(State.player.data['roster'])}", flush=True)
+    return spec
+
+
 def serve_favourite_info(spec, reply_id: str | None = None):
     """Attach the cumulative favourite list (`UserUnitFavoriteResponse`, tag `F2pYJGt5`) to user-state replies.
 
@@ -547,18 +637,71 @@ def echo_client_group(spec, plaintext, group: str):
     (SW-36). The token meanings are unnamed, but echoing the client's own value cannot be wrong about the
     client's own state. A reply that does not carry the group is left byte-for-byte alone.
     """
-    if not isinstance(spec, dict) or group not in spec or not plaintext:
+    if not isinstance(spec, dict) or group not in spec:
         return spec
-    try:
-        req = json.JSONDecoder().raw_decode(plaintext)[0]
-    except Exception:  # noqa: BLE001 - an unparseable body must not break the reply
-        return spec
-    rows = req.get(group) if isinstance(req, dict) else None
-    if not isinstance(rows, list) or not rows:
+    rows = _client_group(plaintext, group)
+    if rows is None:
         return spec
     out = dict(spec)
     out[group] = rows
     return out
+
+
+def _client_group(plaintext: str | None, group: str):
+    """The client's OWN rows for `group` in this request body, or None.
+
+    `raw_decode`, not `json.loads`: the client's manual PKCS#7 pad leaves trailing bytes after the JSON
+    value, which is why every other request reader here parses the leading value (ffbe_battle, ffbe_gacha)
+    -- and why `json.loads` on a live capture raises "Extra data" at the pad. An unparseable body must
+    never break a reply, so the failure is None and the caller leaves the spec exactly as it was.
+    """
+    if not plaintext:
+        return None
+    try:
+        req = json.JSONDecoder().raw_decode(plaintext)[0]
+    except Exception:  # noqa: BLE001 - an unparseable body must not break the reply
+        return None
+    rows = req.get(group) if isinstance(req, dict) else None
+    return rows if isinstance(rows, list) and rows else None
+
+
+# The Farplane damage-ranking dummy. Tokens of `OpeDmgRankResponse` (readParam `0x1954364`) are named in
+# `harness/derive_dmg_rank.py`; the reply id of each request is documented there too.
+DMG_RANK_TAG = "5Hx1NjQI"      # OpeDmgRankResponse -- the player's records row
+DMG_RANK_START = "5P6ULvjg"    # DmgRankStartRequest   (DmgRankStartScene::initConnect)
+DMG_RANK_RETIRE = "W3Z4VF1X"   # DmgRankRetireRequest  (DmgRankRetireScene::initConnect 0x20cd21c)
+DMG_RANK_END = "s98cw1WA"      # DmgRankEndRequest     (DmgRankResultScene::initConnect 0x20cbab4)
+
+
+def serve_dmg_rank(spec, reply_id: str | None, plaintext: str | None):
+    """Keep the client's OWN damage-rank records and serve them back (APP-18).
+
+    The records are not a table: `5Hx1NjQI` is the PLAYER's best set, and the one live capture of the END
+    request shows the client sending its newly earned numbers there. We answered with a zero row, so
+    `OpeDmgRankResponse::readParam` wrote zeros over what the player had just done -- and the next START
+    reply re-served the zeros, so a record could not survive leaving the screen.
+
+    END therefore echoes the client's own row (a reply cannot be wrong about what the client just sent)
+    and folds it into the state as per-metric maxima; START and RETIRE serve the stored maxima. Gated by
+    reply id on purpose: the START reply must not be replaced by the single event's numbers.
+    """
+    if not isinstance(spec, dict) or DMG_RANK_TAG not in spec:
+        return spec
+    if reply_id == DMG_RANK_END:
+        rows = _client_group(plaintext, DMG_RANK_TAG)
+        if rows is None:
+            return spec
+        keep = [dict(r) for r in rows if isinstance(r, dict)]
+        best = State.player.record_dmg_rank(keep)
+        out = dict(spec)
+        out[DMG_RANK_TAG] = keep
+        print(f"dmg rank: end recorded {best} (served the client's own row)", flush=True)
+        return out
+    if reply_id in (DMG_RANK_START, DMG_RANK_RETIRE):
+        out = dict(spec)
+        out[DMG_RANK_TAG] = [State.player.dmg_rank_records()]
+        return out
+    return spec
 def serve_switches(spec):
     """Rewrite every TRACKED switch type's container in this reply from the one tracked state.
 
@@ -834,6 +977,55 @@ def deliver_anniversary_ticket(spec, reply_id):
     return spec
 
 
+def _exchange_test_config():
+    """The SW-130 exchange test scaffold (`server/exchange_test.json`), or None when absent or disabled."""
+    try:
+        with open(os.path.join(WORK, "server", "exchange_test.json"), encoding="utf-8") as fh:
+            cfg = json.load(fh)
+    except (OSError, ValueError):
+        return None
+    return cfg if isinstance(cfg, dict) and cfg.get("enabled", False) else None
+
+
+def deliver_exchange_test_mail(spec, reply_id):
+    """SW-130: mail one stack of each EXCHANGE CURRENCY once per save, so the shops need no CLI seeding.
+
+    TEST SCAFFOLD, not content: `server/exchange_test.json` names the items, counts, titles and carriers, and
+    `"enabled": false` removes it. It is an ORDINARY mail for the reason the anniversary ticket's docstring
+    records — the original game sent event tickets to the INBOX, and nothing is granted until it is claimed, so
+    an over-full bag cannot eat the ticket — and it rides the same three boot carriers.
+
+    Idempotency is per save and keyed on a STATE marker (`mark_vc_shop_issued`), not on the mail id alone: the
+    inbox request is also the delete path, so a mail-only idempotency would re-issue the ticket after the player
+    deletes it (the free-ticket loop measured on the anniversary ticket 2026-09-22).
+    """
+    cfg = _exchange_test_config()
+    if not cfg or State.player is None or str(reply_id) not in (cfg.get("carriers") or []):
+        return spec
+    if State.player.mode == "frozen":
+        return spec
+    for index, row in enumerate(cfg.get("mails") or []):
+        if not isinstance(row, dict):
+            continue
+        try:
+            item, count = int(row.get("item")), max(1, int(row.get("count") or 1))
+        except (TypeError, ValueError):
+            _note("exchange test mail: item/count are not integers; nothing delivered")
+            continue
+        if item_mst(item) is None:
+            _note(f"exchange test mail: {item} is not an F_ITEM_MST id; nothing delivered")
+            continue
+        if not State.player.mark_vc_shop_issued("%s-%d" % (cfg.get("version") or "1", index)):
+            continue
+        State.player.deliver_mail(str(row.get("title") or "Perma-VC Select Ticket"),
+                                  [(BAG_ITEM_TYPE, item, count)],
+                                  mail_id=str(920000000000 + index + 1),
+                                  message=str(row.get("message") or ""),
+                                  icon_type=int(row.get("icon_type") or 2), attach_type=1)
+        print("exchange test mail: delivered %d x %s (%s)" % (count, item, row.get("title")), flush=True)
+    return spec
+
+
 # --- the CATCH-UP schedules: the shipped ladders, replayed on OUR clock, selected by the SEASON ---------
 # Home: docs/notes/catchup_bonus_family.md. The daily calendar above is ONE schedule; the family has three
 # more, and all of them are SHIPPED content selected by id rather than authored (the generator is
@@ -928,15 +1120,15 @@ def _info_day_list(today: str, span: int = CATCHUP_INFO_DAYS) -> str:
     unparseable date yields an empty list rather than a list the gate will reject.
     """
     try:
-        day = time.strptime(str(today), "%Y-%m-%d")
+        day = date.fromisoformat(str(today))
     except (ValueError, TypeError):
         return ""
     out = []
     for back in range(max(1, int(span)) - 1, -1, -1):
-        # formatted by hand, not through time.strftime: the harness pins that name to a frozen value in
-        # tests, and a date list that repeats one date under a pinned clock is a false pass, not a pass.
-        t = time.gmtime(time.mktime(day) - back * 86400)
-        out.append(f"{t.tm_year:04d}{t.tm_mon:02d}{t.tm_mday:02d}")
+        # Plain date arithmetic, not `time.mktime`/`gmtime`: the old walk interpreted the struct in local
+        # time and converted to UTC, so a DST transition could repeat or skip a day. `date.strftime` is also
+        # a different object from the `time.strftime` the harness pins, so a test cannot silently freeze it.
+        out.append((day - timedelta(days=back)).strftime("%Y%m%d"))
     return CATCHUP_DAY_SEP_INFO.join(out)
 
 
@@ -2459,41 +2651,75 @@ def _survival_area_facts() -> list:
         out.append((str(area), dungeon, str(first.get("qo3PECw6")), str(first.get("gQR24kST"))))
     return out
 
-def _event_area_facts() -> list:
-    """[(area, first_dungeon, first_mission)] per EVENT_GATE_AREAS entry, from the SHIPPED tables.
+def _gate_area_facts(areas, label: str) -> list:
+    """[(area, first_dungeon, first_mission)] per area, from the SHIPPED tables.
 
     The framework is the point, exactly as in _survival_area_facts: naming an area is enough, and the
-    dungeon and the mission are READ, never typed -- so a new event is one env word. "First" is FILE ORDER,
-    which is the order the client's own list accessors see.
+    dungeon and the mission are READ, never typed -- so a new event/chamber is one env word. "First" is
+    FILE ORDER, which is the order the client's own list accessors see.
     """
     try:
         drows = _load_mst_rows("F_DUNGEON_MST.ndjson")["__rows__"]
         mrows = _load_mst_rows("F_MISSION_MST.ndjson")["__rows__"]
     except (OSError, KeyError, ValueError) as exc:
-        _note(f"event gate: cannot read the MST corpus ({exc}); no area resolved")
+        _note(f"{label}: cannot read the MST corpus ({exc}); no area resolved")
         return []
     out, seen = [], set()
-    for area in EVENT_GATE_AREAS:
+    for area in areas:
         if area in seen:
             continue
         seen.add(area)
         dungeon = next((str(r.get("U9iHsau3")) for r in drows
                         if str(r.get("uv60hgDW")) == str(area) and r.get("U9iHsau3")), "")
         if not dungeon:
-            _note(f"event gate: area {area} has no F_DUNGEON_MST row -- NOT served "
+            _note(f"{label}: area {area} has no F_DUNGEON_MST row -- NOT served "
                   f"(a tile with no dungeon takes no tap)")
             continue
         mission = next((str(r.get("qo3PECw6")) for r in mrows
                         if str(r.get("U9iHsau3")) == dungeon and r.get("qo3PECw6")), "")
         if not mission:
-            _note(f"event gate: dungeon {dungeon} has no F_MISSION_MST row -- NOT served")
+            _note(f"{label}: dungeon {dungeon} has no F_MISSION_MST row -- NOT served")
             continue
         out.append((str(area), dungeon, mission))
     return out
 
 
+def _event_area_facts() -> list:
+    return _gate_area_facts(EVENT_GATE_AREAS, "event gate")
+
+
+def _enhance_area_facts() -> list:
+    return _gate_area_facts(ENHANCE_GATE_AREAS, "enhance gate")
+
+
+def _gate_row(area, dungeon, mission, tab, kind, art) -> dict:
+    """One SpDungeonCondMst row; the shape is copied from the shipped area-226/899 rows."""
+    return {
+        "uv60hgDW": area,             # SubRegionId -- THE key the tile lookups match
+        "U9iHsau3": dungeon,          # the dungeon the tile opens
+        "qo3PECw6": mission,          # its first mission
+        "qnUhs32P": tab,              # 1-BASED tab: 1 = Event, 2 = training/Enhance
+        "Z0EN6jSh": kind,             # +0x100 -- the 1/2 selector getAreaIdWithBannerTouch reads
+        "VjJQ51uG": EVENT_GATE_WINDOW_START,   # AcceptedDate
+        "m8ivD4NX": EVENT_GATE_WINDOW_END,     # CompletedDate
+        "NTXoA6e2": EVENT_GATE_WINDOW_START,
+        "V48um7Jw": EVENT_GATE_WINDOW_END,
+        "7Gvw6J82": EVENT_GATE_WINDOW_END,
+        "4yT7FUqj": art,              # the tile art
+        "A5efbo71": art,              # getBannerBg (+0x148): TfaTopScene reads this independently of the tile
+                                      # art (collaborator ffbe_player.py:2941; our map had it as inert)
+        # The shipped rows' remaining fields, with their own values, so the row's SHAPE matches what
+        # the client has already parsed: the neutral zeros/empties where no reader was located.
+        "0iWgxc1X": "0", "45wVefcS": "", "5mouF8P1": "", "B2FW5Qjq": "",
+        "C8Qf5bs6": "0", "ET8L6iDw": "0", "M1p3ehVU": "", "MrxFQ63W": "",
+        "QCLs6SV8": "0", "mTHe6pI0": "", "oY0vAuE9": "0", "vnhT2EM5": "",
+        "xm7c08IS": "0", "z0ft1PK8": "0", "pAwU2R6W": "0", "td06MKEX": "0",
+        "BGFw7qi4": "", "2oL4dNFy": "", "uwHx3jk0": "", "XY5ZfS0w": "", "0dh7yRIN": "",
+    }
+
+
 def serve_event_gate(spec, reply_id):
-    """0xkoNP8U -> one gate row per EVENT_GATE_AREAS area, APPENDED to the carrier's own rows.
+    """0xkoNP8U -> one gate row per EVENT_GATE_AREAS and ENHANCE_GATE_AREAS area, APPENDED.
 
     SpDungeonCondMstResponse is what makes an area's tile exist at all (GateScene::setListLayout, and
     AreaMapManager::drawDungeon asks the same list per tile) -- the survival family's own lesson, and
@@ -2507,36 +2733,26 @@ def serve_event_gate(spec, reply_id):
     """
     if State.player is None or reply_id not in EVENT_GATE_CARRIERS:
         return spec
-    facts = _event_area_facts()
+    facts = _event_area_facts() + _enhance_area_facts()
     if not facts:
         return spec
     spec = _as_spec(spec)
     rows = [r for r in (spec.get(EVENT_GATE_TAG) or []) if isinstance(r, dict)]
     have = {str(r.get("uv60hgDW")) for r in rows}
     added = 0
-    for area, dungeon, mission in facts:
+    for area, dungeon, mission in _event_area_facts():
         if area in have:
             continue
-        rows.append({
-            "uv60hgDW": area,             # SubRegionId -- THE key the tile lookups match
-            "U9iHsau3": dungeon,          # the dungeon the tile opens
-            "qo3PECw6": mission,          # its first mission
-            "qnUhs32P": EVENT_GATE_TAB,   # 1-BASED tab: 1 = Event
-            "Z0EN6jSh": EVENT_GATE_KIND,  # +0x100 -- the 1/2 selector getAreaIdWithBannerTouch reads
-            "VjJQ51uG": EVENT_GATE_WINDOW_START,   # AcceptedDate
-            "m8ivD4NX": EVENT_GATE_WINDOW_END,     # CompletedDate
-            "NTXoA6e2": EVENT_GATE_WINDOW_START,
-            "V48um7Jw": EVENT_GATE_WINDOW_END,
-            "7Gvw6J82": EVENT_GATE_WINDOW_END,
-            "4yT7FUqj": EVENT_GATE_ART,   # the tile art (authored; see the config's collision note)
-            # The shipped rows' remaining fields, with their own values, so the row's SHAPE matches what
-            # the client has already parsed: the neutral zeros/empties where no reader was located.
-            "0iWgxc1X": "0", "45wVefcS": "", "5mouF8P1": "", "B2FW5Qjq": "",
-            "C8Qf5bs6": "0", "ET8L6iDw": "0", "M1p3ehVU": "", "MrxFQ63W": "",
-            "QCLs6SV8": "0", "mTHe6pI0": "", "oY0vAuE9": "0", "vnhT2EM5": "",
-            "xm7c08IS": "0", "z0ft1PK8": "0", "pAwU2R6W": "0", "td06MKEX": "0",
-            "BGFw7qi4": "", "2oL4dNFy": "", "uwHx3jk0": "", "XY5ZfS0w": "", "0dh7yRIN": "",
-        })
+        rows.append(_gate_row(area, dungeon, mission, EVENT_GATE_TAB, EVENT_GATE_KIND,
+                              EVENT_GATE_ART_BY_AREA.get(area, EVENT_GATE_ART)))
+        have.add(area)
+        added += 1
+    for area, dungeon, mission in _enhance_area_facts():
+        if area in have:
+            continue
+        rows.append(_gate_row(area, dungeon, mission, ENHANCE_GATE_TAB, ENHANCE_GATE_KIND,
+                              ENHANCE_GATE_ART_BY_AREA.get(area, ENHANCE_GATE_ART)))
+        have.add(area)
         added += 1
     if added:
         spec[EVENT_GATE_TAG] = rows
@@ -2987,7 +3203,7 @@ def serve_emblem_event(spec, reply_id):
     return out
 
 
-def credit_emblem_objectives(plaintext, spec):
+def credit_emblem_objectives(plaintext, spec, reply_id=None):
     """A `MissionEndRequest` -> the campaign's objectives (a state write; the pipeline step calls this).
 
     **A TRANSFORM like every other step, so it returns the spec** -- and this is not a formality: the
@@ -2999,8 +3215,14 @@ def credit_emblem_objectives(plaintext, spec):
     The mission id rides `jQsE54Iz.qo3PECw6` -- `PROGRESS_MISSION_GROUP`/`TOKEN`, the same pair the mission
     machinery already reads. A newly cleared objective grants a crest, and a crest can cross a tier, so the
     delivery happens here rather than waiting for a screen the player may never open.
+
+    GATED ON THE REQUEST ID: only MissionEnd (`x5Unqg2d`) may credit. `MissionUpdate` and
+    `MissionSwitchUpdate` carry the same `jQsE54Iz.qo3PECw6`, and before the gate a progress update could
+    credit a crest without a clear (upstream fix, v0.1.24).
     """
     if State.player is None or not plaintext:
+        return spec
+    if reply_id is not None and str(reply_id) != "x5Unqg2d":
         return spec
     try:
         req = json.JSONDecoder().raw_decode(plaintext)[0]
@@ -3589,6 +3811,16 @@ def _selftest() -> int:
         want("emblem event: the campaign has clear-shaped objectives, and their target is a MISSION id",
              [(len(clear_rows) > 0), (clear_rows[0]["target"].isdigit() if clear_rows else False)], [True, True])
         target = clear_rows[0]["target"]
+        # THE GATE: the same mission id rides MissionUpdate / MissionSwitchUpdate, and only MissionEnd may
+        # credit. A fresh player so the two calls cannot see each other's crest.
+        gatep = ps2.PlayerState.load("/nonexistent", slot="selftest-emblem-gate")
+        State.player = gatep
+        gate_body = json.dumps({"jQsE54Iz": [{"qo3PECw6": target}]})
+        want("emblem event: a MissionUpdate carrying the same mission id does NOT credit a crest",
+             (credit_emblem_objectives(gate_body, {}, "Tvq54dx6"), gatep.emblem_tokens()), ({}, 0))
+        want("emblem event: ...but MissionEnd does",
+             (credit_emblem_objectives(gate_body, {}, "x5Unqg2d"), gatep.emblem_tokens()), ({}, 1))
+        State.player = evep
         want("emblem event: clearing that mission clears the objective and earns ONE crest",
              (evep.credit_emblem_objective(target), evep.emblem_tokens()), ([clear_rows[0]["id"]], 1))
         want("emblem event: ...and the crest is the shipped IMPORTANT item 20 in the type-23 bag",
@@ -3622,17 +3854,26 @@ def _selftest() -> int:
         State.player = _ps4.PlayerState(_ps4.default_state("100000001", "Rain", now_ms=1789000000000),
                                         mode="live")
         facts = _event_area_facts()
+        enh = _enhance_area_facts()
         want("event gate: naming an area resolves its dungeon and first mission from the shipped tables",
              facts[0], ("970", "97001", "9700101"))
         want("event gate: ...for EVERY named area -- a new event is one word, not a table edit",
              [(a, d, m) for a, d, m in facts if a == "888"], [("888", "88801", "8880100")])
+        want("enhance gate: Cactuar Dunes resolves from the shipped area/dungeon/mission rows",
+             enh[0], ("218", "21112", "2111201"))
         carrier = {EVENT_GATE_TAG: [{"uv60hgDW": "226", "U9iHsau3": "21104", "qo3PECw6": "2110401"}]}
         out = serve_event_gate(carrier, EVENT_GATE_CARRIERS[0])
         rows = (out or {}).get(EVENT_GATE_TAG) or []
         # The carrier's own row FIRST and untouched, then exactly one row per named area. The count is
         # derived from the facts list rather than typed, so adding an event to the lever cannot stale this.
         want("event gate: the rows are APPENDED, one per named area, the carrier's own tile untouched",
-             (rows[0].get("uv60hgDW") if rows else None, len(rows)), ("226", 1 + len(facts)))
+             (rows[0].get("uv60hgDW") if rows else None, len(rows)),
+             ("226", 1 + len(facts) + len(enh)))
+        cac = next((r for r in rows if r.get("uv60hgDW") == "218"), {})
+        want("enhance gate: Cactuar Dunes carries tab 2 and its first mission",
+             (cac.get("U9iHsau3"), cac.get("qo3PECw6"), cac.get("qnUhs32P")), ("21112", "2111201", "2"))
+        want("enhance gate: Cactuar Dunes carries its own plate, not Chamber of Experience",
+             cac.get("4yT7FUqj"), "spd_bn_list_00006.png")
         ev = next((r for r in rows if r.get("uv60hgDW") == "888"), {})
         want("event gate: ...carrying the derived area/dungeon/mission and the 1-BASED Event tab",
              (ev.get("U9iHsau3"), ev.get("qo3PECw6"), ev.get("qnUhs32P")),
@@ -3738,8 +3979,145 @@ def _selftest() -> int:
              "(the 2026-09-27 rule)",
              [r for r in State.player.item_rows() if r.get("tL6G9egd") == str(ANNIVERSARY_TICKET_ITEM)],
              [{"tL6G9egd": str(ANNIVERSARY_TICKET_ITEM), "Qy5EvcK1": "1"}])
+
+        # --- SW-130: the VC-SHOP TEST MAIL (`server/vc_shop_test.json`) ---------------------------------
+        # The operator's requirement: the Perma-VC ticket must arrive as MAIL, not a CLI seed, so the exchange
+        # is exercised the way the original game delivered event tickets. Four things can go wrong: it does not
+        # fire on a boot carrier, it fires twice, the claim grants nothing, or the claim does not reach the BAG
+        # the shop spends from. The round trip (mail -> claim -> buy a card) is the shops' own selftest plus
+        # this one; `_grant_items` kind 20 is the join between them.
+        vc_cfg = _exchange_test_config()
+        if vc_cfg:
+            vc_row = (vc_cfg.get("mails") or [{}])[0] or {}
+            vc_item = int(vc_row.get("item") or 0)
+            vc_count = int(vc_row.get("count") or 1)
+            State.player.data["mailbox"] = []
+            State.player.data.pop("vc_shop_test", None)
+            deliver_exchange_test_mail({}, (vc_cfg.get("carriers") or [""])[0])
+            deliver_exchange_test_mail({}, (vc_cfg.get("carriers") or [""])[0])
+            deliver_exchange_test_mail({}, "PBSP9qn5")          # a NON-carrier reply
+            want(f"vc-shop: ONE mail PER configured currency from a boot carrier ({len(vc_cfg.get('mails') or [])} "
+                 "of them); a second carrier and a non-carrier reply add nothing",
+                 (len(State.player.mailbox),
+                  State.player.mailbox[0]["items"] if State.player.mailbox else None),
+                 (len(vc_cfg.get("mails") or []),
+                  [{"item_type": 20, "item_id": vc_item, "count": vc_count}]))
+            m = State.player.mailbox[0] if State.player.mailbox else {}
+            # THE DISPLAY ACTION'S REPLY MUST NOT BE EMPTY (APP-65). No factory group, no responses.json spec,
+            # so the old code returned the `None` spec -- an empty body the client shows as the connection
+            # error. Measured live 2026-11-08: the buy worked, the ornament write worked, the DISPLAY died on a
+            # `body_plain_len: 0` reply.
+            _disp = State.player
+            _wc = _disp.data.setdefault("vision_cards", [])
+            if not any(str(c.get("user_vc_id")) == "207000101" for c in _wc):
+                _wc.append({"vc_id": "207000101", "user_vc_id": "207000101", "level": 1})
+            _out = apply_vision_card_display(
+                {}, VISION_CARD_DISPLAY_REPLY,
+                json.dumps({VISION_DISPLAY_GROUP: [{VISION_DISPLAY_KEY: "207000101"}]}))
+            want("display: the reply is NON-EMPTY (an empty body IS the connection error) and carries the "
+                 "ornament the projection reads",
+                 (isinstance(_out, dict), "LhVz6aD2" in (_out or {}),
+                  _disp.data["profile"].get("decorate_home_vc_id")),
+                 (True, True, "207000101"))
+            want("vc-shop: nothing in the bag until claimed, then the claim credits the ticket exactly once",
+                 (State.player.item_count(20, vc_item), len(State.player.receive_mail(m.get("mail_id"))),
+                  State.player.item_count(20, vc_item), State.player.receive_mail(m.get("mail_id"))),
+                 (0, 1, vc_count, []))
     finally:
         State.player = was_player
+
+    # --- Unit Exchange / power-up points (APP-83) ------------------------------------------------
+    # The report: the client says "converting to points", the reply is empty, and Enhance shows 0.
+    # Drive the real handler over a REAL cactuar roster and assert the bank, the roster removal, and the
+    # subsequent EXP spend. The expected 45,000 is the client's own mix-EXP formula at level 1:
+    # 5,000 + 10,000 + 30,000 for the three Metal Cactuar tiers.
+    _points_before = State.player
+    try:
+        pp = ps2.PlayerState.load("/nonexistent", slot="selftest-unit-points")
+        State.player = pp
+        materials = [pp.grant_unit(mid) for mid in ("900020101", "900020201", "900020301")]
+        moogle = pp.grant_unit("904000105")          # no point role: must survive
+        body = json.dumps({UNIT_EXCHANGE_GROUP: [{"og2GHy49": u["instance_id"]} for u in materials]})
+        out = serve_unit_exchange({"LhVz6aD2": [{}]}, UNIT_EXCHANGE_REQUEST, body)
+        bank = {row.get("woghJa61"): row for row in out.get(UNIT_POINT_TAG) or []}
+        want("exchange: three cactuars bank 45,000 EXP points (the client's own mix formula)",
+             bank.get("0", {}).get("XeRVw3s2"), "45000")
+        want("exchange: every selected cactuar is removed, the trust moogle is not",
+             (any(str(u["master_id"]).startswith("900020") for u in pp.data["roster"]),
+              pp.roster_row(moogle["instance_id"]) is not None), (False, True))
+        want("exchange: the reply carries the FULL post-exchange roster",
+             sorted(str(r.get("3HriTp6B")) for r in out.get("B71MekS8") or []),
+             sorted(str(u["master_id"]) for u in pp.data["roster"]))
+
+        target = pp.grant_unit("100000102")
+        use = json.dumps({UNIT_USE_POINT_GROUP: [
+            {"og2GHy49": target["instance_id"], "woghJa61": "0", "XeRVw3s2": "1000"}]})
+        out2 = serve_unit_use_point({"LhVz6aD2": [{}]}, UNIT_USE_POINT_REQUEST, use)
+        bank2 = {row.get("woghJa61"): row for row in out2.get(UNIT_POINT_TAG) or []}
+        want("use-point: 1,000 EXP points land on the target's total_exp",
+             pp.roster_row(target["instance_id"])["total_exp"], 1000)
+        want("use-point: ...and the bank is debited to 44,000", bank2.get("0", {}).get("XeRVw3s2"), "44000")
+        want("use-point: ...and the target is projected in the same reply",
+             any(r.get("og2GHy49") == target["instance_id"] for r in out2.get("B71MekS8") or []), True)
+
+        # THE LIVE 12:56 REFUSAL (APP-83 second report). A legacy row can carry a stale lifetime
+        # total_exp; the client computes remaining-to-cap from level+residual and sent 43,002, while the
+        # old check used 22,978 and refused. Derive the cap check from level+residual, and repair the
+        # stored second copy, so the exact live request lands at Lv30.
+        stale = pp.grant_unit("100000202")
+        stale.update({"level": 11, "exp": 197, "total_exp": 22978})
+        stale_id = stale["instance_id"]
+        stale_rows = [{"og2GHy49": stale_id, "woghJa61": "0", "XeRVw3s2": "43002"}]
+        want("use-point: the stale-total row is accepted (exactly the live 43,002 request)",
+             pp.use_unit_points(stale_id, stale_rows), True)
+        want("use-point: ...it reaches Lv30 and the true cumulative 46,442",
+             (pp.roster_row(stale_id)["level"], pp.roster_row(stale_id)["total_exp"]), (30, 46442))
+        want("use-point: ...and the bank left is 998 after the 44,000 -> 43,002 debit",
+             (((pp.data.get("exvius_unit_points") or {}).get("banks") or {}).get("0") or {}).get("XeRVw3s2"),
+             998)
+
+        # FULL COLLABORATOR PORT: status pots/doors and LB EXP, plus the stat projection the client
+        # reads. The point bank is a COPY until every cap validates; this exercises the commit path.
+        status = pp.grant_unit("100000202")
+        status_id = status["instance_id"]
+        pp.credit_unit_points("0", "LD4UJaf0", 10)      # HP pot
+        pp.credit_unit_points("0", "h5s68EtJ", 10)      # HP door
+        pp.credit_unit_points("0", "jWS57HG3", 3000)    # LB (the 2★ has LB max 1, so use another target)
+        want("use-point: status pot+door spend is accepted",
+             pp.use_unit_points(status_id, [{"og2GHy49": status_id, "woghJa61": "0",
+                                             "LD4UJaf0": "10", "h5s68EtJ": "10"}]), True)
+        want("use-point: ...and the allocations land on the row",
+             (pp.roster_row(status_id).get("stat_pots", [])[:2],
+              pp.roster_row(status_id).get("stat_doors", [])[:2]), ([10, 0], [10, 0]))
+        stat_row = next(r for r in pp._unit_rows() if r.get("og2GHy49") == status_id)
+        want("use-point: ...and the wire stat string carries base-pots-doors",
+             stat_row.get("em5hx4FX", "").split("-")[1:3], ["10", "10"])
+        lb_target = pp.grant_unit("100000315")
+        lb_id = lb_target["instance_id"]
+        want("use-point: LB point spend is accepted",
+             pp.use_unit_points(lb_id, [{"og2GHy49": lb_id, "woghJa61": "0",
+                                         "jWS57HG3": "3000"}]), True)
+        want("use-point: ...and it raises the LB level",
+             pp.roster_row(lb_id)["lb_level"] > 1, True)
+
+        # AUTO-CONVERT A/B: off leaves the material; on banks it on a user-state refresh.
+        auto = ps2.PlayerState.load("/nonexistent", slot="selftest-auto")
+        State.player = auto
+        auto.grant_unit("900020101")
+        auto_convert_materials({"LhVz6aD2": [{}]}, "X07iYtp5")
+        want("auto-convert: OFF leaves the cactuar in the roster",
+             any(str(u["master_id"]) == "900020101" for u in auto.data["roster"]), True)
+        globals()["AUTO_CONVERT_MATERIALS"] = True
+        try:
+            auto_convert_materials({"LhVz6aD2": [{}]}, "X07iYtp5")
+        finally:
+            globals()["AUTO_CONVERT_MATERIALS"] = False
+        want("auto-convert: ON banks the cactuar on a user-state refresh",
+             (any(str(u["master_id"]) == "900020101" for u in auto.data["roster"]),
+              (((auto.data.get("exvius_unit_points") or {}).get("banks") or {}).get("0") or {})
+              .get("XeRVw3s2")), (False, 5000))
+    finally:
+        State.player = _points_before
 
     for label, ok, got, expect in checks:
         print(f"quest {'ok  ' if ok else 'FAIL'} {label}" + ("" if ok else f"  (got {got!r}, want {expect!r})"))
@@ -3751,6 +4129,210 @@ def _selftest() -> int:
 def gid_ok(tables, row) -> bool:
     """Is this row in a group we serve? Keeps the name check scoped to what the server actually serves."""
     return str(row.get(SP_GROUP_ID, "")) in set(SP_CHALLENGE_DEFAULT_GROUPS)
+
+
+VISION_CARD_DISPLAY_REPLY = "TmS3EjZ8"   # VisionCardDisplayRequest
+VISION_DISPLAY_GROUP = "kwK4W0Si"        # the request's own group (1 key)
+VISION_DISPLAY_KEY = "gXb32xzQ"          # UserVisionCardInfo +0x28, the row KEY string
+
+
+UPDATE_USER_INFO_REPLY = "ey8mupb4"     # UpdateUserInfoRequest
+PROFILE_GROUP = "MZzST52W"                # the profile action's own group
+PROFILE_NAME = "9qh17ZUf"                 # Name
+PROFILE_MESSAGE = "Wk1v6upb"              # Message
+PROFILE_GIFT = "Utx8P1Qo"                 # GiftID (GiftMst key; `INITIAL_GIFT_ID` = 10)
+USER_INFO_GROUP = "LhVz6aD2"              # UserInfoResponse -- whose row carries the name
+
+
+# ---------------------------------------------------------------------------------------------------
+# THE THIN ACKS (SW-128): four classes whose reply group is parsed by NOTHING.
+#
+# `harness/request_api_map.json` records all four as ABSENT FROM THE FACTORY under their own tag, so the
+# client parses no group of the reply and the body only has to be VALID -- but an EMPTY body is the
+# connection-error dialog (the `ey8mupb4` incident, 2026-11-04), so "nothing to say" is not an option.
+# The echo is the client's OWN group, which cannot be wrong about the client's own state (SW-36):
+#   otgXV79T OptionUpdateRequest        -> Dqx0MA42  (six option keys)          + persisted preference
+#   pC3a2JWU NoticeReadUpdateRequest    -> p4U2NosZ  (read notice id + info)    + read record
+#   Tvq54dx6 MissionSwitchUpdateRequest -> 0jqUZuT1  (client's granted switches) + ALREADY recorded
+#   j5JHKq6S MissionUpdateRequest       -> 1sGiqV9T  (MapUpdateRequest's body)  + log only
+# `nE7pV2wr` (the destructive carry channel) rides Tvq54dx6 AND is deliberately NOT echoed here --
+# `apply_carry_edit` owns it, and its onReadStarted clears the client's carry list.
+THIN_SWITCH_TAG = "0jqUZuT1"      # kept beside the table: typed once, not inside a dict literal
+THIN_ACK_TAGS = {"otgXV79T": "Dqx0MA42", "pC3a2JWU": "p4U2NosZ",
+                 "Tvq54dx6": THIN_SWITCH_TAG, "j5JHKq6S": "1sGiqV9T"}
+
+
+def apply_thin_acks(spec, reply_id, plaintext):
+    """Echo the client's own group for a class whose reply is parsed by nothing (SW-128).
+
+    Three of the four also persist something, and each is the CLIENT's report of its own state rather than a
+    server decision: the option values, the notice it just read, and (for the switch update) nothing at all --
+    `record_pushed_switches` already owns that one, gated on the same `0jqUZuT1[].dIPkNn61`, so this step
+    must not write it a second time (idiom #43: one writer per column).
+    """
+    tag = THIN_ACK_TAGS.get(reply_id)
+    if tag is None:
+        return spec
+    out = dict(spec) if isinstance(spec, dict) else {}
+    rows = _client_group(plaintext, tag)
+    if rows:
+        out[tag] = rows
+    player = State.player
+    if player is not None:
+        if reply_id == "otgXV79T" and rows:
+            pref = player.data.setdefault("profile", {}).setdefault("options", {})
+            if player._mutate():
+                # `9Tbns0eI` in this group is the USER ID, not a setting -- keep it out of the preferences.
+                pref.update({k: str(v) for k, v in rows[0].items() if k != "9Tbns0eI"})
+                player.dirty = True
+        elif reply_id == "pC3a2JWU" and rows:
+            notice = rows[0]
+            notice_id = str(notice.get("X3bZ86C7") or "")
+            if notice_id:
+                read = player.data.setdefault("notices", {}).setdefault("read", {})
+                if player._mutate():
+                    read[notice_id] = str(notice.get("goAiX84L") or "")
+                    player.dirty = True
+    print("thin-ack: %s -> echoed %s (%d row(s))%s"
+          % (reply_id, tag, len(rows or []),
+             "" if rows else " -- NO group in the request, body left as it was"),
+          flush=True)
+    return out
+
+
+def apply_update_user_info(spec, reply_id, plaintext):
+    """`UpdateUserInfoRequest` (ey8mupb4) -> the profile edit, and an ACK that echoes the client's UserInfo.
+
+    WHY THE CONNECTION ERROR APPEARED HERE (2026-11-04, live capture `20261104T145040_0090`): the client
+    sent `MZzST52W` carrying `9qh17ZUf` (Name) + `Utx8P1Qo` (GiftID 10) and we answered with
+    `body_plain_len: 0`. A request whose reply is empty IS the dialog -- a data gap, not connectivity.
+
+    THE CLASS BUILDS NO OBJECT: `harness/request_api_map.json` records it as **ABSENT FROM THE FACTORY**
+    under `MZzST52W`, so no group of that tag is parsed and the reply is only required to be a valid body.
+    The one group worth carrying is the client's OWN `LhVz6aD2` (UserInfoResponse), because its row holds
+    the name being changed -- echo it (SW-36's rule: echo the client's own state group on an ack, which
+    cannot be wrong about the client's own state) and the projection step that follows refreshes it.
+
+    ONLY THE KEYS THE CLIENT SENDS ARE WRITTEN. `addParam` drops empty strings, so a screen that changed
+    only the name carries no message key at all -- treating the absent key as "clear it" would erase a
+    message the player never touched (idiom #44's family: never infer a clear from an omission).
+    """
+    if reply_id != UPDATE_USER_INFO_REPLY:
+        return spec
+    out = dict(spec) if isinstance(spec, dict) else {}
+    req = _request_json(plaintext)
+    if req is None:
+        print("profile: update request did not parse; nothing changed", flush=True)
+        return out
+    rows = req.get(PROFILE_GROUP)
+    node = rows[0] if isinstance(rows, list) and rows and isinstance(rows[0], dict) else {}
+    if not node:
+        print("profile: update carried no %s row; nothing changed" % (PROFILE_GROUP,), flush=True)
+        return out
+    player = State.player
+    if player is None:
+        print("profile: no player state; nothing changed", flush=True)
+        return out
+    changes = []
+    name = node.get(PROFILE_NAME)
+    if name is not None:
+        name = str(name).strip()
+        if not name:
+            print("profile: REFUSED an empty name; identity unchanged", flush=True)
+        elif len(name) > 64:
+            print("profile: REFUSED a %d-char name; identity unchanged" % len(name), flush=True)
+        else:
+            changes.append(("identity.handle_name", name))
+    if node.get(PROFILE_MESSAGE) is not None:
+        changes.append(("profile.message", str(node[PROFILE_MESSAGE])))
+    gift = node.get(PROFILE_GIFT)
+    if gift is not None:
+        if str(gift).isdigit():
+            changes.append(("profile.gift_id", int(gift)))
+        else:
+            print("profile: REFUSED a non-numeric gift id %r; preference unchanged" % (gift,), flush=True)
+    if changes and player._mutate():
+        for path, value in changes:
+            head, _, leaf = path.partition(".")
+            player.data.setdefault(head, {})[leaf] = value
+        player.dirty = True
+    print("profile: update %s -> %s"
+          % (PROFILE_GROUP, ", ".join("%s=%r" % (k, v) for k, v in changes) or "no recognised key"),
+          flush=True)
+    echoed = _client_group(plaintext, USER_INFO_GROUP)
+    if echoed:
+        out[USER_INFO_GROUP] = echoed
+    return out
+
+
+def set_decorate_home_vc_id(key: str) -> bool:
+    """THE one writer of `profile.decorate_home_vc_id`. False when the save policy refuses the write.
+
+    There are two callers and they must not diverge: the client's own `VisionCardDisplayRequest` below, and
+    the harness `--grant-vc` flag that pre-seeds the ornament for a run. Two implementations that happen to
+    agree today are not one implementation (idiom #43's corollary), and this column has two readers — the
+    `UserTeamInfoResponse.gXb32xzQ` projection and `VisionCardUtils::getHomeOrnamentVisionCardInfo`
+    (`0x1a1eda4`), which only accepts a key that exists in the owned list.
+    """
+    player = State.player
+    if player is None or not player._mutate():
+        return False
+    player.data.setdefault("profile", {})["decorate_home_vc_id"] = str(key or "")
+    return True
+
+
+def apply_vision_card_display(spec, reply_id, plaintext):
+    """`VisionCardDisplayRequest` (TmS3EjZ8) -> `profile.decorate_home_vc_id` (SW-128).
+
+    This is the client's OWN way to set the HOME ornament card, and until now the only way to set it was
+    the `--decorate-vc` harness flag: `UserTeamInfoResponse.gXb32xzQ` is projected from
+    `profile.decorate_home_vc_id` (`_team_row`), and `VisionCardUtils::getHomeOrnamentVisionCardInfo`
+    (`0x1a1eda4`) returns null unless the owned list contains that key — so the value must be a
+    `user_vc_id`, not a master id, and "0"/"" means no ornament.
+
+    WHY THIS NEEDS NO REPLY GROUP: `harness/request_api_map.json` records the class as **ABSENT FROM THE
+    FACTORY** under `TmS3EjZ8` — a reply carrying that request id builds no object at all, so the reply is
+    the echo it already was and the whole effect is this state write. The projection step that follows in
+    the chain carries the new value, which is why this must be registered BEFORE `apply_to_reply`.
+
+    OWNERSHIP IS CHECKED, AND A MISS IS A REFUSAL, NOT A DEFAULT: a key we do not own would leave
+    `exist()` false and the ornament null anyway, so writing it would persist a lie. The state is left
+    alone and the refusal is logged (idiom #25: a miss must report).
+    """
+    if reply_id != VISION_CARD_DISPLAY_REPLY:
+        return spec
+    # THE REPLY MUST NOT BE EMPTY (APP-65, 2026-11-08). There is no `responses.json` spec and no factory
+    # group for this class, so this function used to return the `None` spec unchanged -- an EMPTY body, which
+    # the client renders as the connection error ("A connection error has occurred…"). Measured live: the
+    # buy + display flow set the ornament correctly in the state, and the DISPLAY step died on a
+    # `body_plain_len: 0` reply. Carrying the universal user-info tag makes the body valid AND makes
+    # `apply_to_reply` project the team row, which is what HOME reads the ornament from (`gXb32xzQ`).
+    out = dict(spec) if isinstance(spec, dict) else {}
+    out.setdefault("LhVz6aD2", [{}])
+    req = _request_json(plaintext)
+    if req is None:
+        print("vision-card: display request did not parse; ornament unchanged")
+        return out
+    group = req.get(VISION_DISPLAY_GROUP)
+    node = group[0] if isinstance(group, list) and group and isinstance(group[0], dict) else {}
+    key = str(node.get(VISION_DISPLAY_KEY) or "")
+    player = State.player
+    if player is None:
+        print("vision-card: no player state; ornament unchanged")
+        return out
+    if key in ("", "0"):
+        ok = set_decorate_home_vc_id("")
+        print("vision-card: ornament cleared (key=%r)%s" % (key, "" if ok else " -- WRITE REFUSED"))
+        return out
+    owned = {str(vc.get("user_vc_id") or vc.get("vc_id"))
+             for vc in player.data.get("vision_cards") or []}
+    if key not in owned:
+        print("vision-card: REFUSED key=%r -- not in the owned list (%d card(s)); ornament unchanged"
+              % (key, len(owned)))
+        return out
+    ok = set_decorate_home_vc_id(key)
+    print("vision-card: ornament set to %r%s" % (key, "" if ok else " -- WRITE REFUSED"))
+    return out
 
 
 if __name__ == "__main__":

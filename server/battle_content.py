@@ -79,6 +79,7 @@ PHASE_TOKENS = ("qo3PECw6", "6v7y3QcJ", "gou39JeI", "q4f9IdMs", "i2ar9yXM", "5LZ
                 "juA0Z4m7", "1C7GDEv4", "Us0znif6", "k6Y8ysMA", "wTMK0x5p")
 # The GL `MonsterPartsMstResponse` token set (readParam 0x1964f84, 52 tokens). JP rows carry extras
 # (9BetM2Ds, MZn8LC6H, Vf5DGw07, 8zH7CioM, u2I6pR9T, H4zD2IQ5) that the GL reader does not dispatch.
+# Vf5DGw07 is still READ by the derivation: it fills the WaveBattleInfo (y35YvQjZ) unit-drop list.
 PARTS_TOKENS = ("xqartN26", "6Yc4RkdM", "G4L0YIB2", "fh31sk7B", "PC97pWQj", "9NBV1XCS", "Pn5w9dfh",
                 "84FJM3PD", "T8xMDAZ4", "hn42BL3Q", "D9Nb7jgd", "2U3Zbxpy", "0ePkR9nZ", "4Y2DGP7m",
                 "LBye01Wi", "e56NZY42", "B6H34Mea", "7UR4J2SE", "5A8SmwyC", "a9DvZ70c", "8a6gAwN9",
@@ -134,7 +135,8 @@ INDEX_FIELDS: dict[str, tuple[str, ...] | None] = {
     "F_BATTLE_LOTTERY_MST": ("c2gnh6Jd", "ixDq7yJ8", "2fY1IomW"),
     "F_BATTLE_GROUP_MST": GROUP_TOKENS,
     "F_MONSTER_MST": ("xqartN26", "G4L0YIB2", "V9j8wJcC"),
-    "F_MONSTER_PARTS_MST": tuple(PARTS_TOKENS) + ("9BetM2Ds",),
+    "F_MONSTER_PARTS_MST": (tuple(t for t in PARTS_TOKENS if t != "xqartN26")
+                             + ("9BetM2Ds", "Vf5DGw07", "xqartN26")),
     "F_MONSTER_SKILL_SET_MST": ("A5x02C6a", "7qxLC5hP"),
     "F_MONSTER_SKILL_MST": None,
     "F_MISSION_MST": ("qo3PECw6", "U9iHsau3"),
@@ -353,19 +355,25 @@ def derive_mission(mission: int, source: Source | str, break_status: dict[str, d
             raise SystemExit(f"mission {mission} phase {p['6v7y3QcJ']}: group {group} has no slots")
         group_ids.setdefault(group, slot_rows)
         drops: list[str] = []
+        unit_drops: list[str] = []
         for s in slot_rows:
             pid = str(s["xqartN26"])
             part_ids.add(pid)
-            # Every part of the monster contributes drops, not just the body (PartsNum 1).
+            # Every part of the monster contributes drops, not just the body (PartsNum 1). `Vf5DGw07`
+            # is the JP MonsterUnitDrops column (the GL MonsterParts reader does not dispatch it, but
+            # WaveBattleInfo does); it is what makes a defeated cactuar award its unit.
             for pr in parts_all.get(pid, []):
                 for it in (pr.get("9BetM2Ds") or "").split(","):
                     if it and it not in drops:
                         drops.append(it)
+                for it in (pr.get("Vf5DGw07") or "").split(","):
+                    if it and it not in unit_drops:
+                        unit_drops.append(it)
         drop_rows.append({
             "qo3PECw6": str(mission), "6v7y3QcJ": p["6v7y3QcJ"], "pIHCrf40": "1", "2fY1IomW": "1",
             "xqartN26": slot_rows[0]["xqartN26"], "Z0EN6jSh": "1", "6Yc4RkdM": "1",
             "9BetM2Ds": ",".join(drops), "MZn8LC6H": "", "g4voc2Aw": "", "3frn4ILX": "",
-            "IRf10dwx": "", "ATM35pjf": "", "e5xoiC84": "", "Vf5DGw07": "",
+            "IRf10dwx": "", "ATM35pjf": "", "e5xoiC84": "", "Vf5DGw07": ",".join(unit_drops),
         })
 
     group_rows = [{tok: s[tok] for tok in GROUP_TOKENS if tok in s}

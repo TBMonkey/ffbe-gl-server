@@ -1,0 +1,64 @@
+{
+  "_what": "SW-130 EXCHANGE TEST SCAFFOLD, not content. Mails one stack of each exchange currency once per save, so the permanent exchange shops can be exercised WITHOUT any CLI seeding or server flag: claim a currency from the inbox, then spend it at its shop (Ticket Exchange (Perma-VC Select II/Select), Intrinsic Ability Ticket Exchange, Mystery Crystal Shop, NV Beginner's Select, Beginner's 5-star Select, the three Star Quartz exchanges, Log Quartz Exchange) and the Clash of Wills pair (Xenostone Shard for the permanent pages, Obnixus Drop (Hydro) for the pinned season-7 page).",
+  "_off": "Set \"enabled\": false (or delete this file) and re-bless the golden: the delivered mails also count in the HOME badge counters, so their absence moves every user-state reply.",
+  "_why_mail": "The original game delivered event tickets to the inbox, and docs/notes/mailbox.md records why that matters here: nothing is granted until the mail is CLAIMED, so an over-full bag cannot eat the ticket.",
+  "enabled": true,
+  "version": "1",
+  "carriers": [
+    "75fYdNxq",
+    "Daud71Hn",
+    "KQHpi0D7"
+  ],
+  "carriers_what": "Initialize (boot), RoutineHomeUpdate (periodic), MailList (the inbox itself). Same trio the 8th-anniversary ticket uses; the first one the client asks wins, and a state marker makes it once-per-save.",
+  "mails": [
+    {
+      "item": 1209001443,
+      "count": 5,
+      "title": "Perma-VC Select Ticket",
+      "message": "Exchange this ticket at Ticket Exchange (Perma-VC Select II) for a vision card of your choice.",
+      "icon_type": 2
+    },
+    {
+      "item": 1209001374,
+      "count": 5,
+      "title": "Exchange Coin (NV Beginner's Select)",
+      "message": "Spend this coin at NV Beginner's Select.",
+      "icon_type": 2
+    },
+    {
+      "item": 1209001224,
+      "count": 5,
+      "title": "5-star Beginner Selection Ticket",
+      "message": "Spend this ticket at Beginner's 5-star Select.",
+      "icon_type": 2
+    },
+    {
+      "item": 106200100,
+      "count": 50,
+      "title": "Star Quartz",
+      "message": "Spend these at the Star Quartz exchanges.",
+      "icon_type": 2
+    },
+    {
+      "item": 106317500,
+      "count": 50,
+      "title": "Log Quartz",
+      "message": "Spend these at the Log Quartz Exchange.",
+      "icon_type": 2
+    },
+    {
+      "item": 1209001426,
+      "count": 1500,
+      "title": "Xenostone Shard",
+      "message": "Clash of Wills permanent exchange currency. Spend it at the Helm, Garb, Circlet, Ring, Vest, Plate, High Celestite and Special Materia pages.",
+      "icon_type": 2
+    },
+    {
+      "item": 1209001754,
+      "count": 6000,
+      "title": "Obnixus Drop (Hydro)",
+      "message": "Clash of Wills season 7 (Hydro) currency. Spend it at Obnixus Drop (Hydro) Exchange while the season is open.",
+      "icon_type": 2
+    }
+  ]
+}

@@ -31,6 +31,9 @@ To be accurate rather than merely reassuring — the repository is **not** free 
 | The game client (`libgame.so`, the APK) | **not included** — you bring your own | Square Enix |
 | Battle content tables, derived from the game's shipped data | `server/content/battle/*.tsv` | Square Enix's data |
 | One in-game banner image | `server/assets/banner_art/` | Square Enix |
+| Event release dates and run history | `server/content/event_spine.json` | the FFBE wiki's editors (**CC BY-SA**, see *Community*) |
+| Clash of Wills event content | `server/content/cow/*` | mixed: rosters/dates from the wiki, stats from the game, formations and scoring authored here |
+| English names for 222 unit forms | `server/content/unit_name_repairs.json` | authored translations of the Japanese names in the game's tables |
 
 The battle tables are included because the server cannot replay a battle without them. Each file carries
 its derivation and a `sha256` in its header comment, so its origin is checkable rather than implied.
@@ -57,16 +60,37 @@ running client. **No Square Enix code is redistributed here**: the document desc
 
 Public datamining lexicons and community documentation were used as **cross-references** while
 reconstructing the protocol and the battle content. Every such claim was verified independently against
-the client; agreement with a community source was never treated as proof. No community work is
-redistributed here.
+the client; agreement with a community source was never treated as proof.
+
+Two community sources are **redistributed** here, and they are credited:
+
+- **The FINAL FANTASY BRAVE EXVIUS Wiki** — <https://exvius.fandom.com>. The event release dates and run
+  history in `server/content/event_spine.json` come from its Update Schedule and event pages, transcribed by
+  its editors and reused under the wiki's own licence (**CC BY-SA**; see the wiki's licence page). Every row
+  keeps its `source_page`, and the file records the revision it was read from. These dates are the
+  community's best record of when an event ran: the game's shipped tables carry no dates at all, so they
+  cannot be checked against the game — only against another transcription of the same wiki. Where the two
+  disagree, the game is silent and the wiki wins by default; treat the dates as the best available, not as
+  verified fact.
+- **Exvius Revival / Exvius Offline** — <https://github.com/CreamySeaman6/Exvius-revival-ios> and
+  <https://github.com/Elvlin/exvius-offline>. The spine's reconciliation, the Clash of Wills rosters and the
+  222 unit-name translations in `server/content/unit_name_repairs.json` come from those forks. They are
+  credited as the source of that work; there is no endorsement in either direction, and the engine here is
+  not their engine.
+
+The Clash of Wills content under `server/content/cow/` is mixed in provenance, and each file says so in its
+own header: boss identities and stats are the game's own data, while the formations and the scoring/reward
+policy were authored here. Nothing in that directory is a recovered retail table.
 
 ## Provenance
 
-This engine names itself when it runs: **`ffbe-gl/<engine version> (TBMonkey)`**. The string is in
-`server/data_paths.py` (`SERVER_BANNER`) and reaches the outside three ways — the HTTP `Server:` header on
-every response, the first field of the startup line, and the `server_banner=` field the app's doctor reads
-from `--print-paths`. It is published here on purpose: a mark nobody can claim to have removed by accident
-is the only kind worth having. If you fork and change the engine, say so — but do not quietly rename it to
+This engine names itself when it runs: **`ffbe-gl/<engine version>[+<build id>] (TBMonkey)`** — for this
+release, `ffbe-gl/0.1.5+v0.1.8 (TBMonkey)`. The string is in `server/data_paths.py` (`SERVER_BANNER`) and
+reaches the outside three ways — the HTTP `Server:` header on every response, the first field of the startup
+line, and the `server_banner=` / `build_id=` fields the app's doctor reads from `--print-paths`. The build id
+is stamped by the export that cuts a release; a development checkout carries none, so an empty id in a
+shipped bundle means it was built by hand. It is published here on purpose: a mark nobody can claim to have
+removed by accident is the only kind worth having. If you fork and change the engine, say so — but do not quietly rename it to
 look like the upstream build.
 
 ## Reusing this

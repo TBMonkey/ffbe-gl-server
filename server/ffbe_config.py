@@ -57,10 +57,16 @@ WORK = os.path.dirname(HERE)  # APK_emulator_work/
 # else the checkout-relative default). The shipped `server/assets/banner_art` and the game tree's
 # `files/homeMarquee` are NOT extracted CPKs and stay anchored to the code/game tree respectively.
 AREA_ART_ROOTS = [os.path.join(data_paths.ART_ROOT, "en", "area"),
-                  os.path.join(data_paths.ART_ROOT, "common_lang", "area")]
+                  os.path.join(data_paths.ART_ROOT, "common_lang", "area"),
+                  # the local area-art overlay: CPK members we pull out (e.g. the TFA banner used as
+                  # a gate tile) are indexed here by basename, without touching the read-only tree.
+                  os.path.join(data_paths.WORK, "out", "art_extra", "en", "area")]
 BANNER_ART_ROOTS = [os.path.join(data_paths.ART_ROOT, "en", "banner"),
                     os.path.join(data_paths.ART_ROOT, "common_lang", "banner"),
                     os.path.join(data_paths.ART_ROOT, "common_lang", "gacha"),
+                    # CPK packs pulled out of the consolidated store (/ffbe-data/gl) land here --
+                    # the store holds archives, not an extracted art tree (cpk_read.py extract).
+                    os.path.join(data_paths.WORK, "out", "art_extra", "en", "banner"),
                     # the COMMUNITY calendar's fetched art (harness/fetch_gacha_community.py; gitignored)
                     data_paths.COMMUNITY_ART_ROOT,
                     # SHIPPED daily-login banner art, cropped once out of the client's own atlas
@@ -162,13 +168,33 @@ BUTTON_ART_ROOTS = [os.path.join(data_paths.ART_ROOT, "en", "gacha"),
 
 
 DROP_TAG_ROWS = "y35YvQjZ"      # WaveBattleInfo rows carry the per-phase drop CANDIDATE list
-DROP_TOKEN = "9BetM2Ds"         # MissionDropInfo::setDropInfo (+0x38)
+DROP_TOKEN = "9BetM2Ds"         # MissionDropInfo::setDropInfo (+0x38)          -- COMMON pool
+DROP_RARE_TOKEN = "MZn8LC6H"    # MissionDropInfo::setDropRareInfo (+0x50)      -- RARE pool
+DROP_UNIQUE_TOKEN = "g4voc2Aw"  # MissionDropInfo::setDropUniqueInfo (+0x68)    -- UNIQUE pool
+
+# --- drop-pool BASE RATES (AUTHORED, community-shaped; not recovered) ------------------------------
+# The client cannot roll: `GameUtils::getMissionDropItemInfo` (0x19f7c28) parses the 4th field and
+# discards it before any store (verified instruction-by-instruction 2026-11-20), so the rate can only
+# act on the SERVER -- which is also why retail's GL drop tables were server-side. These constants are
+# therefore the only place a rate exists, and they are OUR numbers.
+#
+# The shape comes from [Community] the GL Fandom farming survey for awakening crysts (`TOTAL` tab of the
+# community spreadsheet): with NO bonus, 502 common-pool rolls to 72 rare-pool rolls, i.e. ~87/13 of
+# drops, ~5.7 items per run. That survey is sample-based and covers ONE farm, so it gives the SHAPE and
+# not constants. Precision is deliberately low: these pools are the low-value drops. Recoverable later
+# from footage/farming logs; do not present these as retail values.
+#
+# `rate` in a served item string still wins when present (the JP oracle's own values, e.g. 30/50/100).
+DROP_POOL_BASE_RATE = {"common": 30, "rare": 8, "unique": 3}
+DROP_POOL_SHARE_PCT = {"common": 87, "rare": 13, "unique": 0}   # % of drop rolls, no bonus
+
 RESULT_TAG = "09HRWXDf"         # MissionResultResponse: the result screen's own item channels
 RESULT_DROP_TOKEN = "xF9Sr1a6"  # addItem(20, 0, csv)  -- kind 0 = the DROPS channel
 # The result reply's ITEM channels -- `addItem(20, kind, csv)`, mapped in `mission_end_progression.md` S4.2:
 # kind 0/1/2/3/5/6 -> these six. `2U05aV9Z` (units) is deliberately NOT here: it is a separate list, and
 # the A/B these feed is about the ITEM strip. Read only by `RESULT_ITEM_COLUMNS=0` (SW-93b).
 RESULT_ITEM_TOKENS = ("xF9Sr1a6", "JHMit30L", "Sp7fF6I9", "02aARqrv", "Z7G0yxXe", "EWmQy52k")
+RESULT_UNIT_TOKEN = "2U05aV9Z"   # addItem(10, 0, csv) -- the UNIT drops; separate from the item strip
 
 # The top bar's LAPIS, and why the server must push it. `J3pAG0I5` -> `UserDiamondInfoResponse`
 # (`readParam` 0x1921bcc, 2 tokens) is the only writer of the balance besides the purchase path:
@@ -177,8 +203,15 @@ RESULT_ITEM_TOKENS = ("xF9Sr1a6", "JHMit30L", "Sp7fF6I9", "02aARqrv", "Z7G0yxXe"
 # credit a challenge award itself, and `UIHeader::update` (0x209a9d0) renders whatever the two
 # singletons hold. Evidence: docs/notes/audit_stat_bar.md.
 DIAMOND_TAG = "J3pAG0I5"        # UserDiamondInfoResponse
-DIAMOND_FREE = "T7sah9rc"       # -> UserDiamondInfo+0x24 (free)
-DIAMOND_PAID = "cb3WmiD0"       # -> UserDiamondInfo+0x28 (paid)
+# CORRECTED 2026-11-08 (APP-71). These two were INVERTED, and it was visible: the summons screen read
+# "1,320 paid" (that is the FREE pool) while the total beside it was right, because `getTotalDiamond`
+# `0x1da9f78` is `ldp w8,w9,[x0,#0x24]; add w0,w9,w8` -- the sum of both, so only the split was wrong.
+# Read at the binary: `UserDiamondInfoResponse::readParam` `0x1921bcc` stores `cb3WmiD0` at **+0x28**
+# (`str w0,[x21,#0x28]` at `0x1921c08`) and `getPaidDiamond` `0x1da9f84` is `ldr w0,[x0,#0x24]` -- so
+# +0x24 is PAID (`T7sah9rc`) and +0x28 is FREE (`cb3WmiD0`). The old pairing served the free balance under
+# the paid token and vice versa.
+DIAMOND_PAID = "T7sah9rc"       # -> UserDiamondInfo+0x24 (PAID; getPaidDiamond 0x1da9f84)
+DIAMOND_FREE = "cb3WmiD0"       # -> UserDiamondInfo+0x28 (FREE; readParam 0x1921bcc stores it there)
 # A reply carrying one of these groups is a user-state refresh; that is where the balance rides.
 USER_STATE_GROUPS = ("LhVz6aD2", "3oU9Ktb7")  # UserInfoResponse / UserTeamInfoResponse
 TEAM_INFO_TAG = "3oU9Ktb7"        # UserTeamInfoResponse -- carries n69quiCJ, the DISPLAYED emblem
@@ -252,6 +285,20 @@ SELL_IDS = "S5Ib7En1"                      # comma unique-unit-ids
 # 2026-09-24, out/requests/20260924T075911_0003.json): `og2GHy49` = the BASE unit's instance id,
 # `WbGYcN17` = the comma-separated MATERIAL instance ids.
 MIX_GROUP = "f08du6EW"
+# Unit Exchange (APP-83): `UnitExchangeRequest` `3ekgi8bh` carries the selected instance ids in
+# `g6sVon0N`; `UnitUsePointRequest` `nsxUW3Y7` spends the resulting points in `5xfBN93i`. Neither request
+# has a factory response class of its own, so the reply's value is the `z36FApms`
+# (UserUnitPowerUpPointInfoResponse) projection plus the player groups.
+UNIT_EXCHANGE_REQUEST = "3ekgi8bh"
+UNIT_EXCHANGE_GROUP = "g6sVon0N"
+UNIT_USE_POINT_REQUEST = "nsxUW3Y7"
+UNIT_USE_POINT_GROUP = "5xfBN93i"
+# A/B: the collaborator's auto-convert policy. When ON, every eligible enhancement-material unit still
+# in the roster is converted into its power-up points on a USER-STATE refresh (LhVz6aD2 present), exactly
+# like exvius-offline's serve_feature_state. OFF is our explicit-exchange behaviour. Deliberately excludes
+# MissionEnd / gacha replies: consuming a unit in the same reply that awards it would hide the award's
+# reveal, and the collaborator's own comment leaves summon awards for that reason.
+AUTO_CONVERT_MATERIALS = os.environ.get("AUTO_CONVERT_MATERIALS", "0") == "1"
 # --- the BEAST (esper) progression (APP-26) ------------------------------------------------------
 # `BeastBoardPieceOpenRequest` `0gk3Tfbz` and `BeastMixRequest` `C8X1KUpV` — both `addGroup` requests
 # with NO factory response class, so the client reads nothing back: it applied its change at the tap and
@@ -373,9 +420,13 @@ GACHA_BGM_RES_VERSION = os.environ.get("GACHA_BGM_RES_VERSION", "3")
 # file. `en` (default) prefers the English file when present, else falls back to the default; the banner's
 # `region` metadata records which locales actually EXIST. See `gacha_banner_draw_path.md` §12.
 GACHA_LANG = os.environ.get("GACHA_LANG", "en")
-# The requestIDs whose reply must carry the banner groups: entering the gacha sends `GachaEntryRequest`
-# (rj6dxU9w); opening a banner detail sends `GachaInfoRequest` (UNP1GR5n).
-GACHA_INFO_REPLIES = ("rj6dxU9w", "UNP1GR5n")
+# The requestIDs whose reply carries the gacha screen's data. Entering sends `rj6dxU9w` (the LIST:
+# schedule/master/detail + the player's per-banner state); opening a detail sends `UNP1GR5n` (the INFO:
+# the step-up possible_cnt row + the signal echo, not the banner list). The panel classes are a separate
+# box/panel flow and are NOT served on either reply -- they clear/rebuild a container.
+GACHA_ENTRY_REPLY = "rj6dxU9w"
+GACHA_INFO_REPLY = "UNP1GR5n"
+GACHA_INFO_REPLIES = (GACHA_ENTRY_REPLY, GACHA_INFO_REPLY)
 GACHA_MST_TAG = "PcUrGH13"        # GachaMstResponse
 GACHA_DETAIL_TAG = "IC0ueV5s"     # GachaDetailMstResponse
 GACHA_SCHEDULE_TAG = "4D5k8dpI"   # GachaScheduleMstResponse
@@ -629,7 +680,27 @@ FORCE_TABLE_VERSIONS = os.environ.get(
     # sudo), so "the guest does not have the bytes" rests on the note plus the run's log line, not on a
     # directory listing. WHAT IS PROVEN is the half that matters: the client is ADVERTISING 223 and so
     # has no reason to fetch -- which is the defect, independent of what is on disk.
-    ",F_TEXT_DUNGEON_NAME=224")
+    # ...and three ENGLISH JP-ERA MASTERS adopted 2026-10-23 from the collaborator's Lapis build
+    # (`build/mst_en`, `docs/notes/lapis_apk_reference.md` §9.6). They are the same tables, in English, with
+    # MORE rows than our WW 9.0.0 editions, and each has been written to
+    # `out/cdn_overlay/mst/Ver700_<token>.dat` by `harness/adopt_mst_en.py` (round-trip decoded, verified):
+    #   F_RB_SS_MST    (gd74jWQn)  498 vs 424 arena seasons   — 456,490 B
+    #   F_CAPTURE_MST  (65fHqgnT)  7,919 vs 7,616 captures    — 4,635,415 B
+    #   F_DUNGEON_MST  (1Bj4oy5Q)  4,448 vs 3,091 dungeons    — 2,745,212 B
+    # WHY THESE THREE AND NOT THE OTHER 58 SAFE ONES: each is a NAME/LIST table whose extra rows only add
+    # labels — no reply class is involved — so the worst case is a longer list, and the fetch is ~8 MB once.
+    # The other 58 are STAGED at the same `Ver700` on disk but deliberately NOT advertised: `F_MISSION_MST`
+    # (+4,913 rows) or `F_BANNER_MST` (+4,781) would change the quest list / marquee, and that needs a live
+    # look, not a guess. REVERT = delete a name from this string (the version falls back to the registry's).
+    # The registry (`shared_prefs/gamedata.xml`) already registers all three, so each row is live rather than
+    # inert. Acceptance is still a RUN: the client must log `GET /mst/Ver700_<token>.dat` at boot.
+    # ...and F_RESOURCE_VERSION_MST_LOCALIZE, because 45 rows in the shipped table carry version 0 and so
+    # have no derivable `Ver<N>_` name. `harness/derive_resource_version_mst.py` writes Ver736 with the EoS
+    # archive's real versions, and `harness/import_archive_packs.py --apply-version0` stages those packs under
+    # the archive's own language layer (`en/sd`, `en/hd`, `common_lang/sd`, `common_lang/hd`).
+    # Home: docs/notes/eos_content_server_archive.md §5.
+    ",F_TEXT_DUNGEON_NAME=224,F_RB_SS_MST=700,F_CAPTURE_MST=700,F_DUNGEON_MST=700,"
+    "F_RESOURCE_VERSION_MST_LOCALIZE=736")
 
 
 # --- SERVE the unit row's first-get locator (`Z06cK4Qi`) FROM STATE (the AX unit-ability arms) -----------
@@ -907,7 +978,11 @@ SP_SCHEDULE_WINDOW_DAYS = 365
 #   schedules at once is how nobody can tell which list a fix landed in. 9001 is never a candidate: its 100
 #   rows are exactly the table's nameless ones, so it renders as 100 empty rows.
 # A season's `events.sp_challenge_groups` OVERRIDES this list; it does not enable it.
-SP_CHALLENGE_DEFAULT_GROUPS = (1001, 1101)
+# 99062 = the shipped FFBE 4th Anniversary: Overdrive SOON™ Medal Daily Quests. It is a real event
+# schedule (7 rows, each reward `20:1209001258:20`), not a table we authored; adding it is what gives the
+# Moogle medal shop an in-game coin source. The schedule NAME is shipped at `..._990621`, so the
+# group*10+1 rule resolves; the event is old, so its window is the same authored evergreen used below.
+SP_CHALLENGE_DEFAULT_GROUPS = (1001, 1101, 99062)
 
 # --- SURVIVAL (the 2020 trial gauntlet; the mode's data is server-only) --------------------------------
 # The mode cannot be reached from shipped data alone: `SurvivalUtil::isPlayingSurvivalMission(areaId)`
@@ -1081,10 +1156,45 @@ EVENT_GATE_KIND = os.environ.get("EVENT_GATE_KIND", "1")   # `Z0EN6jSh` -- the +
 # from the common bundle (so it always resolves), and it reads as "no art yet" rather than as another
 # event. THE REAL FIX is an overlay: copy the event's banner art into the served CDN under a list-art name
 # the client requests and point this at it (docs/notes/limited_events.md section 6).
-EVENT_GATE_ART = os.environ.get("EVENT_GATE_ART", "spd_bn_list_dummy.png")
+# MEASURED 2026-11-11: the tile loader resolves a member of the spdungeon list pack
+# (`Ver26_spdungeon2.cpk`, family `spd_<date>_bn_list_*.png`). `spd_bn_list_dummy.png` is NOT a member,
+# so every gate pointed at it drew its frame and nothing else -- the "empty frames" the operator saw.
+# These are real shipped members; the 9503 one is a placeholder until the TFA art is patched into the pack.
+EVENT_GATE_ART = os.environ.get("EVENT_GATE_ART", "spd_20170612_bn_list_ffbe.png")
+# Per-area override for a real event banner. The CoW/Hydro tile uses the shipped TFA exchange art
+# (extracted from en/sd/banner/Ver328_banner1.cpk into out/art_extra); the rest keep the dummy.
+EVENT_GATE_ART_BY_AREA = {
+    "970": "spd_20170612_bn_list_ffbe.png",
+    "888": "spd_20170601_bn_list_seiken_dark.png",
+    "9503": "spd_20221021_bn_list_rengoku01.png",   # boss area; placeholder until the TFA art is in the pack
+    "7101": "spd_20221021_bn_list_rengoku01.png",   # TFA portal ("TFA: Osta"); the row the banner points at
+}
 EVENT_GATE_WINDOW_START = os.environ.get("EVENT_GATE_WINDOW_START", "1577836800")   # 2020-01-01Z
 EVENT_GATE_WINDOW_END = os.environ.get("EVENT_GATE_WINDOW_END", "4102444800")       # 2100-01-01Z
 EVENT_GATE_TAG = "0xkoNP8U"                                # SpDungeonCondMstResponse
+
+# --- the ENHANCE gate: a TRAINING-tab chamber in the same Vortex list -------------------------------
+# Cactuar Dunes is shipped as area 218 / dungeon 21112 / missions 2111201..2111204 (names in
+# F_TEXT_AREA_NAME_218 / F_TEXT_DUNGEONS_NAME_21112 / F_TEXT_MISSION_211120*), and its battle phases and
+# monster parts are already in server/content/battle -- so the chamber is a ROW, not authored content.
+# The row rides the SAME 0xkoNP8U carrier as EVENT_GATE_AREAS; only the 1-BASED tab changes (2 = training,
+# the client's "Enhance" tab) and the +0x100 selector is 0 (no survival branch).
+#
+# THE "ONE PER DAY" RULE IS SERVER-FED, NOT A CLIENT CONSTANT. The shipped F_DUNGEON_MST row has no daily
+# column; `GateScene` takes tab/period from the SpDungeonCondMst row, and the per-mission limit is
+# `possibleCnt` compared with `RestrictionsMissionInfo+0x28` (getMissionChallengedCount, 0x1a7a86c).
+# Neither class is a shipped MST: SpDungeonCondMstResponse (0xkoNP8U) and RestrictionsMissionInfoResponse
+# (XYB5oPM4) are reply-delivered. This first pass leaves possibleCnt/limitType neutral ("0") so the
+# chamber is usable for level testing; a daily policy needs both the row and the restriction count.
+ENHANCE_GATE_AREAS = tuple(x for x in (os.environ.get("ENHANCE_GATE_AREAS") or "218").split(",") if x)
+ENHANCE_GATE_TAB = os.environ.get("ENHANCE_GATE_TAB", "2")       # 1-BASED: 2 = training/Enhance
+ENHANCE_GATE_KIND = os.environ.get("ENHANCE_GATE_KIND", "0")     # +0x100 selector; 0 = no survival branch
+# Cactuar Dunes uses the same shipped list plate as the Chamber of Experience until its own art is
+# identified; the name comes from F_TEXT_AREA_NAME_218, so the tile is not anonymous.
+ENHANCE_GATE_ART = os.environ.get("ENHANCE_GATE_ART", "spd_bn_list_dummy.png")
+# Per-chamber list plate. The one-art default is fine for the first row; a second chamber should name its
+# own art here rather than wear another chamber's plate.
+ENHANCE_GATE_ART_BY_AREA = {"218": "spd_bn_list_00006.png"}   # Cactuar Dunes (not 00003 = Experience)
 # The two carriers the SHIPPED gate rows ride. Appended, never replaced: the list is replace-on-read, so
 # only a carrier that already serves it may be written.
 EVENT_GATE_CARRIERS = tuple(x for x in (os.environ.get("EVENT_GATE_CARRIERS") or
@@ -1367,10 +1477,15 @@ __all__ = [
     "AREA_ART_ROOTS",
     "BUTTON_ART_ROOTS",
     "DROP_TAG_ROWS",
+    "DROP_RARE_TOKEN",
+    "DROP_UNIQUE_TOKEN",
+    "DROP_POOL_BASE_RATE",
+    "DROP_POOL_SHARE_PCT",
     "DROP_TOKEN",
     "RESULT_TAG",
     "RESULT_DROP_TOKEN",
     "RESULT_ITEM_TOKENS",
+    "RESULT_UNIT_TOKEN",
     "DIAMOND_TAG",
     "DIAMOND_FREE",
     "DIAMOND_PAID",
@@ -1414,6 +1529,11 @@ __all__ = [
     "SELL_GIL",
     "SELL_IDS",
     "MIX_GROUP",
+    "UNIT_EXCHANGE_REQUEST",
+    "UNIT_EXCHANGE_GROUP",
+    "UNIT_USE_POINT_REQUEST",
+    "UNIT_USE_POINT_GROUP",
+    "AUTO_CONVERT_MATERIALS",
     "BEAST_BOARD_GROUP",
     "BEAST_BOARD_LEARNED",
     "BEAST_BOARD_UNLOCKED",
@@ -1448,6 +1568,8 @@ __all__ = [
     "GACHA_BGM_RES_ID",
     "GACHA_BGM_RES_VERSION",
     "GACHA_LANG",
+    "GACHA_ENTRY_REPLY",
+    "GACHA_INFO_REPLY",
     "GACHA_INFO_REPLIES",
     "GACHA_MST_TAG",
     "GACHA_DETAIL_TAG",
@@ -1637,10 +1759,16 @@ __all__ = [
     "EVENT_GATE_TAB",
     "EVENT_GATE_KIND",
     "EVENT_GATE_ART",
+    "EVENT_GATE_ART_BY_AREA",
     "EVENT_GATE_WINDOW_START",
     "EVENT_GATE_WINDOW_END",
     "EVENT_GATE_TAG",
     "EVENT_GATE_CARRIERS",
+    "ENHANCE_GATE_AREAS",
+    "ENHANCE_GATE_TAB",
+    "ENHANCE_GATE_KIND",
+    "ENHANCE_GATE_ART",
+    "ENHANCE_GATE_ART_BY_AREA",
     "EVENT_CURRENCY",
     "SURVIVAL_EVENT_KIND",
     "SURVIVAL_BREAK_TAG",

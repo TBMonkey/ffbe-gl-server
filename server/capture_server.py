@@ -83,6 +83,9 @@ from player_state import (PlayerState, COST_KINDS, cost_numeric_kind, max_level,
                           fixed_beast_presets, BEAST_BOARD_ALL, map_ext_unservable_ignores,
                           vision_card_mst, item_mst, BAG_ITEM_TYPE)
 import season as season_mod
+# The one writer of `profile.decorate_home_vc_id` (the HOME ornament card): shared with the client's own
+# `VisionCardDisplayRequest` transform, so `--grant-vc` and the live action cannot diverge.
+from ffbe_player import set_decorate_home_vc_id
 
 
 # The wire cipher, in the bottom leaf of the module split. `IV`/`CIPHER` live there because the
@@ -106,7 +109,7 @@ from ffbe_state import (State, _note, load_endpoints, endpoint_for, load_state,
 # the request's I/O -- decrypt, dispatch, record, encrypt -- so it needs almost none of them; the two it
 # does need are `mission_id_from` (per-mission reply selection) and `reply_pipeline` (the chain).
 from ffbe_battle import mission_id_from, per_unit_exp
-from ffbe_gacha import banner_art_index
+from ffbe_gacha import area_art_index, banner_art_index
 from ffbe_pipeline import reply_pipeline, _PIPELINE_PROBLEMS
 
 # The derived-content path (APP-33): `assemble` reads the tracked index under `server/content/battle/`
@@ -137,8 +140,8 @@ class Handler(BaseHTTPRequestHandler):
     protocol_version = "HTTP/1.1"
 
     def version_string(self):
-        # Name the engine, not the stdlib and not a build number that can drift: this used to be the literal
-        # `ffbe-lab/0.1`, which had been stale for several releases. One source of truth -- see
+        # Name the engine, not the stdlib and not a build number that can drift: this used to be the
+        # literal `ffbe-lab/0.1`, stale for several releases. One source of truth -- see
         # `data_paths.SERVER_BANNER` for why the string carries the name it carries.
         return data_paths.SERVER_BANNER
 
@@ -418,6 +421,22 @@ class Handler(BaseHTTPRequestHandler):
                         how = "token-match " + os.path.basename(hits[0])
                     elif len(hits) > 1:
                         how = f"AMBIGUOUS ({len(hits)} candidates)"
+        # COMMON-LANGUAGE FALLBACK (2026-11-07). The client probes `common_lang/<path>` and then
+        # `<lang>/<path>` for every resource, and our corpus holds NO common_lang copy for most of them -- so
+        # a request for one that only the language tree answers 404s, and the downloader RETRIES it forever:
+        # `/common_lang/sd/area/Ver26_spdungeon2.cpk` was requested 38,897 times in ten minutes on one cold
+        # boot, stalling the client behind a connection-error dialog with the API entirely healthy. A
+        # language-neutral request is served from the English tree, one language, and the reply says which
+        # tree answered. The real fix is to source the common_lang packs (APP-64); until then this is the
+        # rule that keeps a cold boot from looping.
+        if data is None and rel.startswith("common_lang/") and ".." not in rel:
+            fallback = "en/" + rel[len("common_lang/"):]
+            for base, label in ((overlay, "overlay"), (root, "root")):
+                if base:
+                    cand = os.path.join(base, fallback)
+                    if os.path.isfile(cand):
+                        data, how = open(cand, "rb").read(), f"common_lang->en ({label})"
+                        break
         # ART BY BASENAME. The client stores art under its OWN names and the CPK trees are named
         # differently, so a basename lookup is the only join that works -- but the "banner" gate meant an
         # AREA art request (the gate/list tile art family, e.g. the spd_bn_list_* files under
@@ -425,12 +444,16 @@ class Handler(BaseHTTPRequestHandler):
         # (operator report 2026-10-12). Both families are indexed; the verdict line says which answered.
         if data is None and rel and ".." not in rel \
                 and os.path.splitext(rel)[1].lower() in (".png", ".jpg", ".jpeg") \
-                and ("banner" in rel.lower() or "area" in rel.lower()):
-            hit = banner_art_index().get(os.path.basename(rel)) if "banner" in rel.lower() else None
-            how_art = "banner-art basename"
-            if hit is None:
-                hit = area_art_index().get(os.path.basename(rel))
+                and ("banner" in rel.lower() or "area" in rel.lower() or "gacha" in rel.lower()):
+            base = os.path.basename(rel)
+            if "area" in rel.lower():
+                hit = area_art_index().get(base)
                 how_art = "area-art basename"
+            else:
+                # The banner index also covers common_lang/gacha, so a gacha-art path has a
+                # home here; the old banner-only gate silently skipped it.
+                hit = banner_art_index().get(base)
+                how_art = "banner/gacha-art basename"
             if hit:
                 data = open(hit, "rb").read()
                 how = how_art + " (" + os.path.relpath(hit, os.path.dirname(WORK)) + ")"
@@ -684,6 +707,16 @@ def main() -> int:
     # `cdn_root` is original game data (never modify it); a patched MST belongs here instead. Note the
     # same-token fallback below: without an exact-path hit, a request for `Ver<N>_<token>.dat` would be
     # served the shipped `Ver<M>_<token>.dat` and the patch would silently not apply.
+    # --- prepare: the ONE command a user runs before anything else (docs/SIMPLER_DISTRIBUTABLE.md) -----
+    # Two inputs -> the whole data root, inside the engine. No repo, no `scripts/`, no openssl, no shell
+    # script: `ffbe_prepare` extracts libgame.so from the APK, decodes the MST + text tables, generates the
+    # certs and writes `prepare.json`. Kept as flags rather than a second entrypoint so a frozen bundle has
+    # exactly one binary to ship.
+    ap.add_argument("--prepare", action="store_true",
+                    help="build the data root from --apk + --client-data, then exit (run this first)")
+    ap.add_argument("--apk", default="", help="the FFBEWW APK (with --prepare)")
+    ap.add_argument("--client-data", default="",
+                    help="your client install's app-data root, or its files/ dir (with --prepare)")
     ap.add_argument("--cdn-overlay", default=data_paths.CDN_OVERLAY,
         help="our patched resource copies, served before --cdn-root (never the game tree; "
              "CDN_OVERLAY env > <root>/overlay > out/cdn_overlay)")
@@ -695,6 +728,11 @@ def main() -> int:
         if args.state and args.state != mode_slot:
             ap.error(f"--{mode_slot} means `--state {mode_slot}`, so --state {args.state!r} contradicts it")
         args.state = mode_slot
+    if args.prepare:
+        import ffbe_prepare  # noqa: PLC0415 — only needed on this path
+        return ffbe_prepare.main(["--apk", args.apk, "--client-data", args.client_data,
+                                  "--data", args.data or os.environ.get("FFBE_DATA") or "ffbe-data"])
+
     if args.print_paths:
         # The GUI's contract: resolve everything, side-effect free. `--state-file` wins, then the slot
         # (`--state`/a mode), then the default state file; `state_dir` is that file's directory.
@@ -706,8 +744,8 @@ def main() -> int:
             state_file = os.path.abspath(data_paths.STATE_FILE)
         for key, value in (("engine_version", data_paths.ENGINE_VERSION),
                            # The build's provenance: `server_banner` is what a packet capture shows,
-                           # `build_id` is the same fact without the decoration. The app's doctor shows
-                           # both, so a bug report names the build it came from.
+                           # `build_id` is the same fact without the decoration. The app's doctor
+                           # shows both, so a bug report names the build it came from.
                            ("build_id", data_paths.BUILD_ID),
                            ("server_banner", data_paths.SERVER_BANNER),
                            ("contract", data_paths.CONTRACT_VERSION),
@@ -873,10 +911,15 @@ def main() -> int:
             print(f"grant-vc: {vc_id!r} is not an F_VISION_CARD_MST id", file=sys.stderr)
             return 2
         key = str(args.grant_vc_key or vc_id)
-        cards = State.player.data.setdefault("vision_cards", [])
-        cards[:] = [c for c in cards if str(c.get("user_vc_id") or c.get("vc_id")) != key]
-        cards.append({"user_vc_id": key, "vc_id": vc_id})
-        State.player.data.setdefault("profile", {})["decorate_home_vc_id"] = key
+        row_owned = State.player.grant_vision_card(vc_id, key=key)
+        if row_owned is None and not any(
+                str(c.get("user_vc_id") or c.get("vc_id")) == key
+                for c in State.player.data.get("vision_cards") or []):
+            print(f"grant-vc: REFUSED {vc_id!r} -- not in F_VISION_CARD_MST, already owned, or frozen",
+                  file=sys.stderr)
+            return 2
+        cards = State.player.data.get("vision_cards") or []
+        set_decorate_home_vc_id(key)     # ONE writer for this column; see the setter's docstring
         State.player.save(st.STATE_FILE, force=True)
         print(f"grant-vc: {vc_id} ({row.get('G4L0YIB2')!r}) owned as {key!r}; "
               f"decorate_home_vc_id={key!r}; vision_cards={len(cards)}", flush=True)

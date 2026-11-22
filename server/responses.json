@@ -2999,7 +2999,7 @@
    },
    {
     "a4hXTIm0": "F_LOCALIZED_TEXT_MST",
-    "wM9AfX6I": "706"
+    "wM9AfX6I": "707"
    },
    {
     "a4hXTIm0": "F_DEFINE_MST",
@@ -3008,6 +3008,10 @@
    {
     "a4hXTIm0": "F_TEXT_GACHA",
     "wM9AfX6I": "267"
+   },
+   {
+    "a4hXTIm0": "F_DIAMOND_MST",
+    "wM9AfX6I": "95"
    }
   ]
  },
@@ -21143,7 +21147,20 @@
   ],
   "oUk10RXm": []
  },
+ "C0Lne0I7": {
+  "_comment": "APP-78 first slice: TfaEntryRequest for the Hydro season (area 9503, dungeon 950301). Season id 7100006 and enkCGfPT's six-column codec are DERIVED from F_TFA_GAMBIT_EVENT_MST/F_MISSION_MST; the window and the status/bonus defaults are AUTHORED (collaborator's shape).",
+  "L6XRZb0z": [
+   {"U9iHsau3": "950301", "pvS5A4kE": "7100006", "L84eYzxv": "710007", "9gAL7Bur": "1", "CTnSr2yb": "1", "RdD05iaE": "0", "SM7fdQe1": "0", "lJLXlueo": "1", "VjJQ51uG": "2020-01-01 00:00:00", "m8ivD4NX": "2037-12-31 23:59:59", "enkCGfPT": "950301-1-95030101-1-20-0|950301-2-95030102-21-40-0|950301-3-95030103-41-60-0|950301-4-95030104-61-80-0|950301-5-95030105-81-99-0"}
+  ],
+  "x51bb135": [{"dc10ae96": "0", "cEVau7d8": "1"}],
+  "Fs0sexp7": [{"mXQWZ5Ql": "", "IX1hKI6g": "0", "bcd49985": "0:7100006:4"}],
+  "AJb8pF71": [],
+  "XHnyfiwg": [],
+  "cBHNnXQZ": [{"3HbFrqo5": "1", "8s9wNSpd": "1", "52ibRBqw": "0", "23qt9g1x": "0:0", "UbQ26oH4": "0"}]
+ },
  "Daud71Hn": {
+  "jBL5XNf6": [{"fSxqkF10": "7100001", "VjJQ51uG": "2015-01-01 00:00:00", "m8ivD4NX": "2099-12-31 23:59:59"}],
+  "L6XRZb0z": [{"U9iHsau3": "950301", "pvS5A4kE": "7100006", "L84eYzxv": "710007", "9gAL7Bur": "1", "CTnSr2yb": "1", "RdD05iaE": "0", "SM7fdQe1": "0", "lJLXlueo": "1", "VjJQ51uG": "2020-01-01 00:00:00", "m8ivD4NX": "2037-12-31 23:59:59", "enkCGfPT": "950301-1-95030101-1-20-0|950301-2-95030102-21-40-0|950301-3-95030103-41-60-0|950301-4-95030104-61-80-0|950301-5-95030105-81-99-0"}],
   "LhVz6aD2": [
    {
     "1WKh6Xqe": "ver.9.0.0",
@@ -21300,6 +21317,8 @@
   ]
  },
  "OTX6Fmvu": {
+  "jBL5XNf6": [{"fSxqkF10": "7100001", "VjJQ51uG": "2015-01-01 00:00:00", "m8ivD4NX": "2099-12-31 23:59:59"}],
+  "L6XRZb0z": [{"U9iHsau3": "950301", "pvS5A4kE": "7100006", "L84eYzxv": "710007", "9gAL7Bur": "1", "CTnSr2yb": "1", "RdD05iaE": "0", "SM7fdQe1": "0", "lJLXlueo": "1", "VjJQ51uG": "2020-01-01 00:00:00", "m8ivD4NX": "2037-12-31 23:59:59", "enkCGfPT": "950301-1-95030101-1-20-0|950301-2-95030102-21-40-0|950301-3-95030103-41-60-0|950301-4-95030104-61-80-0|950301-5-95030105-81-99-0"}],
   "LhVz6aD2": [
    {
     "1WKh6Xqe": "ver.9.0.0",
@@ -21568,7 +21587,7 @@
   "0xkoNP8U = SpDungeonCondMstResponse, seeded 2026-09-24 on 6H1R9WID, lEHBdOEf. This is what makes the Dimensional Vortex's five tabs non-empty: GateScene looks a row up by AreaMst.areaId and a NULL row skips the area in every tab (docs/notes/vortex_tab_filter.md). eventType->tab is READ: 0/1 event, 2 training, 3 enemy, 4 special, 5 ordeal. Seeded area(s) 899,226 as 'enemy'. DERIVED: areaId/dungeonId/missionId from the shipped tables. AUTHORED: the windows (wide open epoch seconds), condType/CondParam (no condition), and every reward/display field is neutral because we grant nothing.",
   "0xkoNP8U = SpDungeonCondMstResponse, seeded 2026-09-24 on 6H1R9WID, lEHBdOEf. This is what makes the Dimensional Vortex's five tabs non-empty: GateScene looks a row up by AreaMst.areaId and a NULL row skips the area in every tab (docs/notes/vortex_tab_filter.md). eventType->tab is READ: 0/1 event, 2 training, 3 enemy, 4 special, 5 ordeal. Seeded area(s) 226 as 'training'. DERIVED: areaId/dungeonId/missionId from the shipped tables. AUTHORED: the windows (wide open epoch seconds), condType/CondParam (no condition), and every reward/display field is neutral because we grant nothing.",
   "0xkoNP8U = SpDungeonCondMstResponse, seeded 2026-09-24 on 6H1R9WID, lEHBdOEf. This is what makes the Dimensional Vortex's five tabs non-empty: GateScene looks a row up by AreaMst.areaId and a NULL row skips the area in every tab (docs/notes/vortex_tab_filter.md). eventType->tab is READ: 0/1 event, 2 training, 3 enemy, 4 special, 5 ordeal. Seeded area(s) 226 as 'training'. DERIVED: areaId/dungeonId/missionId from the shipped tables. AUTHORED: the windows (wide open epoch seconds), condType/CondParam (no condition), and every reward/display field is neutral because we grant nothing.",
-  "5P6ULvjg = the Farplane Damage-Ranking dummy (DmgRankStartRequest; 0 captures before 2026-10-10). DERIVED: the battle content is JP mission 7830101's group 783010101 (part 105251000 訓練用木兵, hp 380, AiID 9 = 'does not act') via harness/derive_dmg_rank.py; 0rVbiCG8 carries that group + bg/bgm. AUTHORED: MaxTurn 3 (the event's real cap is in no held table) and the zero records (we persist no DmgRank record). The event id is omitted on purpose: the client keeps its own (it sent 6000101 from the map event). s98cw1WA/W3Z4VF1X are acks on the same tag; s98cw1WA's echo of the client's own record group is not wired yet."
+  "5P6ULvjg = the Farplane Damage-Ranking dummy (DmgRankStartRequest; 0 captures before 2026-10-10). DERIVED: the battle content is JP mission 7830101's group 783010101 (part 105251000 訓練用木兵, hp 380, AiID 9 = 'does not act') via harness/derive_dmg_rank.py; 0rVbiCG8 carries that group + bg/bgm. AUTHORED: MaxTurn 3 (the event's real cap is in no held table). The RECORDS row 5Hx1NjQI here is a fresh-account FALLBACK: serve_dmg_rank echoes the client's own row on s98cw1WA and keeps the per-metric max in State.player.dmg_rank, which 5P6ULvjg/W3Z4VF1X serve (APP-18). The event id is omitted on purpose: the client keeps its own (it sent 6000101 from the map event). s98cw1WA/W3Z4VF1X are acks on the same tag."
  ],
  "_mission_result_levelup_SW21": "Qic38SuC / A90DrNfp authored 2026-09-19 (cont.7) from the READ grammar (result_scene_selection.md S7). ROW = KEY'@'BEFORE'_'AFTER; BEFORE/AFTER = 15 colon fields f0 Lv | f1,f2 Exp (HEDGED: getMissionExp 0x1d984d8 subtracts idx1 across the halves, so idx1 is Exp, while the serializer names idx1 LimitExLvNum -- identical values make the animation correct either way) | f3..f8 HP,MP,ATK,DEF,MAG,SPR as base-add-ext-overLimitLv (4 dash numbers; splitInt pushes exactly 4) | f9 Affinity(0) f10 LimitBurstLv f11 LimitBurstExp f12 0 f13 0 f14 Affinity(1). KEY must equal UserUnitInfo+0x28 = og2GHy49. a[0..14] is read UNGUARDED -- <15 fields over-reads, the SW-23 crash shape. Growth values (HP+100, MP+5, rest +3) are AUTHORED, not recovered; no growth curve exists in our data. A90DrNfp = '<uid>:<burstCnt>,..'. 2026-09-19 (cont.8): kcb0tsM6 raised 10 -> 20 because 10 EQUALS expPatternId 10's level-2 needExp (unit_exp_pattern table) -- i.e. exactly on the boundary, and MissionResultUnitInfo::addExp is what sets LvlUpFlg (+0x294). 20 crosses level 2 (needs 10) without reaching level 3 (cumulative 58). Adding wuUakq71 = rank/user EXP: readParam 0x1978fb0 maps it to addExp(v,7), and getTotalUserExp (0x1e1763c) sums type 0x63 with category==7 while getTotalUnitExp (0x1e15c70) is the same with category!=7. Value is AUTHORED. There is no rank-up-bonus token (setBeforeExp +0xf8 has no caller).",
  "aQm3zP2c": {
@@ -21632,12 +21651,22 @@
    }
   ]
  },
+ "I7fmVX3R": {
+  "LhVz6aD2": [
+   {}
+  ]
+ },
+ "LiM9Had2": {
+  "LhVz6aD2": [
+   {}
+  ]
+ },
  "i0woEP4B": {
   "3VS1Bhmf": [
    {
-    "VjJQ51uG": "1577836800",
+    "VjJQ51uG": "2015-01-01 00:00:00",
     "Z20mNDvL": "1",
-    "m8ivD4NX": "4102444800",
+    "m8ivD4NX": "2099-12-31 23:59:59",
     "w7VR6ypY": "0",
     "za2xsDj5": "1"
    }
@@ -410591,4 +410620,5 @@
     "i5pd8xr3": "10101"
    }
   ]
- }}
+ }
+}

@@ -45,6 +45,36 @@ __all__ = [
 ]
 
 _CHALLENGE_INFO_LOGGED: set = set()   # reply ids already announced by serve_challenge_clear_all
+def _roll_pool(value: str, pool: str, keep_one: bool) -> str:
+    """One drop list -> ONE ROLL of it, on that pool's own rate.
+
+    `keep_one` guarantees a non-empty result (the common pool needs it: an empty `9BetM2Ds` splits to a
+    single empty item, the SW-23 over-read shape, and a battle that drops nothing is not retail either).
+    Rare/unique pass `keep_one=False` -- both are legitimately empty.
+
+    An element's OWN 4th field wins when the oracle supplied a rate; otherwise the pool's authored
+    `DROP_POOL_BASE_RATE` is used. An element with no 4th field is RE-WRITTEN with one: the wave parser
+    reads field [3] with no bounds check (`getMissionDropItemInfo` 0x19f7c28), so a 3-field element is the
+    SW-23 class. The value is discarded downstream, so this only affects the shape.
+    """
+    items = [it for it in (value or "").split(",") if it]
+    if not items:
+        return value or ""
+    base = DROP_POOL_BASE_RATE.get(pool, DROP_POOL_BASE_RATE["common"])
+    rolled, last = [], ""
+    for it in items:
+        f = it.split(":")
+        rate = int(f[3]) if len(f) > 3 and f[3].isdigit() else base
+        if len(f) < 4:
+            it = f"{it}:{rate}"
+        last = it
+        if random.randint(1, 100) <= rate:
+            rolled.append(it)
+    if not rolled and keep_one:
+        rolled = [last]
+    return ",".join(rolled)
+
+
 def roll_drops(spec, mid: str | None = None, is_battle_bundle: bool = False):
     """Turn each served drop list into a ROLL of itself, so drops vary per battle.
 
@@ -61,6 +91,13 @@ def roll_drops(spec, mid: str | None = None, is_battle_bundle: bool = False):
 
     Returns a COPY: `State.replies` holds the candidate table and must not be mutated, or the roll would
     stick for the rest of the session.
+
+    THREE POOLS (2026-11-20). The entry carries `MZn8LC6H` (rare) and `g4voc2Aw` (unique) beside the
+    common `9BetM2Ds`, and the client keeps them apart -- so each pool is rolled on its own rate rather
+    than flattened into one list. The rates are `DROP_POOL_BASE_RATE` (authored, community-shaped: the
+    community survey's ~87/13 common/rare split); an item string's own 4th field wins where the
+    oracle supplies one. Rare and unique are DORMANT in practice -- no row of the served 17,147 carries
+    either list -- so this changes nothing today, but the model exists for when they are authored.
     """
     if not isinstance(spec, dict):
         return spec
@@ -84,16 +121,18 @@ def roll_drops(spec, mid: str | None = None, is_battle_bundle: bool = False):
         # for it -- so the pool belongs in the served `9BetM2Ds`, and the server only rolls it. `DROP_TABLE`
         # remains as the fallback for a row that has none.
         src = row.get(DROP_TOKEN) or ",".join(DROP_TABLE.split(","))
-        items = [it for it in src.split(",") if it]
-        rolled = []
-        for it in items:
-            f = it.split(":")
-            rate = int(f[3]) if len(f) > 3 and f[3].isdigit() else 100
-            if random.randint(1, 100) <= rate:
-                rolled.append(it)
-        if not rolled and items:
-            rolled = [items[-1]]
         row = dict(row)
+        # THE COMMON POOL. Every candidate rolls on its own rate; at least one is always kept (an empty
+        # `9BetM2Ds` splits to a single empty item -- the SW-23 over-read shape -- and a battle that
+        # yields nothing is not retail behaviour either).
+        row[DROP_TOKEN] = _roll_pool(src, "common", keep_one=True)
+        # THE RARE / UNIQUE POOLS. No `keep_one`: both are legitimately empty, and the row's own value is
+        # left untouched when nothing rolls (never make a field emptier than the payload did).
+        for tok, pool in ((DROP_RARE_TOKEN, "rare"), (DROP_UNIQUE_TOKEN, "unique")):
+            value = row.get(tok)
+            if value:
+                row[tok] = _roll_pool(value, pool, keep_one=False)
+        out.append(row)
         # SERVE 4 FIELDS -- the parser reads fields [0..3] with NO bounds check (`getMissionDropItemInfo`
         # 0x19f7c28: `add x0,x8,#0x48` then StrToInt, BEFORE the count>=5 guard at 0x19f7cfc), so a
         # 3-field item over-reads the `vector<std::string>` allocation and the neighbour's bytes become a
@@ -102,8 +141,6 @@ def roll_drops(spec, mid: str | None = None, is_battle_bundle: bool = False):
         # direction the 2026-09-19 note reaches (battle_authoring_data.md S5.3: "comma-separated elements,
         # `:`-separated ints, >=4 fields"). Do NOT strip it. The result-screen mirror strips separately
         # (addItem is arity-tolerant), so this stays the WAVE-format shape only.
-        row[DROP_TOKEN] = ",".join(rolled)
-        out.append(row)
     # THE EVENT CURRENCY (APP-35). A story event pays an event item, and the AMOUNT cannot be derived: GL's
     # drop tables are not shipped (the server resolved drops live) and the JP oracle ships no item table
     # beside its drop ids, so EVENT_CURRENCY is an authored choice. Additive by construction -- it appends
@@ -120,18 +157,20 @@ def roll_drops(spec, mid: str | None = None, is_battle_bundle: bool = False):
     # AGGREGATE, do not de-duplicate. The client folds every phase's drops into ONE list and reports it
     # WITH COUNTS -- its own MissionEnd request carried `20:202000400:2`. The old `dict.fromkeys(...)`
     # collapsed a twice-dropped item into a single row, so the battle showed two and the result screen
-    # listed one. Sum the counts per `cat:id`, preserving first-seen order.
+    # listed one. Sum the counts per `cat:id`, preserving first-seen order. ALL THREE POOLS feed the
+    # mirror: a rare drop is still a drop the player received, and retail lists them together.
     counts: dict[tuple, int] = {}
     order: list[tuple] = []
     for r in out:
-        for it in r.get(DROP_TOKEN, "").split(","):
-            if not it:
-                continue
-            f = it.split(":")
-            key = (f[0], f[1])
-            if key not in counts:
-                order.append(key)
-            counts[key] = counts.get(key, 0) + (int(f[2]) if len(f) > 2 and f[2].isdigit() else 1)
+        for pool_tok in (DROP_TOKEN, DROP_RARE_TOKEN, DROP_UNIQUE_TOKEN):
+            for it in (r.get(pool_tok) or "").split(","):
+                if not it:
+                    continue
+                f = it.split(":")
+                key = (f[0], f[1])
+                if key not in counts:
+                    order.append(key)
+                counts[key] = counts.get(key, 0) + (int(f[2]) if len(f) > 2 and f[2].isdigit() else 1)
     if is_battle_bundle and mid is not None:
         st.LAST_DROPS[str(mid)] = [f"{c}:{i}:{counts[(c, i)]}" for c, i in order]
     return spec
@@ -279,26 +318,25 @@ def mission_id_from(plaintext: str | None) -> str | None:
                     if v:
                         return str(v)
     return None
-def _lv_half(level, exp, stats, lb_level, lb_exp) -> str:
+def _lv_half(level, exp, stats, lb_level, lb_exp, gained=0) -> str:
     """One 15-field `Qic38SuC` half — `Lv:LimitExLvNum:Exp:HP:MP:ATK:DEF:MAG:SPR:f9:LbLv:LbExp:a12:0:a14`.
 
     Format read end to end in `docs/notes/result_scene_selection.md` §7 (`UserUnitLvInfo::init`): 15 colon
     fields are read UNGUARDED, and fields 3..8 are `splitInt(...,"-")` each pushing exactly four ints, so
     every stat group needs at least two dash-separated numbers.
 
-    `a[12]` CARRIES THE EXP, and that is a correction. The note's field table says the client's own emitter
-    writes literal `"0"` there (idx 30), and an earlier revision therefore left it `0` -- but the emitter is
-    the REQUEST side, and `ResultUnitExpScene::updateEvent`'s show-gate is `+0x6f0 > 0` where
-    `+0x6f0 <- setExp <- getPartyTotalExp` = the sum of `getAfterParam(30)`, i.e. the AFTER half's `a[12]`.
-    With it `0` the unit-EXP screen never appears at all, which is exactly what the operator saw on
-    2026-09-22 while the roster held the EXP. SW-25 had already observed a non-zero value making the screen
-    appear and driving the level it displays. **A request-side literal is not evidence about a reply-side
-    reader** (RE_VERIFICATION_IDIOMS). One run settles the remaining question -- whether the screen counts
-    up from the BEFORE half's value to the AFTER half's.
+    `a[12]` IS THE EXP GAINED, NOT THE UNIT'S RESIDUAL. `ResultUnitExpScene::updateEvent` shows the
+    unit-EXP screen only when the sum of `getAfterParam(30)` is > 0, and it counts the AFTER half up from
+    the BEFORE half -- so the value must be the gain, not the post-credit residual (field 3 above is the
+    residual). Serving the residual double-counts it: device 2026-11-06, Lv1 11exp + residual 13 = 24 ->
+    client Lv2 "next 93" while the server held Lv1 13exp. The earlier revision used the residual because
+    the client's own emitter writes a literal 0 there; the emitter is the REQUEST side and is not evidence
+    about a reply-side reader (`RE_VERIFICATION_IDIOMS`). A zero here still suppresses the screen, so a
+    caller with a real gain passes it in.
     """
     fields = [str(level), "0", str(exp)]
     fields += [f"{int(s)}-0-0-0" for s in stats]          # HP, MP, ATK, DEF, MAG, SPR
-    fields += ["0", str(lb_level), str(lb_exp), str(exp), "0", "0"]   # f9, LbLv, LbExp, a12=EXP, a13, a14
+    fields += ["0", str(lb_level), str(lb_exp), str(int(gained)), "0", "0"]   # f9, LbLv, LbExp, a12=GAINED, a13, a14
     assert len(fields) == 15, len(fields)
     return ":".join(fields)
 def mission_lv_info(player, exp_gain: int) -> str:
@@ -323,7 +361,8 @@ def mission_lv_info(player, exp_gain: int) -> str:
         # credit the exp the way the client reads the table. See `player_state.credit_exp`.
         new_lv, new_ex = credit_exp(u["master_id"], lv, ex, int(exp_gain))
         before = _lv_half(lv, ex, unit_stats(u["master_id"], lv), lbl, lbe)
-        after = _lv_half(new_lv, new_ex, unit_stats(u["master_id"], new_lv), lbl, lbe)
+        after = _lv_half(new_lv, new_ex, unit_stats(u["master_id"], new_lv), lbl, lbe,
+                         gained=int(exp_gain))
         rows.append(f"{iid}@{before}_{after}")
     return ",".join(rows)
 def per_unit_exp(total_exp) -> tuple[int, int, int]:
@@ -347,6 +386,25 @@ def per_unit_exp(total_exp) -> tuple[int, int, int]:
     n = len(State.player.party_instance_ids()) or 1
     per = int(total_exp) // n
     return per, n, int(total_exp) - per * n
+def _unit_drop_rows(value):
+    """`2U05aV9Z` -> [(unit_id, count)]. Accept the client's unit-id CSV and the JP battle tuple."""
+    out = []
+    for entry in str(value or "").split(","):
+        entry = entry.strip()
+        if not entry:
+            continue
+        parts = entry.split(":")
+        if len(parts) == 1 and parts[0].isdigit():
+            out.append((parts[0], 1))
+        elif len(parts) >= 3 and parts[0] == "10" and parts[1].isdigit() and parts[2].isdigit():
+            out.append((parts[1], int(parts[2])))
+        elif len(parts) >= 2 and parts[0].isdigit() and parts[1].isdigit():
+            out.append((parts[0], int(parts[1])))
+        else:
+            _note(f"mission units: ignored malformed unit-drop tuple {entry!r}")
+    return out
+
+
 def mission_end_echo(spec, plaintext: str | None):
     """Make the mission-end reply carry the values the CLIENT computed and reported.
 
@@ -371,7 +429,8 @@ def mission_end_echo(spec, plaintext: str | None):
         return spec
     src = rows[0]
     exp, gil, drops = src.get("S4U09svH"), src.get("Wdi3MAs2"), src.get("xF9Sr1a6")
-    if exp is None and gil is None and not drops:
+    units = src.get(RESULT_UNIT_TOKEN)
+    if exp is None and gil is None and not drops and not units:
         return spec
     per_unit = per_unit_exp(exp)[0] if exp is not None else None
     out = copy.deepcopy(spec)
@@ -386,10 +445,54 @@ def mission_end_echo(spec, plaintext: str | None):
             row["16LQuC5r"] = str(gil)
         if drops:
             row["xF9Sr1a6"] = drops
+        if units:
+            row[RESULT_UNIT_TOKEN] = units
         # NOTE: `Qic38SuC` is NOT set here any more. It must carry the party's REAL instance ids and their
         # real before/after params, so it is built from the player state in `credit_mission_rewards` (once
         # the exp has been credited). See mission_lv_info.
     return out
+def ensure_result_units(spec, plaintext: str | None):
+    """LAST-WRITER GUARD for `2U05aV9Z` on `MissionResultResponse`.
+
+    `mission_end_echo` is the normal writer, but it runs early in the pipeline. The result screen's unit scene
+    is gated by `MissionResultInfoBase::isGetUnit()` (`0x1e15694`), which scans the item list for a type-10
+    entry; if the client's `2U05aV9Z` is absent from the final `09HRWXDf` row, the scene is never entered and
+    the units are invisible even though the roster was credited. This guard re-reads the request at the END
+    of the chain, after every strip, and restores the exact token the client sent. It only logs when it
+    actually had to restore a missing/different value, so a quiet run proves the token was already present.
+    """
+    if not isinstance(spec, dict) or not plaintext:
+        return spec
+    try:
+        req = json.JSONDecoder().raw_decode(plaintext)[0]
+    except Exception:  # noqa: BLE001 - a bad body must never break the result
+        return spec
+    rows = req.get("09HRWXDf") if isinstance(req, dict) else None
+    if not isinstance(rows, list) or not rows or not isinstance(rows[0], dict):
+        return spec
+    units = rows[0].get(RESULT_UNIT_TOKEN)
+    if not units:
+        return spec
+    out = spec
+    changed = False
+    for index, row in enumerate(out.get("09HRWXDf", [])):
+        if not isinstance(row, dict) or row.get(RESULT_UNIT_TOKEN) == units:
+            continue
+        if out is spec:
+            out = copy.deepcopy(spec)
+        out["09HRWXDf"][index][RESULT_UNIT_TOKEN] = units
+        changed = True
+    if changed:
+        print(f"mission units: final guard restored {RESULT_UNIT_TOKEN} on 09HRWXDf", flush=True)
+    elif units:
+        ids = {uid for uid, _count in _unit_drop_rows(units)}
+        roster = {str(row.get("3HriTp6B")) for row in (out.get("B71MekS8") or [])
+                  if isinstance(row, dict)}
+        print(f"mission units: {RESULT_UNIT_TOKEN} already on the final row; "
+              f"roster has {sorted(ids & roster)} of {sorted(ids)}", flush=True)
+    return out
+
+
 def credit_mission_rewards(plaintext: str | None, spec=None):
     """Make the battle's gil, loot and RANK POINTS real in the player state (schema §2.3).
 
@@ -442,6 +545,13 @@ def credit_mission_rewards(plaintext: str | None, spec=None):
         before = State.player.item_count(int(f[0]), f[1])
         if State.player.grant_item(int(f[0]), f[1], int(f[2])) != before:
             paid.append(f"{f[0]}:{f[1]}x{f[2]}")
+    # UNIT DROPS. `Vf5DGw07` (JP MonsterParts) is folded into `y35YvQjZ`, the client sends the awarded
+    # units back as `2U05aV9Z`, and the roster is what makes the "Units obtained" screen true. A repeated
+    # MissionEnd can duplicate a unit (same no-nonce rule as the items); recorded, not silently assumed.
+    for uid, count in _unit_drop_rows(src.get(RESULT_UNIT_TOKEN)):
+        made = State.player._grant_reward_units(uid, count)
+        if made:
+            paid.append(f"unit:{uid}x{made}")
     # Rank points come from the REPLY (the request never carries them): `wuUakq71` is the delta granted
     # for this battle. Credit the total into `rank.exp` so the next `3oU9Ktb7` agrees with the client.
     if isinstance(spec, dict):
@@ -658,6 +768,21 @@ def _cond_used_lb(ctx, _param):
     if not ctx["group_present"] or ctx["used_lb"] is None:
         return None
     return bool(ctx["used_lb"])
+def _cond_no_lb(ctx, _param):
+    """type 17: clear WITHOUT using a limit burst.
+
+    The client's `MissionChallengeLog` (`2urzfX6d`) omits `s2rX7g0o` when no LB was used; the group is
+    present on every MissionEnd, so absence is the report. This is the inverse of type 16 — the same token,
+    already used as "present => used", so a wrong name would under-credit 16 but this direction would
+    over-credit; the collaborator's `exvius_challenges.py` makes the same choice (`_used('lb',
+    maximum=0)`) and we now match it. The no-item/no-magic checks stay behind `ABSENCE_WITNESSED`; this one
+    is the explicit no-LB condition the live mission 2111203 carries.
+    """
+    if not ctx["group_present"] or ctx["used_lb"] is None:
+        return None
+    return not bool(ctx["used_lb"])
+
+
 def _cond_turns_within(ctx, param):
     """types 73 (and the same shape in 75/76/77): clear within `param` turns.
 
@@ -677,6 +802,7 @@ CONDITION_CHECKS = {
     "1": _cond_no_items,      # no items used          (guarded, see _cond_no_items)
     "6": _cond_no_magic,      # no magic used          (guarded)
     "16": _cond_used_lb,      # use a limit burst
+    "17": _cond_no_lb,        # clear WITHOUT using a limit burst (the inverse log)
     "33": _cond_no_ally_ko,   # nobody KO'd
     "34": _cond_party,        # party >= param + 1
     "38": _cond_no_continue,  # no continues
@@ -1052,3 +1178,96 @@ def _forced_table_versions() -> dict:
         elif name:
             _note(f"version table: FORCE_TABLE_VERSIONS entry {part!r} is not NAME=<int> -- ignored")
     return out
+
+
+# --- selftest (unit drops) ---------------------------------------------------------------------------
+def _selftest() -> int:
+    """The `2U05aV9Z` unit-drop half: echoed to the result and credited to the roster."""
+    import player_state as _ps
+    failed = []
+
+    def case(name, ok, want, got):
+        print(f"battle {'ok  ' if ok else 'FAIL'} {name} (want {want}, got {got})")
+        if not ok:
+            failed.append(name)
+
+    player = _ps.PlayerState.load("/nonexistent", slot="battleselftest")
+    State.player = player
+    request = json.dumps({"09HRWXDf": [{
+        "2U05aV9Z": "900020101,10:900020201:1:100:1",
+        "S4U09svH": "0", "Wdi3MAs2": "0", "xF9Sr1a6": ""}]})
+    out = mission_end_echo({"09HRWXDf": [{}]}, request)
+    row = (out.get("09HRWXDf") or [{}])[0]
+    case("the result echoes the client's unit list", row.get("2U05aV9Z"),
+         "900020101,10:900020201:1:100:1", row.get("2U05aV9Z"))
+    credit_mission_rewards(request, out)
+    got = sorted(u["master_id"] for u in player.data["roster"]
+                 if u["master_id"] in ("900020101", "900020201"))
+    case("both unit formats are credited to the roster", got, ["900020101", "900020201"], got)
+    guarded = ensure_result_units({"09HRWXDf": [{}]}, request)
+    case("the last-writer guard restores 2U05aV9Z", (guarded.get("09HRWXDf") or [{}])[0].get("2U05aV9Z"),
+         "900020101,10:900020201:1:100:1",
+         (guarded.get("09HRWXDf") or [{}])[0].get("2U05aV9Z"))
+
+    # Type 17 (no LB) is an ABSENCE condition: the client's `2urzfX6d` omits `s2rX7g0o` when no LB was
+    # used. Drive the real evaluator through the real report shape, including the false and unknown arms.
+    _no_lb = json.dumps({"2urzfX6d": [{"Z1p0j9uF": "0", "69ieJGhD": "1:211120303:1"}]})
+    _used_lb = json.dumps({"2urzfX6d": [{"Z1p0j9uF": "0", "69ieJGhD": "1:211120303:1",
+                                          "s2rX7g0o": "1790108733406:1"}]})
+    _no_lb_verdict = CONDITION_CHECKS["17"](mission_result_from(_no_lb), "")
+    _used_lb_verdict = CONDITION_CHECKS["17"](mission_result_from(_used_lb), "")
+    _absent_group_verdict = CONDITION_CHECKS["17"](mission_result_from("{}"), "")
+    case("type 17 passes when the LB log is absent", _no_lb_verdict is True, True, _no_lb_verdict)
+    case("type 17 fails when the LB log is present", _used_lb_verdict is False, False, _used_lb_verdict)
+    case("type 17 cannot judge a request with no battle-log group",
+         _absent_group_verdict is None, None, _absent_group_verdict)
+
+    # THE DROP POOLS (2026-11-20). Deterministic cases around `_roll_pool`, which is where the authored
+    # rates act: a 3-field element must gain a 4th (the wave parser reads field [3] unconditionally), a
+    # 100%-rate pool must keep everything, and a rare pool must be allowed to come back empty.
+    _three = _roll_pool("20:290050100:1", "common", True)
+    case("a 3-field element is rewritten with a 4th (rate) field",
+         _three == "20:290050100:1:30", "20:290050100:1:30", _three)
+    _hundred = _roll_pool("20:201000800:1:100,20:201001600:1:100", "common", True)
+    case("a 100%-rate pool always survives",
+         _hundred == "20:201000800:1:100,20:201001600:1:100",
+         "20:201000800:1:100,20:201001600:1:100", _hundred)
+    _empties = sum(1 for _ in range(400) if not _roll_pool("20:202000100:1:1", "rare", False))
+    case("a 1%-rate rare pool can roll empty (no keep_one)", _empties > 380, True, _empties > 380)
+    _passthru = _roll_pool("", "rare", False)
+    case("an empty list is passed through, never made worse", _passthru == "", "''", repr(_passthru))
+    return 1 if failed else 0
+
+
+def _drop_sim(trials: int = 20000):
+    """Print the expected drops per run for the authored pool rates.
+
+    A verification instrument, not a game rule: it answers "what does the model actually produce?" so a
+    rate change is measured rather than assumed. The pools are synthetic (the served rows carry their own
+    lists); the common pool is the shrine mobs' 6-candidate shape.
+    """
+    common = ",".join(f"20:29005{i:04d}:1" for i in range(6))     # 3-field on purpose: exercises the rewrite
+    rare = "20:202000100:1,20:202000400:1"
+    c_n = sum(len(_roll_pool(common, "common", True).split(",")) for _ in range(trials)) / trials
+    r_n = sum(len([x for x in _roll_pool(rare, "rare", False).split(",") if x]) for _ in range(trials)) / trials
+    u_n = sum(len([x for x in _roll_pool(rare, "unique", False).split(",") if x]) for _ in range(trials)) / trials
+    print(f"drop model: {trials} trials")
+    for name in ("common", "rare", "unique"):
+        print(f"  base rate {name:7s} = {DROP_POOL_BASE_RATE[name]:3d}%")
+    print(f"  6-candidate COMMON pool -> {c_n:.2f} items/run (guaranteed >=1)")
+    print(f"  2-candidate RARE      -> {r_n:.2f} items/run")
+    print(f"  2-candidate UNIQUE    -> {u_n:.2f} items/run")
+    print(f"  common share of rolls -> {100 * c_n / (c_n + r_n) if (c_n + r_n) else 0:.0f}% "
+          f"(community survey: 87%)")
+    return 0
+
+
+if __name__ == "__main__":
+    import sys
+    if "--selftest" in sys.argv:
+        raise SystemExit(_selftest())
+    if "--drop-sim" in sys.argv:
+        i = sys.argv.index("--drop-sim")
+        n = int(sys.argv[i + 1]) if len(sys.argv) > i + 1 and sys.argv[i + 1].isdigit() else 20000
+        raise SystemExit(_drop_sim(n))
+    raise SystemExit("usage: ffbe_battle.py --selftest | --drop-sim [trials]")

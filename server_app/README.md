@@ -9,35 +9,49 @@ inside the app.
 
 ## What you need
 
-- **Your own copy of the game.** The APK, and the game's *data folder*: the files the game has downloaded on
-  a device where it has run (game tables, text, version info). The server serves those files; it cannot
-  create them.
-- **An Android emulator you can change.** It must let you add a system certificate and redirect one
-  hostname. Any emulator that can do both will work. The app shows the steps; we do not support individual
-  emulators or operating systems.
-- **A computer to run this on.** The Linux build is ready; Windows and macOS builds are planned.
+- **Your own copy of the game**: the APK, and the game's *data folder* — what it has downloaded on a device
+  where it has run (tables, text, version info). The server reads those files; it cannot create them.
+- **An Android emulator or device you can change**: it must let you add a **system** certificate and redirect
+  one hostname. The game ships arm64 code only, so a stock x86_64 emulator image will not run it.
+- **Linux** for the server today (the engine is a Linux binary; Windows/macOS builds are planned).
 
-## Getting started
+No Python, no `openssl`, no source checkout, no network install: everything the server needs is in the bundle.
 
-1. Open the app (run `ffbe-server-app` with no arguments). The **Setup** pane shows what it found and what
-   is missing.
-2. **The game files need preparing once.** A guided setup is the next thing being built; until it lands,
-   this is one command from a source checkout, which fills a data folder from that checkout:
-   `ffbe-server-app prepare --data <data folder> --from <checkout>`
-   (In the app, the folders are configurable and saved between runs.)
-3. When **Setup** is all green, use the **Server** pane to start the server, and the **Android side** pane
-   for the last step: install this app's certificate on the emulator and point `v900-lapis.gumi.sg` at the
-   machine running the server.
+## Getting started — three steps
 
-Prefer a terminal? It is the same app: `ffbe-server-app --help` lists the commands.
+**1. Prepare the data folder (once).** Point the tool at your two files:
+
+```
+./run-me-first.sh /path/to/FFBEWW.apk /path/to/com.square_enix.android_googleplay.FFBEWW
+```
+
+(Double-click friendly: with no arguments it asks for both paths. `run-me-first.cmd` is the Windows
+counterpart.) It extracts the table keys from the APK, decodes the tables and text, generates the CA, and
+writes `ffbe-data/prepare.json` describing what it read. The data folder is disposable: delete it and re-run.
+
+**2. Start the server — no arguments needed.**
+
+```
+./ffbe-server-app start
+```
+
+`prepare` remembered the data folder, port, mode and bind, so `start`, `stop`, `status` and `logs` are bare
+verbs from then on (`logs -f` follows the log, `status` prints where it is running). Nothing else needs to be
+typed, and no environment variable needs to be set. Open `./ffbe-server-app` with no arguments for the GUI:
+**Server** starts and stops it, **Setup** shows what is present and what is missing.
+
+**3. Point the game at it.** Use the app's **Android side** pane: install `ffbe-data/certs/ca.pem` into the
+emulator's **system** trust store, then make `v900-lapis.gumi.sg` resolve to the machine running the server.
 
 ## If something goes wrong
 
-- **Setup** names each missing piece and what produces it.
-- The **Server** pane shows the engine log live, and `ffbe-server-app status --data <folder>` says whether
-  it is running.
-- The emulator steps are yours to match to your emulator. If its menus differ from the app's wording, follow
-  your emulator's documentation — nothing about the emulator is automatic, by design.
+- Run `./ffbe-server-app status` — it says whether the server is up, and on which port/mode/data folder.
+- `./ffbe-server-app logs -n 50` shows the engine log; `-f` follows it.
+- `./engine/ffbe-engine --print-paths --data ./ffbe-data` lists every path it resolved; `crypto=cryptography`
+  means no external crypto binary is needed.
+- Re-run `./run-me-first.sh` if a step of the data folder looks wrong; it rewrites it from the same two
+  inputs and never touches your game files.
+- The emulator menus are yours to match to your emulator. Nothing about the emulator is automatic, by design.
 
 # For developers
 
@@ -111,7 +125,8 @@ cargo build --release
 ```
 
 On first launch the app looks for the engine next to itself (a bundle's `engine/`) and in a repo
-checkout; the data root comes from the saved config or `FFBE_DATA`. Both fields are editable and saved
+checkout; the data root comes from the saved config or `FFBE_DATA`. Both fields are editable (with a
+`Browse…` folder picker) and saved
 to a per-user config file in the platform's standard config location:
 
 ```
@@ -151,12 +166,16 @@ ships the `cryptography` library for the wire AES, and cert generation is in-pro
 ```
 ffbe-server-app-<version>/
   ffbe-server-app            GUI (cargo --release)
-  engine/ffbe-engine         frozen engine (PyInstaller onefile)
+  run-me-first.sh            the one command to run first (prepare the data folder)
+  run-me-first.cmd           the same for Windows, when that build lands
+  engine/ffbe-engine         frozen engine (PyInstaller onefile; also carries the two table decoders
+                             and the text key manifest, so `prepare` needs no repo)
   README.md  CHANGELOG.md  deps.json  VERSION
 ```
 
-The build runs the crypto-parity and certificate checks, freezes, then smoke-tests the bundle: `prepare` →
-`start` → `status` → one real encrypted request/response through the frozen engine (`harness/wire_probe.py`)
+The build refuses to ship a `deps.json` whose producers name `scripts/` or `harness/` (a command the bundle
+cannot run — that is how 0.1.7 sent a user looking for files it never carried), refuses a frozen engine
+without a working `--prepare`, then smoke-tests the bundle: `prepare` → `start` → `status` → one real encrypted request/response through the frozen engine (`harness/wire_probe.py`)
 → `stop`, with a PATH that holds only `ss` — so a bundle that would need `openssl`, or a frozen engine that
 cannot answer a request, fails the build instead of shipping. The app auto-detects `engine/` next to its own
 binary. `build/` (the PyInstaller venv and work dirs) and `dist/` are gitignored; only the app source is

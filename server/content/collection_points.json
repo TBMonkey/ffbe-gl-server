@@ -1,0 +1,10954 @@
+{
+ "_provenance": "Collection point rewards per exploration mission. [Community] source: the FFBE wiki's Global lists, as compiled by the Exvius Revival fork (CreamySeaman6/Exvius-revival-ios, source/server/content/collection_points.json, read 2026-11-11) from ios-server/research/COLLECTION_POINTS.md. NOT verified against our tree: the point ids are map-script data and no decoder here reads them yet, so a live run is the acceptance test. Shape: missions = mission -> [[point id, pool], ...]; pools = items [kind, id, odds %, min count, max count], one drawn per point per run. See docs/notes/exvius_revival_desktop.md and server/ffbe_mission_clear.py.",
+ "missions": {
+  "1110104": [
+   [
+    10000,
+    "Earth Shrine/Exploration"
+   ],
+   [
+    10001,
+    "Earth Shrine/Exploration"
+   ],
+   [
+    10002,
+    "Earth Shrine/Exploration"
+   ],
+   [
+    10003,
+    "Earth Shrine/Exploration"
+   ],
+   [
+    10004,
+    "Earth Shrine/Exploration"
+   ],
+   [
+    10005,
+    "Earth Shrine/Exploration"
+   ],
+   [
+    10006,
+    "Earth Shrine/Exploration"
+   ],
+   [
+    10007,
+    "Earth Shrine/Exploration"
+   ]
+  ],
+  "1110105": [
+   [
+    10000,
+    "Into the Abyss"
+   ],
+   [
+    10001,
+    "Into the Abyss"
+   ],
+   [
+    10002,
+    "Into the Abyss"
+   ],
+   [
+    10003,
+    "Into the Abyss"
+   ],
+   [
+    10004,
+    "Into the Abyss"
+   ],
+   [
+    10005,
+    "Into the Abyss"
+   ],
+   [
+    10006,
+    "Into the Abyss"
+   ],
+   [
+    10007,
+    "Into the Abyss"
+   ]
+  ],
+  "1110204": [
+   [
+    10100,
+    "Latius Woods/Exploration"
+   ],
+   [
+    10101,
+    "Latius Woods/Exploration"
+   ],
+   [
+    10102,
+    "Latius Woods/Exploration"
+   ]
+  ],
+  "1110304": [
+   [
+    10200,
+    "Dalnakya Cavern/Exploration"
+   ],
+   [
+    10201,
+    "Dalnakya Cavern/Exploration"
+   ],
+   [
+    10202,
+    "Dalnakya Cavern/Exploration"
+   ]
+  ],
+  "1110604": [
+   [
+    10300,
+    "Grandshelt Catacombs/Exploration"
+   ],
+   [
+    10301,
+    "Grandshelt Catacombs/Exploration"
+   ],
+   [
+    10302,
+    "Grandshelt Catacombs/Exploration"
+   ]
+  ],
+  "1110605": [
+   [
+    10300,
+    "Grandshelt Catacombs/Exploration"
+   ],
+   [
+    10301,
+    "Grandshelt Catacombs/Exploration"
+   ],
+   [
+    10302,
+    "Grandshelt Catacombs/Exploration"
+   ]
+  ],
+  "1110804": [
+   [
+    10400,
+    "Fulan Pass/Exploration"
+   ],
+   [
+    10401,
+    "Fulan Pass/Exploration"
+   ],
+   [
+    10402,
+    "Fulan Pass/Exploration"
+   ]
+  ],
+  "11120405": [
+   [
+    111201,
+    "Aldore Tower (2)/Exploration"
+   ],
+   [
+    111202,
+    "Aldore Tower (2)/Exploration"
+   ],
+   [
+    111203,
+    "Aldore Tower (2)/Exploration"
+   ]
+  ],
+  "11130505": [
+   [
+    111301,
+    "Grandore Gravity Block/Exploration"
+   ],
+   [
+    111302,
+    "Grandore Gravity Block/Exploration"
+   ],
+   [
+    111303,
+    "Grandore Gravity Block/Exploration"
+   ],
+   [
+    111304,
+    "Grandore Gravity Block/Exploration"
+   ],
+   [
+    111305,
+    "Grandore Gravity Block/Exploration"
+   ],
+   [
+    111306,
+    "Grandore Gravity Block/Exploration"
+   ]
+  ],
+  "1120205": [
+   [
+    10500,
+    "Phantom Forest/Exploration"
+   ],
+   [
+    10501,
+    "Phantom Forest/Exploration"
+   ],
+   [
+    10502,
+    "Phantom Forest/Exploration"
+   ]
+  ],
+  "1120606": [
+   [
+    10600,
+    "Zadehl Westersands/Exploration"
+   ],
+   [
+    10601,
+    "Zadehl Westersands/Exploration"
+   ],
+   [
+    10602,
+    "Zadehl Westersands/Exploration"
+   ]
+  ],
+  "1120608": [
+   [
+    10600,
+    "Zadehl Westersands/Exploration"
+   ],
+   [
+    10601,
+    "Zadehl Westersands/Exploration"
+   ],
+   [
+    10602,
+    "Zadehl Westersands/Exploration"
+   ]
+  ],
+  "1120906": [
+   [
+    10700,
+    "Lanzelt Highlands/Exploration"
+   ],
+   [
+    10701,
+    "Lanzelt Highlands/Exploration"
+   ],
+   [
+    10702,
+    "Lanzelt Highlands/Exploration"
+   ]
+  ],
+  "11210105": [
+   [
+    112101,
+    "Vesta Ruins/Exploration"
+   ],
+   [
+    112102,
+    "Vesta Ruins/Exploration"
+   ],
+   [
+    112103,
+    "Vesta Ruins/Exploration"
+   ]
+  ],
+  "11211006": [
+   [
+    112104,
+    "Inside Labor Camp/Exploration"
+   ],
+   [
+    112105,
+    "Inside Labor Camp/Exploration"
+   ],
+   [
+    112106,
+    "Inside Labor Camp/Exploration"
+   ]
+  ],
+  "1121106": [
+   [
+    10800,
+    "Wolfsfang Peak/Exploration"
+   ],
+   [
+    10801,
+    "Wolfsfang Peak/Exploration"
+   ],
+   [
+    10802,
+    "Wolfsfang Peak/Exploration"
+   ]
+  ],
+  "11211706": [
+   [
+    112107,
+    "Georl Barrier Station/Exploration"
+   ],
+   [
+    112108,
+    "Georl Barrier Station/Exploration"
+   ],
+   [
+    112109,
+    "Georl Barrier Station/Exploration"
+   ]
+  ],
+  "1121206": [
+   [
+    10900,
+    "Lanzelt Ruins/Exploration"
+   ],
+   [
+    10901,
+    "Lanzelt Ruins/Exploration"
+   ],
+   [
+    10902,
+    "Lanzelt Ruins/Exploration"
+   ]
+  ],
+  "11310505": [
+   [
+    113101,
+    "Petra, Forest of Illusion/Exploration"
+   ],
+   [
+    113102,
+    "Petra, Forest of Illusion/Exploration"
+   ],
+   [
+    113103,
+    "Petra, Forest of Illusion/Exploration"
+   ]
+  ],
+  "11311506": [
+   [
+    113107,
+    "Energy Transfer Station/Exploration"
+   ],
+   [
+    113108,
+    "Energy Transfer Station/Exploration"
+   ],
+   [
+    113109,
+    "Energy Transfer Station/Exploration"
+   ]
+  ],
+  "11315101": [
+   [
+    113104,
+    "Ruins of the Water God"
+   ],
+   [
+    113105,
+    "Ruins of the Water God"
+   ],
+   [
+    113106,
+    "Ruins of the Water God"
+   ]
+  ],
+  "1135106": [
+   [
+    11000,
+    "Kolobos Marsh/Exploration"
+   ],
+   [
+    11001,
+    "Kolobos Marsh/Exploration"
+   ],
+   [
+    11002,
+    "Kolobos Marsh/Exploration"
+   ],
+   [
+    11003,
+    "Kolobos Marsh/Exploration"
+   ],
+   [
+    11004,
+    "Kolobos Marsh/Exploration"
+   ]
+  ],
+  "1135306": [
+   [
+    11100,
+    "Golzas Canyon/Exploration"
+   ],
+   [
+    11101,
+    "Golzas Canyon/Exploration"
+   ],
+   [
+    11102,
+    "Golzas Canyon/Exploration"
+   ],
+   [
+    11103,
+    "Golzas Canyon/Exploration"
+   ],
+   [
+    11104,
+    "Golzas Canyon/Exploration"
+   ]
+  ],
+  "1135307": [
+   [
+    11100,
+    "Golzas Canyon/Exploration"
+   ],
+   [
+    11101,
+    "Golzas Canyon/Exploration"
+   ],
+   [
+    11102,
+    "Golzas Canyon/Exploration"
+   ],
+   [
+    11103,
+    "Golzas Canyon/Exploration"
+   ],
+   [
+    11104,
+    "Golzas Canyon/Exploration"
+   ]
+  ],
+  "1135309": [
+   [
+    11100,
+    "Golzas Canyon/Exploration"
+   ],
+   [
+    11101,
+    "Golzas Canyon/Exploration"
+   ],
+   [
+    11102,
+    "Golzas Canyon/Exploration"
+   ],
+   [
+    11103,
+    "Golzas Canyon/Exploration"
+   ],
+   [
+    11104,
+    "Golzas Canyon/Exploration"
+   ]
+  ],
+  "1135606": [
+   [
+    11200,
+    "Kolobos Reef/Exploration"
+   ],
+   [
+    11201,
+    "Kolobos Reef/Exploration"
+   ],
+   [
+    11202,
+    "Kolobos Reef/Exploration"
+   ],
+   [
+    11203,
+    "Kolobos Reef/Exploration"
+   ],
+   [
+    11204,
+    "Kolobos Reef/Exploration"
+   ]
+  ],
+  "1135608": [
+   [
+    11200,
+    "Kolobos Reef/Exploration"
+   ],
+   [
+    11201,
+    "Kolobos Reef/Exploration"
+   ],
+   [
+    11202,
+    "Kolobos Reef/Exploration"
+   ],
+   [
+    11203,
+    "Kolobos Reef/Exploration"
+   ],
+   [
+    11204,
+    "Kolobos Reef/Exploration"
+   ]
+  ],
+  "1135807": [
+   [
+    11300,
+    "Shrine of Decay/Exploration"
+   ],
+   [
+    11301,
+    "Shrine of Decay/Exploration"
+   ],
+   [
+    11302,
+    "Shrine of Decay/Exploration"
+   ],
+   [
+    11303,
+    "Shrine of Decay/Exploration"
+   ],
+   [
+    11304,
+    "Shrine of Decay/Exploration"
+   ]
+  ],
+  "11420806": [
+   [
+    114101,
+    "Runferia Castle/Exploration"
+   ],
+   [
+    114102,
+    "Runferia Castle/Exploration"
+   ],
+   [
+    114103,
+    "Runferia Castle/Exploration"
+   ],
+   [
+    114104,
+    "Runferia Castle/Exploration"
+   ],
+   [
+    114105,
+    "Runferia Castle/Exploration"
+   ]
+  ],
+  "11421506": [
+   [
+    115101,
+    "Energy Extraction Station/Exploration"
+   ],
+   [
+    115102,
+    "Energy Extraction Station/Exploration"
+   ],
+   [
+    115103,
+    "Energy Extraction Station/Exploration"
+   ],
+   [
+    115104,
+    "Energy Extraction Station/Exploration"
+   ],
+   [
+    115105,
+    "Energy Extraction Station/Exploration"
+   ]
+  ],
+  "11421605": [
+   [
+    114116,
+    "Nirvana Woods/Exploration"
+   ],
+   [
+    114117,
+    "Nirvana Woods/Exploration"
+   ]
+  ],
+  "11430201": [
+   [
+    114111,
+    "Ancient Ruins Level 1"
+   ],
+   [
+    114112,
+    "Ancient Ruins Level 1"
+   ],
+   [
+    114113,
+    "Ancient Ruins Level 1"
+   ],
+   [
+    114114,
+    "Ancient Ruins Level 1"
+   ],
+   [
+    114115,
+    "Ancient Ruins Level 1"
+   ]
+  ],
+  "11430301": [
+   [
+    114121,
+    "Ancient Ruins Level 2"
+   ],
+   [
+    114122,
+    "Ancient Ruins Level 2"
+   ],
+   [
+    114123,
+    "Ancient Ruins Level 2"
+   ],
+   [
+    114124,
+    "Ancient Ruins Level 2"
+   ],
+   [
+    114125,
+    "Ancient Ruins Level 2"
+   ]
+  ],
+  "11430401": [
+   [
+    114131,
+    "Ancient Ruins Level 3"
+   ],
+   [
+    114132,
+    "Ancient Ruins Level 3"
+   ],
+   [
+    114133,
+    "Ancient Ruins Level 3"
+   ],
+   [
+    114134,
+    "Ancient Ruins Level 3"
+   ],
+   [
+    114135,
+    "Ancient Ruins Level 3"
+   ]
+  ],
+  "11510606": [
+   [
+    116101,
+    "Savage Ruins/Exploration"
+   ],
+   [
+    116102,
+    "Savage Ruins/Exploration"
+   ],
+   [
+    116103,
+    "Savage Ruins/Exploration"
+   ]
+  ],
+  "11511406": [
+   [
+    116104,
+    "Ghastly Valley/Exploration"
+   ],
+   [
+    116105,
+    "Ghastly Valley/Exploration"
+   ],
+   [
+    116106,
+    "Ghastly Valley/Exploration"
+   ]
+  ],
+  "11512405": [
+   [
+    115201,
+    "Sandstorm Maze/Exploration"
+   ],
+   [
+    115202,
+    "Sandstorm Maze/Exploration"
+   ],
+   [
+    115203,
+    "Sandstorm Maze/Exploration"
+   ]
+  ],
+  "11520705": [
+   [
+    115204,
+    "Visectrum Underground Waterway/Exploration"
+   ],
+   [
+    115205,
+    "Visectrum Underground Waterway/Exploration"
+   ],
+   [
+    115206,
+    "Visectrum Underground Waterway/Exploration"
+   ]
+  ],
+  "11610405": [
+   [
+    116107,
+    "Magitek Weapon Development Facility/Exploration"
+   ],
+   [
+    116108,
+    "Magitek Weapon Development Facility/Exploration"
+   ]
+  ],
+  "11621306": [
+   [
+    116201,
+    "Lezal Mountain Base/Exploration"
+   ],
+   [
+    116202,
+    "Lezal Mountain Base/Exploration"
+   ]
+  ],
+  "11710506": [
+   [
+    117101,
+    "Pearl Cavern/Exploration"
+   ],
+   [
+    117102,
+    "Pearl Cavern/Exploration"
+   ],
+   [
+    117103,
+    "Pearl Cavern/Exploration"
+   ]
+  ],
+  "11711205": [
+   [
+    117104,
+    "Grand Falls/Exploration"
+   ],
+   [
+    117105,
+    "Grand Falls/Exploration"
+   ],
+   [
+    117106,
+    "Grand Falls/Exploration"
+   ]
+  ],
+  "11711605": [
+   [
+    117107,
+    "Glistening Ice Caves/Exploration"
+   ],
+   [
+    117108,
+    "Glistening Ice Caves/Exploration"
+   ],
+   [
+    117109,
+    "Glistening Ice Caves/Exploration"
+   ]
+  ],
+  "11712105": [
+   [
+    117110,
+    "Smokey Caves/Exploration"
+   ],
+   [
+    117111,
+    "Smokey Caves/Exploration"
+   ],
+   [
+    117112,
+    "Smokey Caves/Exploration"
+   ]
+  ],
+  "11712305": [
+   [
+    117113,
+    "River of Fire/Exploration"
+   ],
+   [
+    117114,
+    "River of Fire/Exploration"
+   ],
+   [
+    117115,
+    "River of Fire/Exploration"
+   ]
+  ],
+  "11720101": [
+   [
+    117201,
+    "The Deva Realm"
+   ],
+   [
+    117202,
+    "The Deva Realm"
+   ],
+   [
+    117203,
+    "The Deva Realm"
+   ]
+  ],
+  "11720201": [
+   [
+    117204,
+    "The Asura Realm"
+   ],
+   [
+    117205,
+    "The Asura Realm"
+   ],
+   [
+    117206,
+    "The Asura Realm"
+   ]
+  ],
+  "11720301": [
+   [
+    117207,
+    "The Manusya Realm"
+   ],
+   [
+    117208,
+    "The Manusya Realm"
+   ],
+   [
+    117209,
+    "The Manusya Realm"
+   ]
+  ],
+  "11720401": [
+   [
+    117210,
+    "The Preta Realm"
+   ],
+   [
+    117211,
+    "The Preta Realm"
+   ],
+   [
+    117212,
+    "The Preta Realm"
+   ]
+  ],
+  "11720501": [
+   [
+    117213,
+    "The Tiryagyoni Realm"
+   ],
+   [
+    117214,
+    "The Tiryagyoni Realm"
+   ],
+   [
+    117215,
+    "The Tiryagyoni Realm"
+   ]
+  ],
+  "11720601": [
+   [
+    117216,
+    "The Naraka Realm"
+   ],
+   [
+    117217,
+    "The Naraka Realm"
+   ],
+   [
+    117218,
+    "The Naraka Realm"
+   ]
+  ],
+  "1210106": [
+   [
+    12100,
+    "Maranda Coast/Exploration"
+   ],
+   [
+    12101,
+    "Maranda Coast/Exploration"
+   ],
+   [
+    12102,
+    "Maranda Coast/Exploration"
+   ],
+   [
+    12103,
+    "Maranda Coast/Exploration"
+   ],
+   [
+    12104,
+    "Maranda Coast/Exploration"
+   ]
+  ],
+  "1210406": [
+   [
+    12200,
+    "Dwarves' Forge/Exploration"
+   ],
+   [
+    12201,
+    "Dwarves' Forge/Exploration"
+   ],
+   [
+    12202,
+    "Dwarves' Forge/Exploration"
+   ],
+   [
+    12203,
+    "Dwarves' Forge/Exploration"
+   ],
+   [
+    12204,
+    "Dwarves' Forge/Exploration"
+   ]
+  ],
+  "1210407": [
+   [
+    12200,
+    "Dwarves' Forge/Exploration"
+   ],
+   [
+    12201,
+    "Dwarves' Forge/Exploration"
+   ],
+   [
+    12202,
+    "Dwarves' Forge/Exploration"
+   ],
+   [
+    12203,
+    "Dwarves' Forge/Exploration"
+   ],
+   [
+    12204,
+    "Dwarves' Forge/Exploration"
+   ]
+  ],
+  "1210606": [
+   [
+    12300,
+    "Windy Heights West/Exploration"
+   ],
+   [
+    12301,
+    "Windy Heights West/Exploration"
+   ],
+   [
+    12302,
+    "Windy Heights West/Exploration"
+   ],
+   [
+    12303,
+    "Windy Heights West/Exploration"
+   ],
+   [
+    12304,
+    "Windy Heights West/Exploration"
+   ]
+  ],
+  "1220206": [
+   [
+    12400,
+    "Mobreeze Airship Factory/Exploration"
+   ],
+   [
+    12401,
+    "Mobreeze Airship Factory/Exploration"
+   ],
+   [
+    12402,
+    "Mobreeze Airship Factory/Exploration"
+   ],
+   [
+    12403,
+    "Mobreeze Airship Factory/Exploration"
+   ],
+   [
+    12404,
+    "Mobreeze Airship Factory/Exploration"
+   ]
+  ],
+  "1220306": [
+   [
+    12500,
+    "Junkyard/Exploration"
+   ],
+   [
+    12501,
+    "Junkyard/Exploration"
+   ],
+   [
+    12502,
+    "Junkyard/Exploration"
+   ],
+   [
+    12503,
+    "Junkyard/Exploration"
+   ],
+   [
+    12504,
+    "Junkyard/Exploration"
+   ]
+  ],
+  "1220607": [
+   [
+    12600,
+    "Wind Shrine/Exploration"
+   ],
+   [
+    12601,
+    "Wind Shrine/Exploration"
+   ],
+   [
+    12602,
+    "Wind Shrine/Exploration"
+   ],
+   [
+    12603,
+    "Wind Shrine/Exploration"
+   ],
+   [
+    12604,
+    "Wind Shrine/Exploration"
+   ]
+  ],
+  "12510701": [
+   [
+    125101,
+    "East Side District Block A4"
+   ],
+   [
+    125102,
+    "East Side District Block A4"
+   ],
+   [
+    125103,
+    "East Side District Block A4"
+   ]
+  ],
+  "12510702": [
+   [
+    125101,
+    "East Side District Block A4"
+   ],
+   [
+    125102,
+    "East Side District Block A4"
+   ],
+   [
+    125103,
+    "East Side District Block A4"
+   ]
+  ],
+  "12511505": [
+   [
+    125111,
+    "North Side District Block A3/Exploration"
+   ],
+   [
+    125112,
+    "North Side District Block A3/Exploration"
+   ],
+   [
+    125113,
+    "North Side District Block A3/Exploration"
+   ]
+  ],
+  "1310506": [
+   [
+    13101,
+    "Mystic Woods/Exploration"
+   ],
+   [
+    13102,
+    "Mystic Woods/Exploration"
+   ],
+   [
+    13103,
+    "Mystic Woods/Exploration"
+   ],
+   [
+    13104,
+    "Mystic Woods/Exploration"
+   ]
+  ],
+  "1310606": [
+   [
+    13201,
+    "Aquatic Cove/Exploration"
+   ],
+   [
+    13202,
+    "Aquatic Cove/Exploration"
+   ],
+   [
+    13203,
+    "Aquatic Cove/Exploration"
+   ],
+   [
+    13204,
+    "Aquatic Cove/Exploration"
+   ]
+  ],
+  "1310806": [
+   [
+    13301,
+    "Lake Dorr/Exploration"
+   ],
+   [
+    13302,
+    "Lake Dorr/Exploration"
+   ],
+   [
+    13303,
+    "Lake Dorr/Exploration"
+   ],
+   [
+    13304,
+    "Lake Dorr/Exploration"
+   ]
+  ],
+  "1310807": [
+   [
+    13301,
+    "Lake Dorr/Exploration"
+   ],
+   [
+    13302,
+    "Lake Dorr/Exploration"
+   ],
+   [
+    13303,
+    "Lake Dorr/Exploration"
+   ],
+   [
+    13304,
+    "Lake Dorr/Exploration"
+   ]
+  ],
+  "1310809": [
+   [
+    13301,
+    "Lake Dorr/Exploration"
+   ],
+   [
+    13302,
+    "Lake Dorr/Exploration"
+   ],
+   [
+    13303,
+    "Lake Dorr/Exploration"
+   ],
+   [
+    13304,
+    "Lake Dorr/Exploration"
+   ]
+  ],
+  "1310811": [
+   [
+    13301,
+    "Lake Dorr/Exploration"
+   ],
+   [
+    13302,
+    "Lake Dorr/Exploration"
+   ],
+   [
+    13303,
+    "Lake Dorr/Exploration"
+   ],
+   [
+    13304,
+    "Lake Dorr/Exploration"
+   ]
+  ],
+  "1320506": [
+   [
+    13401,
+    "Ghost Ship/Exploration"
+   ],
+   [
+    13402,
+    "Ghost Ship/Exploration"
+   ],
+   [
+    13403,
+    "Ghost Ship/Exploration"
+   ],
+   [
+    13404,
+    "Ghost Ship/Exploration"
+   ]
+  ],
+  "1320906": [
+   [
+    13501,
+    "Water Shrine/Exploration"
+   ],
+   [
+    13502,
+    "Water Shrine/Exploration"
+   ],
+   [
+    13503,
+    "Water Shrine/Exploration"
+   ],
+   [
+    13504,
+    "Water Shrine/Exploration"
+   ]
+  ],
+  "1410105": [
+   [
+    14101,
+    "Timber Tracks/Exploration"
+   ],
+   [
+    14102,
+    "Timber Tracks/Exploration"
+   ],
+   [
+    14103,
+    "Timber Tracks/Exploration"
+   ]
+  ],
+  "1410306": [
+   [
+    14201,
+    "Abandoned Orphanage/Exploration"
+   ],
+   [
+    14202,
+    "Abandoned Orphanage/Exploration"
+   ],
+   [
+    14203,
+    "Abandoned Orphanage/Exploration"
+   ],
+   [
+    14204,
+    "Abandoned Orphanage/Exploration"
+   ],
+   [
+    14205,
+    "Abandoned Orphanage/Exploration"
+   ]
+  ],
+  "1410605": [
+   [
+    14301,
+    "Surging Volcano/Exploration"
+   ],
+   [
+    14302,
+    "Surging Volcano/Exploration"
+   ],
+   [
+    14303,
+    "Surging Volcano/Exploration"
+   ],
+   [
+    14304,
+    "Surging Volcano/Exploration"
+   ]
+  ],
+  "1410807": [
+   [
+    14401,
+    "Fire Shrine/Exploration"
+   ],
+   [
+    14402,
+    "Fire Shrine/Exploration"
+   ],
+   [
+    14403,
+    "Fire Shrine/Exploration"
+   ],
+   [
+    14404,
+    "Fire Shrine/Exploration"
+   ]
+  ],
+  "1420307": [
+   [
+    14501,
+    "Zoldaad Castle Grounds/Exploration"
+   ],
+   [
+    14502,
+    "Zoldaad Castle Grounds/Exploration"
+   ],
+   [
+    14503,
+    "Zoldaad Castle Grounds/Exploration"
+   ],
+   [
+    14504,
+    "Zoldaad Castle Grounds/Exploration"
+   ],
+   [
+    14505,
+    "Zoldaad Castle Grounds/Exploration"
+   ]
+  ],
+  "1420607": [
+   [
+    14601,
+    "Invincible Interior/Exploration"
+   ],
+   [
+    14602,
+    "Invincible Interior/Exploration"
+   ],
+   [
+    14603,
+    "Invincible Interior/Exploration"
+   ],
+   [
+    14604,
+    "Invincible Interior/Exploration"
+   ],
+   [
+    14605,
+    "Invincible Interior/Exploration"
+   ]
+  ],
+  "1510205": [
+   [
+    15101,
+    "Snowy Woods/Exploration"
+   ],
+   [
+    15102,
+    "Snowy Woods/Exploration"
+   ],
+   [
+    15103,
+    "Snowy Woods/Exploration"
+   ],
+   [
+    15104,
+    "Snowy Woods/Exploration"
+   ],
+   [
+    15105,
+    "Snowy Woods/Exploration"
+   ]
+  ],
+  "1510507": [
+   [
+    15201,
+    "Magic Library/Exploration"
+   ],
+   [
+    15202,
+    "Magic Library/Exploration"
+   ],
+   [
+    15203,
+    "Magic Library/Exploration"
+   ],
+   [
+    15204,
+    "Magic Library/Exploration"
+   ]
+  ],
+  "1510705": [
+   [
+    15301,
+    "Mysidia Underground/Exploration"
+   ],
+   [
+    15302,
+    "Mysidia Underground/Exploration"
+   ],
+   [
+    15303,
+    "Mysidia Underground/Exploration"
+   ],
+   [
+    15304,
+    "Mysidia Underground/Exploration"
+   ]
+  ],
+  "1510906": [
+   [
+    15401,
+    "Mysidia Tower/Exploration"
+   ],
+   [
+    15402,
+    "Mysidia Tower/Exploration"
+   ],
+   [
+    15403,
+    "Mysidia Tower/Exploration"
+   ],
+   [
+    15404,
+    "Mysidia Tower/Exploration"
+   ]
+  ],
+  "1610405": [
+   [
+    16101,
+    "Societal Ruins/Exploration"
+   ],
+   [
+    16102,
+    "Societal Ruins/Exploration"
+   ],
+   [
+    16103,
+    "Societal Ruins/Exploration"
+   ],
+   [
+    16104,
+    "Societal Ruins/Exploration"
+   ],
+   [
+    16105,
+    "Societal Ruins/Exploration"
+   ]
+  ],
+  "1610407": [
+   [
+    16101,
+    "Societal Ruins/Exploration"
+   ],
+   [
+    16102,
+    "Societal Ruins/Exploration"
+   ],
+   [
+    16103,
+    "Societal Ruins/Exploration"
+   ],
+   [
+    16104,
+    "Societal Ruins/Exploration"
+   ],
+   [
+    16105,
+    "Societal Ruins/Exploration"
+   ]
+  ],
+  "1610409": [
+   [
+    16101,
+    "Societal Ruins/Exploration"
+   ],
+   [
+    16102,
+    "Societal Ruins/Exploration"
+   ],
+   [
+    16103,
+    "Societal Ruins/Exploration"
+   ],
+   [
+    16104,
+    "Societal Ruins/Exploration"
+   ],
+   [
+    16105,
+    "Societal Ruins/Exploration"
+   ]
+  ],
+  "1610411": [
+   [
+    16101,
+    "Societal Ruins/Exploration"
+   ],
+   [
+    16102,
+    "Societal Ruins/Exploration"
+   ],
+   [
+    16103,
+    "Societal Ruins/Exploration"
+   ],
+   [
+    16104,
+    "Societal Ruins/Exploration"
+   ],
+   [
+    16105,
+    "Societal Ruins/Exploration"
+   ]
+  ],
+  "1610806": [
+   [
+    16201,
+    "Gronoa Shrine Entrance/Exploration"
+   ],
+   [
+    16202,
+    "Gronoa Shrine Entrance/Exploration"
+   ],
+   [
+    16203,
+    "Gronoa Shrine Entrance/Exploration"
+   ]
+  ],
+  "1620606": [
+   [
+    16301,
+    "Ruggles Underground Pass/Exploration"
+   ],
+   [
+    16302,
+    "Ruggles Underground Pass/Exploration"
+   ],
+   [
+    16303,
+    "Ruggles Underground Pass/Exploration"
+   ],
+   [
+    16304,
+    "Ruggles Underground Pass/Exploration"
+   ]
+  ],
+  "1620806": [
+   [
+    16401,
+    "Gronoa Shrine Depths/Exploration"
+   ],
+   [
+    16402,
+    "Gronoa Shrine Depths/Exploration"
+   ],
+   [
+    16403,
+    "Gronoa Shrine Depths/Exploration"
+   ],
+   [
+    16404,
+    "Gronoa Shrine Depths/Exploration"
+   ],
+   [
+    16405,
+    "Gronoa Shrine Depths/Exploration"
+   ],
+   [
+    16406,
+    "Gronoa Shrine Depths/Exploration"
+   ]
+  ],
+  "1710306": [
+   [
+    17101,
+    "Foggy Thicket/Exploration"
+   ],
+   [
+    17102,
+    "Foggy Thicket/Exploration"
+   ],
+   [
+    17103,
+    "Foggy Thicket/Exploration"
+   ],
+   [
+    17104,
+    "Foggy Thicket/Exploration"
+   ]
+  ],
+  "1710806": [
+   [
+    17201,
+    "Forgotten Walls/Exploration"
+   ],
+   [
+    17202,
+    "Forgotten Walls/Exploration"
+   ],
+   [
+    17203,
+    "Forgotten Walls/Exploration"
+   ],
+   [
+    17204,
+    "Forgotten Walls/Exploration"
+   ]
+  ],
+  "1810305": [
+   [
+    18101,
+    "Sky Cave/Exploration"
+   ],
+   [
+    18102,
+    "Sky Cave/Exploration"
+   ],
+   [
+    18103,
+    "Sky Cave/Exploration"
+   ],
+   [
+    18104,
+    "Sky Cave/Exploration"
+   ]
+  ],
+  "1810606": [
+   [
+    18201,
+    "Clouds of Lasting Light/Exploration"
+   ],
+   [
+    18202,
+    "Clouds of Lasting Light/Exploration"
+   ],
+   [
+    18203,
+    "Clouds of Lasting Light/Exploration"
+   ],
+   [
+    18204,
+    "Clouds of Lasting Light/Exploration"
+   ]
+  ],
+  "1910305": [
+   [
+    19101,
+    "Roaring Volcano/Exploration"
+   ],
+   [
+    19102,
+    "Roaring Volcano/Exploration"
+   ],
+   [
+    19103,
+    "Roaring Volcano/Exploration"
+   ],
+   [
+    19104,
+    "Roaring Volcano/Exploration"
+   ]
+  ],
+  "1910606": [
+   [
+    19201,
+    "Land of Darkness/Exploration"
+   ],
+   [
+    19202,
+    "Land of Darkness/Exploration"
+   ],
+   [
+    19203,
+    "Land of Darkness/Exploration"
+   ],
+   [
+    19204,
+    "Land of Darkness/Exploration"
+   ]
+  ],
+  "1920101": [
+   [
+    19301,
+    "Peaceful Stream"
+   ],
+   [
+    19302,
+    "Peaceful Stream"
+   ],
+   [
+    19303,
+    "Peaceful Stream"
+   ],
+   [
+    19304,
+    "Bright Forest"
+   ],
+   [
+    19305,
+    "Bright Forest"
+   ],
+   [
+    19306,
+    "Bright Forest"
+   ],
+   [
+    19307,
+    "Cavern of Desolation"
+   ],
+   [
+    19308,
+    "Cavern of Desolation"
+   ],
+   [
+    19309,
+    "Cavern of Desolation"
+   ],
+   [
+    19310,
+    "Pass of Trials"
+   ],
+   [
+    19311,
+    "Pass of Trials"
+   ],
+   [
+    19312,
+    "Pass of Trials"
+   ],
+   [
+    19313,
+    "Clear Reef"
+   ],
+   [
+    19314,
+    "Clear Reef"
+   ],
+   [
+    19315,
+    "Clear Reef"
+   ],
+   [
+    19316,
+    "Fading Coast"
+   ],
+   [
+    19317,
+    "Fading Coast"
+   ],
+   [
+    19318,
+    "Fading Coast"
+   ],
+   [
+    19319,
+    "Endless Cliff"
+   ],
+   [
+    19320,
+    "Endless Cliff"
+   ],
+   [
+    19321,
+    "Endless Cliff"
+   ]
+  ],
+  "1920201": [
+   [
+    19301,
+    "Peaceful Stream"
+   ],
+   [
+    19302,
+    "Peaceful Stream"
+   ],
+   [
+    19303,
+    "Peaceful Stream"
+   ],
+   [
+    19304,
+    "Bright Forest"
+   ],
+   [
+    19305,
+    "Bright Forest"
+   ],
+   [
+    19306,
+    "Bright Forest"
+   ],
+   [
+    19307,
+    "Cavern of Desolation"
+   ],
+   [
+    19308,
+    "Cavern of Desolation"
+   ],
+   [
+    19309,
+    "Cavern of Desolation"
+   ],
+   [
+    19310,
+    "Pass of Trials"
+   ],
+   [
+    19311,
+    "Pass of Trials"
+   ],
+   [
+    19312,
+    "Pass of Trials"
+   ],
+   [
+    19313,
+    "Clear Reef"
+   ],
+   [
+    19314,
+    "Clear Reef"
+   ],
+   [
+    19315,
+    "Clear Reef"
+   ],
+   [
+    19316,
+    "Fading Coast"
+   ],
+   [
+    19317,
+    "Fading Coast"
+   ],
+   [
+    19318,
+    "Fading Coast"
+   ],
+   [
+    19319,
+    "Endless Cliff"
+   ],
+   [
+    19320,
+    "Endless Cliff"
+   ],
+   [
+    19321,
+    "Endless Cliff"
+   ]
+  ],
+  "1920301": [
+   [
+    19301,
+    "Peaceful Stream"
+   ],
+   [
+    19302,
+    "Peaceful Stream"
+   ],
+   [
+    19303,
+    "Peaceful Stream"
+   ],
+   [
+    19304,
+    "Bright Forest"
+   ],
+   [
+    19305,
+    "Bright Forest"
+   ],
+   [
+    19306,
+    "Bright Forest"
+   ],
+   [
+    19307,
+    "Cavern of Desolation"
+   ],
+   [
+    19308,
+    "Cavern of Desolation"
+   ],
+   [
+    19309,
+    "Cavern of Desolation"
+   ],
+   [
+    19310,
+    "Pass of Trials"
+   ],
+   [
+    19311,
+    "Pass of Trials"
+   ],
+   [
+    19312,
+    "Pass of Trials"
+   ],
+   [
+    19313,
+    "Clear Reef"
+   ],
+   [
+    19314,
+    "Clear Reef"
+   ],
+   [
+    19315,
+    "Clear Reef"
+   ],
+   [
+    19316,
+    "Fading Coast"
+   ],
+   [
+    19317,
+    "Fading Coast"
+   ],
+   [
+    19318,
+    "Fading Coast"
+   ],
+   [
+    19319,
+    "Endless Cliff"
+   ],
+   [
+    19320,
+    "Endless Cliff"
+   ],
+   [
+    19321,
+    "Endless Cliff"
+   ]
+  ],
+  "1920401": [
+   [
+    19301,
+    "Peaceful Stream"
+   ],
+   [
+    19302,
+    "Peaceful Stream"
+   ],
+   [
+    19303,
+    "Peaceful Stream"
+   ],
+   [
+    19304,
+    "Bright Forest"
+   ],
+   [
+    19305,
+    "Bright Forest"
+   ],
+   [
+    19306,
+    "Bright Forest"
+   ],
+   [
+    19307,
+    "Cavern of Desolation"
+   ],
+   [
+    19308,
+    "Cavern of Desolation"
+   ],
+   [
+    19309,
+    "Cavern of Desolation"
+   ],
+   [
+    19310,
+    "Pass of Trials"
+   ],
+   [
+    19311,
+    "Pass of Trials"
+   ],
+   [
+    19312,
+    "Pass of Trials"
+   ],
+   [
+    19313,
+    "Clear Reef"
+   ],
+   [
+    19314,
+    "Clear Reef"
+   ],
+   [
+    19315,
+    "Clear Reef"
+   ],
+   [
+    19316,
+    "Fading Coast"
+   ],
+   [
+    19317,
+    "Fading Coast"
+   ],
+   [
+    19318,
+    "Fading Coast"
+   ],
+   [
+    19319,
+    "Endless Cliff"
+   ],
+   [
+    19320,
+    "Endless Cliff"
+   ],
+   [
+    19321,
+    "Endless Cliff"
+   ]
+  ],
+  "1920501": [
+   [
+    19301,
+    "Peaceful Stream"
+   ],
+   [
+    19302,
+    "Peaceful Stream"
+   ],
+   [
+    19303,
+    "Peaceful Stream"
+   ],
+   [
+    19304,
+    "Bright Forest"
+   ],
+   [
+    19305,
+    "Bright Forest"
+   ],
+   [
+    19306,
+    "Bright Forest"
+   ],
+   [
+    19307,
+    "Cavern of Desolation"
+   ],
+   [
+    19308,
+    "Cavern of Desolation"
+   ],
+   [
+    19309,
+    "Cavern of Desolation"
+   ],
+   [
+    19310,
+    "Pass of Trials"
+   ],
+   [
+    19311,
+    "Pass of Trials"
+   ],
+   [
+    19312,
+    "Pass of Trials"
+   ],
+   [
+    19313,
+    "Clear Reef"
+   ],
+   [
+    19314,
+    "Clear Reef"
+   ],
+   [
+    19315,
+    "Clear Reef"
+   ],
+   [
+    19316,
+    "Fading Coast"
+   ],
+   [
+    19317,
+    "Fading Coast"
+   ],
+   [
+    19318,
+    "Fading Coast"
+   ],
+   [
+    19319,
+    "Endless Cliff"
+   ],
+   [
+    19320,
+    "Endless Cliff"
+   ],
+   [
+    19321,
+    "Endless Cliff"
+   ]
+  ],
+  "1920601": [
+   [
+    19301,
+    "Peaceful Stream"
+   ],
+   [
+    19302,
+    "Peaceful Stream"
+   ],
+   [
+    19303,
+    "Peaceful Stream"
+   ],
+   [
+    19304,
+    "Bright Forest"
+   ],
+   [
+    19305,
+    "Bright Forest"
+   ],
+   [
+    19306,
+    "Bright Forest"
+   ],
+   [
+    19307,
+    "Cavern of Desolation"
+   ],
+   [
+    19308,
+    "Cavern of Desolation"
+   ],
+   [
+    19309,
+    "Cavern of Desolation"
+   ],
+   [
+    19310,
+    "Pass of Trials"
+   ],
+   [
+    19311,
+    "Pass of Trials"
+   ],
+   [
+    19312,
+    "Pass of Trials"
+   ],
+   [
+    19313,
+    "Clear Reef"
+   ],
+   [
+    19314,
+    "Clear Reef"
+   ],
+   [
+    19315,
+    "Clear Reef"
+   ],
+   [
+    19316,
+    "Fading Coast"
+   ],
+   [
+    19317,
+    "Fading Coast"
+   ],
+   [
+    19318,
+    "Fading Coast"
+   ],
+   [
+    19319,
+    "Endless Cliff"
+   ],
+   [
+    19320,
+    "Endless Cliff"
+   ],
+   [
+    19321,
+    "Endless Cliff"
+   ]
+  ],
+  "1920701": [
+   [
+    19301,
+    "Peaceful Stream"
+   ],
+   [
+    19302,
+    "Peaceful Stream"
+   ],
+   [
+    19303,
+    "Peaceful Stream"
+   ],
+   [
+    19304,
+    "Bright Forest"
+   ],
+   [
+    19305,
+    "Bright Forest"
+   ],
+   [
+    19306,
+    "Bright Forest"
+   ],
+   [
+    19307,
+    "Cavern of Desolation"
+   ],
+   [
+    19308,
+    "Cavern of Desolation"
+   ],
+   [
+    19309,
+    "Cavern of Desolation"
+   ],
+   [
+    19310,
+    "Pass of Trials"
+   ],
+   [
+    19311,
+    "Pass of Trials"
+   ],
+   [
+    19312,
+    "Pass of Trials"
+   ],
+   [
+    19313,
+    "Clear Reef"
+   ],
+   [
+    19314,
+    "Clear Reef"
+   ],
+   [
+    19315,
+    "Clear Reef"
+   ],
+   [
+    19316,
+    "Fading Coast"
+   ],
+   [
+    19317,
+    "Fading Coast"
+   ],
+   [
+    19318,
+    "Fading Coast"
+   ],
+   [
+    19319,
+    "Endless Cliff"
+   ],
+   [
+    19320,
+    "Endless Cliff"
+   ],
+   [
+    19321,
+    "Endless Cliff"
+   ]
+  ],
+  "1920801": [
+   [
+    19301,
+    "Peaceful Stream"
+   ],
+   [
+    19302,
+    "Peaceful Stream"
+   ],
+   [
+    19303,
+    "Peaceful Stream"
+   ],
+   [
+    19304,
+    "Bright Forest"
+   ],
+   [
+    19305,
+    "Bright Forest"
+   ],
+   [
+    19306,
+    "Bright Forest"
+   ],
+   [
+    19307,
+    "Cavern of Desolation"
+   ],
+   [
+    19308,
+    "Cavern of Desolation"
+   ],
+   [
+    19309,
+    "Cavern of Desolation"
+   ],
+   [
+    19310,
+    "Pass of Trials"
+   ],
+   [
+    19311,
+    "Pass of Trials"
+   ],
+   [
+    19312,
+    "Pass of Trials"
+   ],
+   [
+    19313,
+    "Clear Reef"
+   ],
+   [
+    19314,
+    "Clear Reef"
+   ],
+   [
+    19315,
+    "Clear Reef"
+   ],
+   [
+    19316,
+    "Fading Coast"
+   ],
+   [
+    19317,
+    "Fading Coast"
+   ],
+   [
+    19318,
+    "Fading Coast"
+   ],
+   [
+    19319,
+    "Endless Cliff"
+   ],
+   [
+    19320,
+    "Endless Cliff"
+   ],
+   [
+    19321,
+    "Endless Cliff"
+   ]
+  ],
+  "21010101": [
+   [
+    210101,
+    "The Sealed Tower - Level 1"
+   ],
+   [
+    210102,
+    "The Sealed Tower - Level 1"
+   ],
+   [
+    210103,
+    "The Sealed Tower - Level 1"
+   ],
+   [
+    210104,
+    "The Sealed Tower - Level 1"
+   ],
+   [
+    210105,
+    "The Sealed Tower - Level 1"
+   ]
+  ],
+  "21010102": [
+   [
+    210201,
+    "The Sealed Tower - Level 2"
+   ],
+   [
+    210202,
+    "The Sealed Tower - Level 2"
+   ],
+   [
+    210203,
+    "The Sealed Tower - Level 2"
+   ],
+   [
+    210204,
+    "The Sealed Tower - Level 2"
+   ]
+  ],
+  "21010103": [
+   [
+    210301,
+    "The Sealed Tower - Level 3"
+   ],
+   [
+    210302,
+    "The Sealed Tower - Level 3"
+   ],
+   [
+    210303,
+    "The Sealed Tower - Level 3"
+   ],
+   [
+    210304,
+    "The Sealed Tower - Level 3"
+   ],
+   [
+    210305,
+    "The Sealed Tower - Level 3"
+   ],
+   [
+    210306,
+    "The Sealed Tower - Level 3"
+   ]
+  ],
+  "42020101": [
+   [
+    420201,
+    "Daring Rescue at the Crumbling House"
+   ],
+   [
+    420202,
+    "Daring Rescue at the Crumbling House"
+   ],
+   [
+    420203,
+    "Daring Rescue at the Crumbling House"
+   ],
+   [
+    420204,
+    "Daring Rescue at the Crumbling House"
+   ]
+  ],
+  "42220101": [
+   [
+    422201,
+    "Fight for Survival"
+   ],
+   [
+    422202,
+    "Fight for Survival"
+   ],
+   [
+    422203,
+    "Fight for Survival"
+   ],
+   [
+    422204,
+    "Fight for Survival"
+   ],
+   [
+    422205,
+    "Fight for Survival"
+   ]
+  ],
+  "42340101": [
+   [
+    423401,
+    "The Warlock's Castle"
+   ],
+   [
+    423402,
+    "The Warlock's Castle"
+   ],
+   [
+    423403,
+    "The Warlock's Castle"
+   ],
+   [
+    423404,
+    "The Warlock's Castle"
+   ]
+  ],
+  "7260101": [
+   [
+    72601,
+    "Macalania Woods"
+   ],
+   [
+    72602,
+    "Macalania Woods"
+   ],
+   [
+    72603,
+    "Macalania Woods"
+   ],
+   [
+    72604,
+    "Macalania Woods"
+   ]
+  ],
+  "7260102": [
+   [
+    72601,
+    "Macalania Woods"
+   ],
+   [
+    72602,
+    "Macalania Woods"
+   ],
+   [
+    72603,
+    "Macalania Woods"
+   ],
+   [
+    72604,
+    "Macalania Woods"
+   ]
+  ],
+  "7260103": [
+   [
+    72601,
+    "Macalania Woods"
+   ],
+   [
+    72602,
+    "Macalania Woods"
+   ],
+   [
+    72603,
+    "Macalania Woods"
+   ],
+   [
+    72604,
+    "Macalania Woods"
+   ]
+  ],
+  "7260104": [
+   [
+    72601,
+    "Macalania Woods"
+   ],
+   [
+    72602,
+    "Macalania Woods"
+   ],
+   [
+    72603,
+    "Macalania Woods"
+   ],
+   [
+    72604,
+    "Macalania Woods"
+   ]
+  ],
+  "7260105": [
+   [
+    72601,
+    "Macalania Woods"
+   ],
+   [
+    72602,
+    "Macalania Woods"
+   ],
+   [
+    72603,
+    "Macalania Woods"
+   ],
+   [
+    72604,
+    "Macalania Woods"
+   ]
+  ],
+  "8180102": [
+   [
+    81801,
+    "King Mog's Lost Maps - Megacrysts Map (Exploration)"
+   ],
+   [
+    81802,
+    "King Mog's Lost Maps - Megacrysts Map (Exploration)"
+   ],
+   [
+    81803,
+    "King Mog's Lost Maps - Megacrysts Map (Exploration)"
+   ],
+   [
+    81804,
+    "King Mog's Lost Maps - Megacrysts Map (Exploration)"
+   ],
+   [
+    81805,
+    "King Mog's Lost Maps - Megacrysts Map (Exploration)"
+   ],
+   [
+    81806,
+    "King Mog's Lost Maps - Megacrysts Map (Exploration)"
+   ]
+  ],
+  "8180104": [
+   [
+    81807,
+    "King Mog's Lost Maps - Awakening Materials Map (Exploration)"
+   ],
+   [
+    81808,
+    "King Mog's Lost Maps - Awakening Materials Map (Exploration)"
+   ],
+   [
+    81809,
+    "King Mog's Lost Maps - Awakening Materials Map (Exploration)"
+   ],
+   [
+    81810,
+    "King Mog's Lost Maps - Awakening Materials Map (Exploration)"
+   ],
+   [
+    81811,
+    "King Mog's Lost Maps - Awakening Materials Map (Exploration)"
+   ],
+   [
+    81812,
+    "King Mog's Lost Maps - Awakening Materials Map (Exploration)"
+   ]
+  ],
+  "9000001": [
+   [
+    10000,
+    "Into the Abyss"
+   ],
+   [
+    10001,
+    "Into the Abyss"
+   ],
+   [
+    10002,
+    "Into the Abyss"
+   ],
+   [
+    10003,
+    "Into the Abyss"
+   ],
+   [
+    10004,
+    "Into the Abyss"
+   ],
+   [
+    10005,
+    "Into the Abyss"
+   ],
+   [
+    10006,
+    "Into the Abyss"
+   ],
+   [
+    10007,
+    "Into the Abyss"
+   ]
+  ],
+  "9000701": [
+   [
+    6100104,
+    "Lunar New Year"
+   ],
+   [
+    6100128,
+    "Lunar New Year"
+   ],
+   [
+    6100129,
+    "Lunar New Year"
+   ],
+   [
+    6100130,
+    "Lunar New Year"
+   ],
+   [
+    6100132,
+    "Lunar New Year"
+   ],
+   [
+    6100133,
+    "Lunar New Year"
+   ],
+   [
+    6100134,
+    "Lunar New Year"
+   ]
+  ],
+  "9000702": [
+   [
+    6100104,
+    "Lunar New Year"
+   ],
+   [
+    6100128,
+    "Lunar New Year"
+   ],
+   [
+    6100129,
+    "Lunar New Year"
+   ],
+   [
+    6100130,
+    "Lunar New Year"
+   ],
+   [
+    6100132,
+    "Lunar New Year"
+   ],
+   [
+    6100133,
+    "Lunar New Year"
+   ],
+   [
+    6100134,
+    "Lunar New Year"
+   ]
+  ],
+  "9000703": [
+   [
+    6100104,
+    "Lunar New Year"
+   ],
+   [
+    6100128,
+    "Lunar New Year"
+   ],
+   [
+    6100129,
+    "Lunar New Year"
+   ],
+   [
+    6100130,
+    "Lunar New Year"
+   ],
+   [
+    6100132,
+    "Lunar New Year"
+   ],
+   [
+    6100133,
+    "Lunar New Year"
+   ],
+   [
+    6100134,
+    "Lunar New Year"
+   ]
+  ],
+  "9000704": [
+   [
+    6100104,
+    "Lunar New Year"
+   ],
+   [
+    6100128,
+    "Lunar New Year"
+   ],
+   [
+    6100129,
+    "Lunar New Year"
+   ],
+   [
+    6100130,
+    "Lunar New Year"
+   ],
+   [
+    6100132,
+    "Lunar New Year"
+   ],
+   [
+    6100133,
+    "Lunar New Year"
+   ],
+   [
+    6100134,
+    "Lunar New Year"
+   ]
+  ],
+  "9000705": [
+   [
+    6100104,
+    "Lunar New Year"
+   ],
+   [
+    6100128,
+    "Lunar New Year"
+   ],
+   [
+    6100129,
+    "Lunar New Year"
+   ],
+   [
+    6100130,
+    "Lunar New Year"
+   ],
+   [
+    6100132,
+    "Lunar New Year"
+   ],
+   [
+    6100133,
+    "Lunar New Year"
+   ],
+   [
+    6100134,
+    "Lunar New Year"
+   ]
+  ],
+  "9000706": [
+   [
+    6100104,
+    "Lunar New Year"
+   ],
+   [
+    6100128,
+    "Lunar New Year"
+   ],
+   [
+    6100129,
+    "Lunar New Year"
+   ],
+   [
+    6100130,
+    "Lunar New Year"
+   ],
+   [
+    6100132,
+    "Lunar New Year"
+   ],
+   [
+    6100133,
+    "Lunar New Year"
+   ],
+   [
+    6100134,
+    "Lunar New Year"
+   ]
+  ],
+  "9000707": [
+   [
+    6100104,
+    "Lunar New Year"
+   ],
+   [
+    6100128,
+    "Lunar New Year"
+   ],
+   [
+    6100129,
+    "Lunar New Year"
+   ],
+   [
+    6100130,
+    "Lunar New Year"
+   ],
+   [
+    6100132,
+    "Lunar New Year"
+   ],
+   [
+    6100133,
+    "Lunar New Year"
+   ],
+   [
+    6100134,
+    "Lunar New Year"
+   ]
+  ],
+  "9000708": [
+   [
+    6100104,
+    "Lunar New Year"
+   ],
+   [
+    6100128,
+    "Lunar New Year"
+   ],
+   [
+    6100129,
+    "Lunar New Year"
+   ],
+   [
+    6100130,
+    "Lunar New Year"
+   ],
+   [
+    6100132,
+    "Lunar New Year"
+   ],
+   [
+    6100133,
+    "Lunar New Year"
+   ],
+   [
+    6100134,
+    "Lunar New Year"
+   ]
+  ],
+  "9000709": [
+   [
+    6100104,
+    "Lunar New Year"
+   ],
+   [
+    6100128,
+    "Lunar New Year"
+   ],
+   [
+    6100129,
+    "Lunar New Year"
+   ],
+   [
+    6100130,
+    "Lunar New Year"
+   ],
+   [
+    6100132,
+    "Lunar New Year"
+   ],
+   [
+    6100133,
+    "Lunar New Year"
+   ],
+   [
+    6100134,
+    "Lunar New Year"
+   ]
+  ],
+  "9000710": [
+   [
+    6100104,
+    "Lunar New Year"
+   ],
+   [
+    6100128,
+    "Lunar New Year"
+   ],
+   [
+    6100129,
+    "Lunar New Year"
+   ],
+   [
+    6100130,
+    "Lunar New Year"
+   ],
+   [
+    6100132,
+    "Lunar New Year"
+   ],
+   [
+    6100133,
+    "Lunar New Year"
+   ],
+   [
+    6100134,
+    "Lunar New Year"
+   ]
+  ],
+  "9000711": [
+   [
+    6100104,
+    "Lunar New Year"
+   ],
+   [
+    6100128,
+    "Lunar New Year"
+   ],
+   [
+    6100129,
+    "Lunar New Year"
+   ],
+   [
+    6100130,
+    "Lunar New Year"
+   ],
+   [
+    6100132,
+    "Lunar New Year"
+   ],
+   [
+    6100133,
+    "Lunar New Year"
+   ],
+   [
+    6100134,
+    "Lunar New Year"
+   ]
+  ],
+  "9000712": [
+   [
+    6100104,
+    "Lunar New Year"
+   ],
+   [
+    6100128,
+    "Lunar New Year"
+   ],
+   [
+    6100129,
+    "Lunar New Year"
+   ],
+   [
+    6100130,
+    "Lunar New Year"
+   ],
+   [
+    6100132,
+    "Lunar New Year"
+   ],
+   [
+    6100133,
+    "Lunar New Year"
+   ],
+   [
+    6100134,
+    "Lunar New Year"
+   ]
+  ],
+  "9000713": [
+   [
+    6100104,
+    "Lunar New Year"
+   ],
+   [
+    6100128,
+    "Lunar New Year"
+   ],
+   [
+    6100129,
+    "Lunar New Year"
+   ],
+   [
+    6100130,
+    "Lunar New Year"
+   ],
+   [
+    6100132,
+    "Lunar New Year"
+   ],
+   [
+    6100133,
+    "Lunar New Year"
+   ],
+   [
+    6100134,
+    "Lunar New Year"
+   ]
+  ],
+  "9000714": [
+   [
+    6100104,
+    "Lunar New Year"
+   ],
+   [
+    6100128,
+    "Lunar New Year"
+   ],
+   [
+    6100129,
+    "Lunar New Year"
+   ],
+   [
+    6100130,
+    "Lunar New Year"
+   ],
+   [
+    6100132,
+    "Lunar New Year"
+   ],
+   [
+    6100133,
+    "Lunar New Year"
+   ],
+   [
+    6100134,
+    "Lunar New Year"
+   ]
+  ],
+  "9000715": [
+   [
+    6100104,
+    "Lunar New Year"
+   ],
+   [
+    6100128,
+    "Lunar New Year"
+   ],
+   [
+    6100129,
+    "Lunar New Year"
+   ],
+   [
+    6100130,
+    "Lunar New Year"
+   ],
+   [
+    6100132,
+    "Lunar New Year"
+   ],
+   [
+    6100133,
+    "Lunar New Year"
+   ],
+   [
+    6100134,
+    "Lunar New Year"
+   ]
+  ],
+  "9000716": [
+   [
+    6100104,
+    "Lunar New Year"
+   ],
+   [
+    6100128,
+    "Lunar New Year"
+   ],
+   [
+    6100129,
+    "Lunar New Year"
+   ],
+   [
+    6100130,
+    "Lunar New Year"
+   ],
+   [
+    6100132,
+    "Lunar New Year"
+   ],
+   [
+    6100133,
+    "Lunar New Year"
+   ],
+   [
+    6100134,
+    "Lunar New Year"
+   ]
+  ],
+  "9000717": [
+   [
+    6100104,
+    "Lunar New Year"
+   ],
+   [
+    6100128,
+    "Lunar New Year"
+   ],
+   [
+    6100129,
+    "Lunar New Year"
+   ],
+   [
+    6100130,
+    "Lunar New Year"
+   ],
+   [
+    6100132,
+    "Lunar New Year"
+   ],
+   [
+    6100133,
+    "Lunar New Year"
+   ],
+   [
+    6100134,
+    "Lunar New Year"
+   ]
+  ],
+  "9000718": [
+   [
+    6100104,
+    "Lunar New Year"
+   ],
+   [
+    6100128,
+    "Lunar New Year"
+   ],
+   [
+    6100129,
+    "Lunar New Year"
+   ],
+   [
+    6100130,
+    "Lunar New Year"
+   ],
+   [
+    6100132,
+    "Lunar New Year"
+   ],
+   [
+    6100133,
+    "Lunar New Year"
+   ],
+   [
+    6100134,
+    "Lunar New Year"
+   ]
+  ],
+  "9000719": [
+   [
+    6100104,
+    "Lunar New Year"
+   ],
+   [
+    6100128,
+    "Lunar New Year"
+   ],
+   [
+    6100129,
+    "Lunar New Year"
+   ],
+   [
+    6100130,
+    "Lunar New Year"
+   ],
+   [
+    6100132,
+    "Lunar New Year"
+   ],
+   [
+    6100133,
+    "Lunar New Year"
+   ],
+   [
+    6100134,
+    "Lunar New Year"
+   ]
+  ],
+  "9000720": [
+   [
+    6100104,
+    "Lunar New Year"
+   ],
+   [
+    6100128,
+    "Lunar New Year"
+   ],
+   [
+    6100129,
+    "Lunar New Year"
+   ],
+   [
+    6100130,
+    "Lunar New Year"
+   ],
+   [
+    6100132,
+    "Lunar New Year"
+   ],
+   [
+    6100133,
+    "Lunar New Year"
+   ],
+   [
+    6100134,
+    "Lunar New Year"
+   ]
+  ],
+  "9000721": [
+   [
+    6100104,
+    "Lunar New Year"
+   ],
+   [
+    6100128,
+    "Lunar New Year"
+   ],
+   [
+    6100129,
+    "Lunar New Year"
+   ],
+   [
+    6100130,
+    "Lunar New Year"
+   ],
+   [
+    6100132,
+    "Lunar New Year"
+   ],
+   [
+    6100133,
+    "Lunar New Year"
+   ],
+   [
+    6100134,
+    "Lunar New Year"
+   ]
+  ]
+ },
+ "no_record": {
+  "1110206": "The Kingdom's Light of Hope - Provisions: no Global wiki page (Japan-only content)",
+  "1110305": "Visitors from Beyond: no Global wiki page (Japan-only content)",
+  "1110805": "Visitors from Beyond: no Global wiki page (Japan-only content)",
+  "1120607": "Visitors from Beyond: no Global wiki page (Japan-only content)",
+  "1121207": "Visitors from Beyond: no Global wiki page (Japan-only content)",
+  "11315102": "Trial of the Water God: a single boss battle on the Ruins of the Water God map; the wiki lists no collection points for it",
+  "11315103": "New Trial of the Water God: a single boss battle on the Ruins of the Water God map; the wiki lists no collection points for it",
+  "1510707": "Marie's episode 2/4: Japan-only (no English text in any part; Global's Character Episodes page has only Aileen, Roy and Silvia)",
+  "1510710": "William's episode 5/6: Japan-only (no English text in any part; Global's Character Episodes page has only Aileen, Roy and Silvia)",
+  "1710308": "Kaede's episode 2/5: Japan-only (no English text in any part; Global's Character Episodes page has only Aileen, Roy and Silvia)",
+  "2200101": "Save the Choco-Chocobos!: no Global wiki page (Japan-only content)",
+  "22010101": "ROAD TO GLORY: Japan-only (no English text, no Global wiki page)",
+  "32830101": "The Water Temple - Exploration: Japan-only (no English text; the wiki's page is \"/JP\")",
+  "8160101": "Doga's Grotto - Exploration (HARD): its wiki page (Doga's Grotto - Exploration) lists no collection points",
+  "8160102": "Doga's Grotto - Exploration (EASY): its wiki page (Doga's Grotto - Exploration) lists no collection points",
+  "8600101": "Castle Exdeath - Exploration (HARD): its wiki page (Castle Exdeath - Exploration) lists no collection points",
+  "8600102": "Castle Exdeath - Exploration (EASY): its wiki page (Castle Exdeath - Exploration) lists no collection points"
+ },
+ "pools": {
+  "Abandoned Orphanage/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000200",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000300",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000700",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001500",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000400",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001200",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000200",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001000",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001300",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001800",
+     6.67,
+     1,
+     1
+    ]
+   ],
+   "page": "Abandoned Orphanage/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Aldore Tower (2)/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000500",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000600",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000700",
+     26.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001500",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001400",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001900",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001500",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002000",
+     3.33,
+     1,
+     1
+    ]
+   ],
+   "page": "Aldore Tower (2)/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Ancient Ruins Level 1": {
+   "items": [
+    [
+     "20",
+     "201000900",
+     10.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001200",
+     10.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001300",
+     10.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001500",
+     10.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001600",
+     5.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002500",
+     5.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001900",
+     5.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002000",
+     5.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "205000300",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "205000200",
+     20.0,
+     1,
+     1
+    ]
+   ],
+   "page": "Ancient Ruins Level 1",
+   "source": "wiki list, odds by type"
+  },
+  "Ancient Ruins Level 2": {
+   "items": [
+    [
+     "20",
+     "201001000",
+     10.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001200",
+     10.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001300",
+     10.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001500",
+     10.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001700",
+     10.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002000",
+     10.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "205000100",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "205000200",
+     20.0,
+     1,
+     1
+    ]
+   ],
+   "page": "Ancient Ruins Level 2",
+   "source": "wiki list, odds by type"
+  },
+  "Ancient Ruins Level 3": {
+   "items": [
+    [
+     "20",
+     "201001100",
+     10.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001200",
+     10.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001300",
+     10.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001500",
+     10.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002400",
+     10.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002000",
+     10.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "205000300",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "205000100",
+     20.0,
+     1,
+     1
+    ]
+   ],
+   "page": "Ancient Ruins Level 3",
+   "source": "wiki list, odds by type"
+  },
+  "Aquatic Cove/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000200",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000300",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000200",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001000",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000700",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001500",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000400",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001200",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000100",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001200",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001700",
+     2.86,
+     1,
+     1
+    ]
+   ],
+   "page": "Aquatic Cove/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Bright Forest": {
+   "items": [
+    [
+     "20",
+     "201001500",
+     33.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001600",
+     33.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001800",
+     33.33,
+     1,
+     1
+    ]
+   ],
+   "page": "Bright Forest",
+   "source": "wiki list, odds by type"
+  },
+  "Cavern of Desolation": {
+   "items": [
+    [
+     "20",
+     "201001400",
+     33.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001600",
+     33.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002000",
+     33.33,
+     1,
+     1
+    ]
+   ],
+   "page": "Cavern of Desolation",
+   "source": "wiki list, odds by type"
+  },
+  "Clear Reef": {
+   "items": [
+    [
+     "20",
+     "203000300",
+     40.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000900",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001000",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001900",
+     20.0,
+     1,
+     1
+    ]
+   ],
+   "page": "Clear Reef",
+   "source": "wiki list, odds by type"
+  },
+  "Clouds of Lasting Light/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000300",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000500",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000200",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001000",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000400",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001200",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000600",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001400",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001200",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001700",
+     4.0,
+     1,
+     1
+    ]
+   ],
+   "page": "Clouds of Lasting Light/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Dalnakya Cavern/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000100",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "204000100",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000500",
+     10.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000200",
+     10.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000700",
+     10.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000400",
+     10.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000100",
+     10.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001200",
+     10.0,
+     1,
+     1
+    ]
+   ],
+   "page": "Dalnakya Cavern/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Daring Rescue at the Crumbling House": {
+   "items": [
+    [
+     "20",
+     "106317000",
+     100.0,
+     100,
+     100
+    ]
+   ],
+   "page": "Daring Rescue at the Crumbling House",
+   "source": "fixed amount"
+  },
+  "Dwarves' Forge/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000200",
+     15.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000300",
+     15.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000400",
+     10.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000500",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001300",
+     5.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000100",
+     9.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000900",
+     4.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000300",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001100",
+     5.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000100",
+     5.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     9.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001100",
+     5.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001600",
+     2.0,
+     1,
+     1
+    ]
+   ],
+   "page": "Dwarves' Forge/Exploration",
+   "source": "wiki odds"
+  },
+  "Earth Shrine/Exploration": {
+   "items": [
+    [
+     "20",
+     "204000100",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000100",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000500",
+     10.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000100",
+     10.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000200",
+     10.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000700",
+     10.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000100",
+     15.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001100",
+     5.0,
+     1,
+     1
+    ]
+   ],
+   "page": "Earth Shrine/Exploration",
+   "source": "wiki odds"
+  },
+  "East Side District Block A4": {
+   "items": [
+    [
+     "20",
+     "203000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000500",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000600",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000600",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001400",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000500",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001300",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002100",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002400",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001500",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002000",
+     3.33,
+     1,
+     1
+    ]
+   ],
+   "page": "East Side District Block A4",
+   "source": "wiki list, odds by type"
+  },
+  "Endless Cliff": {
+   "items": [
+    [
+     "20",
+     "201001100",
+     16.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001200",
+     16.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001400",
+     16.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001300",
+     16.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002500",
+     33.33,
+     1,
+     1
+    ]
+   ],
+   "page": "Endless Cliff",
+   "source": "wiki list, odds by type"
+  },
+  "Energy Extraction Station/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000400",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000500",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000100",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000900",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000400",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001200",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000600",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001400",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001100",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001600",
+     4.0,
+     1,
+     1
+    ]
+   ],
+   "page": "Energy Extraction Station/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Energy Transfer Station/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000400",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000500",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000500",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001300",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000300",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001100",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000700",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001500",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001400",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001900",
+     4.0,
+     1,
+     1
+    ]
+   ],
+   "page": "Energy Transfer Station/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Fading Coast": {
+   "items": [
+    [
+     "20",
+     "201001100",
+     33.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001200",
+     33.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001700",
+     33.33,
+     1,
+     1
+    ]
+   ],
+   "page": "Fading Coast",
+   "source": "wiki list, odds by type"
+  },
+  "Fight for Survival": {
+   "items": [
+    [
+     "20",
+     "106317300",
+     100.0,
+     100,
+     100
+    ]
+   ],
+   "page": "Fight for Survival",
+   "source": "fixed amount"
+  },
+  "Fire Shrine/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000200",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000300",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000100",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000900",
+     1.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000200",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001000",
+     1.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000500",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001300",
+     1.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000400",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001200",
+     1.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000600",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001400",
+     1.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000700",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001500",
+     1.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000800",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001600",
+     1.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000300",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001100",
+     1.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000100",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001100",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001600",
+     2.86,
+     1,
+     1
+    ]
+   ],
+   "page": "Fire Shrine/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Foggy Thicket/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000300",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000500",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000600",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001400",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000500",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001300",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000700",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001500",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001300",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001800",
+     4.0,
+     1,
+     1
+    ]
+   ],
+   "page": "Foggy Thicket/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Forgotten Walls/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000300",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000500",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000100",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000900",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000300",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001100",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000500",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001300",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001100",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001600",
+     4.0,
+     1,
+     1
+    ]
+   ],
+   "page": "Forgotten Walls/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Fulan Pass/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000100",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "204000100",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000800",
+     5.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000500",
+     5.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000100",
+     5.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000200",
+     5.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000700",
+     5.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000300",
+     5.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000400",
+     5.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000600",
+     5.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000100",
+     10.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001400",
+     10.0,
+     1,
+     1
+    ]
+   ],
+   "page": "Fulan Pass/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Georl Barrier Station/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000400",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000500",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000200",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001000",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000300",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001100",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000700",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001500",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002100",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002400",
+     6.67,
+     1,
+     1
+    ]
+   ],
+   "page": "Georl Barrier Station/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Ghastly Valley/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000400",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000500",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001100",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001300",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002300",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002600",
+     6.67,
+     1,
+     1
+    ]
+   ],
+   "page": "Ghastly Valley/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Ghost Ship/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000200",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000300",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000400",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001200",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000500",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001300",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000800",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001600",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000100",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001300",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001800",
+     2.86,
+     1,
+     1
+    ]
+   ],
+   "page": "Ghost Ship/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Glistening Ice Caves/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000500",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000600",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000200",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001000",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000700",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001500",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001200",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001700",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001400",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001900",
+     3.33,
+     1,
+     1
+    ]
+   ],
+   "page": "Glistening Ice Caves/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Golzas Canyon/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000200",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000300",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000100",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000900",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000700",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001500",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000600",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001400",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000100",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002100",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002400",
+     2.86,
+     1,
+     1
+    ]
+   ],
+   "page": "Golzas Canyon/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Grand Falls/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000500",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000600",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000400",
+     26.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001200",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001200",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001700",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001400",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001900",
+     3.33,
+     1,
+     1
+    ]
+   ],
+   "page": "Grand Falls/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Grandore Gravity Block/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000500",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000600",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001100",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001400",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001300",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001500",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001600",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002600",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001900",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002000",
+     6.67,
+     1,
+     1
+    ]
+   ],
+   "page": "Grandore Gravity Block/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Grandshelt Catacombs/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000100",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "204000100",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000800",
+     10.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000100",
+     10.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000300",
+     10.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000600",
+     10.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000100",
+     10.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001500",
+     10.0,
+     1,
+     1
+    ]
+   ],
+   "page": "Grandshelt Catacombs/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Gronoa Shrine Depths/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000300",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000500",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000900",
+     5.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001000",
+     5.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001100",
+     5.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001200",
+     5.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001400",
+     5.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001300",
+     5.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001500",
+     5.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001600",
+     5.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002300",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002600",
+     4.0,
+     1,
+     1
+    ]
+   ],
+   "page": "Gronoa Shrine Depths/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Gronoa Shrine Entrance/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000300",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000500",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000100",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000900",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000200",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001000",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000800",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001600",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001500",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002000",
+     4.0,
+     1,
+     1
+    ]
+   ],
+   "page": "Gronoa Shrine Entrance/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Inside Labor Camp/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000400",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000500",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000500",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001300",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000400",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001200",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000600",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001400",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002200",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002500",
+     4.0,
+     1,
+     1
+    ]
+   ],
+   "page": "Inside Labor Camp/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Into the Abyss": {
+   "items": [
+    [
+     "20",
+     "203000200",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000300",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000200",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000100",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001300",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001500",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001600",
+     6.67,
+     1,
+     1
+    ]
+   ],
+   "page": "Into the Abyss",
+   "source": "wiki list, odds by type"
+  },
+  "Invincible Interior/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000200",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000300",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000600",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001400",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000700",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001500",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000400",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001200",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001400",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001900",
+     4.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     8.0,
+     1,
+     1
+    ]
+   ],
+   "page": "Invincible Interior/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Junkyard/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000200",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000300",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000800",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001600",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000500",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001300",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000200",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001000",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000100",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001500",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002000",
+     2.86,
+     1,
+     1
+    ]
+   ],
+   "page": "Junkyard/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "King Mog's Lost Maps - Awakening Materials Map (Exploration)": {
+   "items": [
+    [
+     "20",
+     "290020000",
+     2.94,
+     1,
+     1
+    ],
+    [
+     "20",
+     "290020100",
+     2.94,
+     1,
+     1
+    ],
+    [
+     "20",
+     "290020200",
+     2.94,
+     1,
+     1
+    ],
+    [
+     "20",
+     "290020300",
+     2.94,
+     1,
+     1
+    ],
+    [
+     "20",
+     "290020400",
+     2.94,
+     1,
+     1
+    ],
+    [
+     "20",
+     "290020500",
+     2.94,
+     1,
+     1
+    ],
+    [
+     "20",
+     "290020600",
+     2.94,
+     1,
+     1
+    ],
+    [
+     "20",
+     "290020700",
+     2.94,
+     1,
+     1
+    ],
+    [
+     "20",
+     "290020800",
+     2.94,
+     1,
+     1
+    ],
+    [
+     "20",
+     "290020900",
+     2.94,
+     1,
+     1
+    ],
+    [
+     "20",
+     "290030000",
+     2.94,
+     1,
+     1
+    ],
+    [
+     "20",
+     "290030100",
+     2.94,
+     1,
+     1
+    ],
+    [
+     "20",
+     "290030200",
+     2.94,
+     1,
+     1
+    ],
+    [
+     "20",
+     "290030300",
+     2.94,
+     1,
+     1
+    ],
+    [
+     "20",
+     "290030400",
+     2.94,
+     1,
+     1
+    ],
+    [
+     "20",
+     "290030500",
+     2.94,
+     1,
+     1
+    ],
+    [
+     "20",
+     "290030600",
+     2.94,
+     1,
+     1
+    ],
+    [
+     "20",
+     "290030700",
+     2.94,
+     1,
+     1
+    ],
+    [
+     "20",
+     "290030800",
+     2.94,
+     1,
+     1
+    ],
+    [
+     "20",
+     "290030900",
+     2.94,
+     1,
+     1
+    ],
+    [
+     "20",
+     "290031000",
+     2.94,
+     1,
+     1
+    ],
+    [
+     "20",
+     "290040000",
+     2.94,
+     1,
+     1
+    ],
+    [
+     "20",
+     "290040100",
+     2.94,
+     1,
+     1
+    ],
+    [
+     "20",
+     "290040200",
+     2.94,
+     1,
+     1
+    ],
+    [
+     "20",
+     "290040300",
+     2.94,
+     1,
+     1
+    ],
+    [
+     "20",
+     "290040400",
+     2.94,
+     1,
+     1
+    ],
+    [
+     "20",
+     "290050200",
+     2.94,
+     1,
+     1
+    ],
+    [
+     "20",
+     "290050300",
+     2.94,
+     1,
+     1
+    ],
+    [
+     "20",
+     "290050400",
+     2.94,
+     1,
+     1
+    ],
+    [
+     "20",
+     "290060000",
+     2.94,
+     1,
+     1
+    ],
+    [
+     "20",
+     "290060100",
+     2.94,
+     1,
+     1
+    ],
+    [
+     "20",
+     "290060200",
+     2.94,
+     1,
+     1
+    ],
+    [
+     "20",
+     "290060300",
+     2.94,
+     1,
+     1
+    ],
+    [
+     "20",
+     "290060400",
+     2.94,
+     1,
+     1
+    ]
+   ],
+   "page": "King Mog's Lost Maps",
+   "source": "any awakening material, 3~6★"
+  },
+  "King Mog's Lost Maps - Megacrysts Map (Exploration)": {
+   "items": [
+    [
+     "20",
+     "201000900",
+     12.5,
+     4,
+     5
+    ],
+    [
+     "20",
+     "201001000",
+     12.5,
+     4,
+     5
+    ],
+    [
+     "20",
+     "201001100",
+     12.5,
+     4,
+     5
+    ],
+    [
+     "20",
+     "201001200",
+     12.5,
+     4,
+     5
+    ],
+    [
+     "20",
+     "201001400",
+     12.5,
+     4,
+     5
+    ],
+    [
+     "20",
+     "201001300",
+     12.5,
+     4,
+     5
+    ],
+    [
+     "20",
+     "201001500",
+     12.5,
+     4,
+     5
+    ],
+    [
+     "20",
+     "201001600",
+     12.5,
+     4,
+     5
+    ]
+   ],
+   "page": "King Mog's Lost Maps",
+   "source": "any megacryst, 25~30 a run"
+  },
+  "Kolobos Marsh/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000200",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000300",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000800",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001600",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000200",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001000",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000400",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001200",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000100",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002300",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002600",
+     2.86,
+     1,
+     1
+    ]
+   ],
+   "page": "Kolobos Marsh/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Kolobos Reef/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000200",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000300",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000800",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001600",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000500",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001300",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000300",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001100",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000100",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002200",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002500",
+     2.86,
+     1,
+     1
+    ]
+   ],
+   "page": "Kolobos Reef/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Lake Dorr/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000200",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000300",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000100",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000900",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000300",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001100",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000600",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001400",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000100",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002200",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002500",
+     2.86,
+     1,
+     1
+    ]
+   ],
+   "page": "Lake Dorr/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Land of Darkness/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000400",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000500",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000800",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001600",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000500",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001300",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000200",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001000",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001500",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002000",
+     4.0,
+     1,
+     1
+    ]
+   ],
+   "page": "Land of Darkness/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Lanzelt Highlands/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000100",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000200",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000300",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000700",
+     11.43,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001500",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001100",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000600",
+     11.43,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001400",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000100",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001400",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001900",
+     2.86,
+     1,
+     1
+    ]
+   ],
+   "page": "Lanzelt Highlands/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Lanzelt Ruins/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000100",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000200",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000300",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000500",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001300",
+     1.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000100",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000900",
+     1.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000200",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001000",
+     1.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000300",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001100",
+     1.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000400",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001200",
+     1.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000600",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001400",
+     1.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000700",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001500",
+     1.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000800",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001600",
+     1.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000100",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001500",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002000",
+     2.86,
+     1,
+     1
+    ]
+   ],
+   "page": "Lanzelt Ruins/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Latius Woods/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000100",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "204000100",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000800",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000200",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000300",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000400",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000600",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000100",
+     10.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001300",
+     10.0,
+     1,
+     1
+    ]
+   ],
+   "page": "Latius Woods/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Lezal Mountain Base/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000500",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000600",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000600",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001400",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000500",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001300",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001300",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001800",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002200",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002500",
+     3.33,
+     1,
+     1
+    ]
+   ],
+   "page": "Lezal Mountain Base/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Lunar New Year": {
+   "items": [
+    [
+     "20",
+     "204000100",
+     10.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000100",
+     10.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000200",
+     10.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000300",
+     10.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000400",
+     10.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000100",
+     4.17,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000900",
+     2.08,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000200",
+     4.17,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001000",
+     2.08,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000500",
+     4.17,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001300",
+     2.08,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000400",
+     4.17,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001200",
+     2.08,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000600",
+     4.17,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001400",
+     2.08,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000300",
+     4.17,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001100",
+     2.08,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000700",
+     4.17,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001500",
+     2.08,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000800",
+     4.17,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001600",
+     2.08,
+     1,
+     1
+    ]
+   ],
+   "page": "Lunar New Year",
+   "source": "wiki list, odds by type"
+  },
+  "Macalania Woods": {
+   "items": [
+    [
+     "20",
+     "201001600",
+     14.29,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001300",
+     14.29,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000900",
+     14.29,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001000",
+     14.29,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001500",
+     14.29,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001100",
+     14.29,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001200",
+     14.29,
+     1,
+     1
+    ]
+   ],
+   "page": "Macalania Woods",
+   "source": "wiki list, odds by type"
+  },
+  "Magic Library/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000300",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000500",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000100",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000900",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000700",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001500",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000600",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001400",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001300",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001800",
+     4.0,
+     1,
+     1
+    ]
+   ],
+   "page": "Magic Library/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Magitek Weapon Development Facility/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000500",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000600",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000300",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001100",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000800",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001600",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001900",
+     6.67,
+     1,
+     1
+    ]
+   ],
+   "page": "Magitek Weapon Development Facility/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Maranda Coast/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000200",
+     13.73,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000300",
+     14.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000400",
+     10.78,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000200",
+     8.82,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001000",
+     4.9,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000400",
+     8.82,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001200",
+     5.88,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000600",
+     7.84,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001400",
+     4.9,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000100",
+     3.92,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     8.82,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001200",
+     4.9,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001700",
+     1.96,
+     1,
+     1
+    ]
+   ],
+   "page": "Maranda Coast/Exploration",
+   "source": "wiki odds"
+  },
+  "Mobreeze Airship Factory/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000200",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000300",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000100",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000900",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000300",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001100",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000400",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001200",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002300",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002600",
+     2.86,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000100",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     5.71,
+     1,
+     1
+    ]
+   ],
+   "page": "Mobreeze Airship Factory/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Mysidia Tower/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000300",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000500",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000300",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001100",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000700",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001500",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000600",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001400",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001400",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001900",
+     4.0,
+     1,
+     1
+    ]
+   ],
+   "page": "Mysidia Tower/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Mysidia Underground/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000300",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000500",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000800",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001600",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000400",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001200",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000200",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001000",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001500",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002000",
+     4.0,
+     1,
+     1
+    ]
+   ],
+   "page": "Mysidia Underground/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Mystic Woods/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000200",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000300",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000800",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001600",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000500",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001300",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000600",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001400",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000100",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001300",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001800",
+     2.86,
+     1,
+     1
+    ]
+   ],
+   "page": "Mystic Woods/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Nirvana Woods/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000400",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000500",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000300",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001300",
+     10.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001600",
+     10.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     5.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001100",
+     5.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001600",
+     2.5,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001500",
+     5.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002000",
+     2.5,
+     1,
+     1
+    ]
+   ],
+   "page": "Nirvana Woods/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "North Side District Block A3/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000400",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000500",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001200",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000600",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001400",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001200",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001700",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001400",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001900",
+     3.33,
+     1,
+     1
+    ]
+   ],
+   "page": "North Side District Block A3/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Pass of Trials": {
+   "items": [
+    [
+     "20",
+     "203000300",
+     40.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000900",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001000",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001600",
+     20.0,
+     1,
+     1
+    ]
+   ],
+   "page": "Pass of Trials",
+   "source": "wiki list, odds by type"
+  },
+  "Peaceful Stream": {
+   "items": [
+    [
+     "20",
+     "201001300",
+     33.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001500",
+     33.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002400",
+     33.33,
+     1,
+     1
+    ]
+   ],
+   "page": "Peaceful Stream",
+   "source": "wiki list, odds by type"
+  },
+  "Pearl Cavern/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000500",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000600",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000200",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001000",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001200",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002300",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002600",
+     6.67,
+     1,
+     1
+    ]
+   ],
+   "page": "Pearl Cavern/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Petra, Forest of Illusion/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000400",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000500",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000900",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000600",
+     11.43,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001400",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000500",
+     11.43,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001300",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001300",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001800",
+     4.0,
+     1,
+     1
+    ]
+   ],
+   "page": "Petra, Forest of Illusion/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Phantom Forest/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000100",
+     7.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000200",
+     7.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000300",
+     24.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000800",
+     6.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001600",
+     7.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000300",
+     6.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001100",
+     6.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000100",
+     19.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     6.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001300",
+     5.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001800",
+     7.0,
+     1,
+     1
+    ]
+   ],
+   "page": "Phantom Forest/Exploration",
+   "source": "wiki odds"
+  },
+  "River of Fire/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000400",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000500",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000100",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000900",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000300",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001100",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001100",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001600",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001500",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002000",
+     3.33,
+     1,
+     1
+    ]
+   ],
+   "page": "River of Fire/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Roaring Volcano/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000400",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000500",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000100",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000900",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000300",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001100",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000600",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001400",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001100",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001600",
+     4.0,
+     1,
+     1
+    ]
+   ],
+   "page": "Roaring Volcano/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Ruggles Underground Pass/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000300",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000500",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000400",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001200",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000700",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001500",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000800",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001600",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001200",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001700",
+     4.0,
+     1,
+     1
+    ]
+   ],
+   "page": "Ruggles Underground Pass/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Ruins of the Water God": {
+   "items": [
+    [
+     "20",
+     "203000400",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000500",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000400",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001200",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000700",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001500",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000800",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001600",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001200",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001700",
+     4.0,
+     1,
+     1
+    ]
+   ],
+   "page": "Ruins of the Water God",
+   "source": "wiki list, odds by type"
+  },
+  "Runferia Castle/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000400",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000500",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000200",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001000",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000600",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001400",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000800",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001600",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002300",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002600",
+     4.0,
+     1,
+     1
+    ]
+   ],
+   "page": "Runferia Castle/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Sandstorm Maze/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000500",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000600",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000600",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001400",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000500",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001300",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002200",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002500",
+     6.67,
+     1,
+     1
+    ]
+   ],
+   "page": "Sandstorm Maze/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Savage Ruins/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000400",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000500",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000600",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001400",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000500",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001300",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000700",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001500",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000800",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001600",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001300",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001800",
+     4.0,
+     1,
+     1
+    ]
+   ],
+   "page": "Savage Ruins/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Shrine of Decay/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000200",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000300",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000800",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001600",
+     1.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000500",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001300",
+     1.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000100",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000900",
+     1.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000200",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001000",
+     1.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000700",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001500",
+     1.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000300",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001100",
+     1.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000400",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001200",
+     1.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000600",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001400",
+     1.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000100",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001500",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002000",
+     2.86,
+     1,
+     1
+    ]
+   ],
+   "page": "Shrine of Decay/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Sky Cave/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000300",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000500",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000800",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001600",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000700",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001500",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000300",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001100",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001400",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001900",
+     4.0,
+     1,
+     1
+    ]
+   ],
+   "page": "Sky Cave/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Smokey Caves/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000500",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000600",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000600",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001400",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000500",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001300",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002100",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002400",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001500",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002000",
+     3.33,
+     1,
+     1
+    ]
+   ],
+   "page": "Smokey Caves/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Snowy Woods/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000300",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000500",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000200",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001000",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000500",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001300",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000400",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001200",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001200",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001700",
+     4.0,
+     1,
+     1
+    ]
+   ],
+   "page": "Snowy Woods/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Societal Ruins/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000300",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000500",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000500",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001300",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000600",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001400",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000300",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001100",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002200",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002500",
+     4.0,
+     1,
+     1
+    ]
+   ],
+   "page": "Societal Ruins/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Surging Volcano/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000200",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000300",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000500",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001300",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000600",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001400",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000100",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000900",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002100",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002400",
+     4.0,
+     1,
+     1
+    ]
+   ],
+   "page": "Surging Volcano/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "The Asura Realm": {
+   "items": [
+    [
+     "20",
+     "203000600",
+     40.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000900",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001500",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002500",
+     20.0,
+     1,
+     1
+    ]
+   ],
+   "page": "The Asura Realm",
+   "source": "wiki list, odds by type"
+  },
+  "The Deva Realm": {
+   "items": [
+    [
+     "20",
+     "203000600",
+     40.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001400",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001500",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001900",
+     20.0,
+     1,
+     1
+    ]
+   ],
+   "page": "The Deva Realm",
+   "source": "wiki list, odds by type"
+  },
+  "The Manusya Realm": {
+   "items": [
+    [
+     "20",
+     "203000600",
+     40.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001200",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001400",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002600",
+     20.0,
+     1,
+     1
+    ]
+   ],
+   "page": "The Manusya Realm",
+   "source": "wiki list, odds by type"
+  },
+  "The Naraka Realm": {
+   "items": [
+    [
+     "20",
+     "203000600",
+     40.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000900",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001300",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001600",
+     20.0,
+     1,
+     1
+    ]
+   ],
+   "page": "The Naraka Realm",
+   "source": "wiki list, odds by type"
+  },
+  "The Preta Realm": {
+   "items": [
+    [
+     "20",
+     "203000600",
+     40.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001200",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001600",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002000",
+     20.0,
+     1,
+     1
+    ]
+   ],
+   "page": "The Preta Realm",
+   "source": "wiki list, odds by type"
+  },
+  "The Sealed Tower - Level 1": {
+   "items": [
+    [
+     "20",
+     "201000900",
+     6.25,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001000",
+     6.25,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001100",
+     6.25,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001200",
+     6.25,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001400",
+     6.25,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001300",
+     6.25,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001500",
+     6.25,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001600",
+     6.25,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000300",
+     50.0,
+     1,
+     1
+    ]
+   ],
+   "page": "The Sealed Tower - Level 1",
+   "source": "wiki list, odds by type"
+  },
+  "The Sealed Tower - Level 2": {
+   "items": [
+    [
+     "20",
+     "201000900",
+     6.25,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001000",
+     6.25,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001100",
+     6.25,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001200",
+     6.25,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001400",
+     6.25,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001300",
+     6.25,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001500",
+     6.25,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001600",
+     6.25,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000300",
+     50.0,
+     1,
+     1
+    ]
+   ],
+   "page": "The Sealed Tower - Level 2",
+   "source": "wiki list, odds by type"
+  },
+  "The Sealed Tower - Level 3": {
+   "items": [
+    [
+     "20",
+     "201000900",
+     6.25,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001000",
+     6.25,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001100",
+     6.25,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001200",
+     6.25,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001400",
+     6.25,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001300",
+     6.25,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001500",
+     6.25,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001600",
+     6.25,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000300",
+     50.0,
+     1,
+     1
+    ]
+   ],
+   "page": "The Sealed Tower - Level 3",
+   "source": "wiki list, odds by type"
+  },
+  "The Tiryagyoni Realm": {
+   "items": [
+    [
+     "20",
+     "203000600",
+     40.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001300",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001600",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002400",
+     20.0,
+     1,
+     1
+    ]
+   ],
+   "page": "The Tiryagyoni Realm",
+   "source": "wiki list, odds by type"
+  },
+  "The Warlock's Castle": {
+   "items": [
+    [
+     "20",
+     "106317600",
+     100.0,
+     150,
+     150
+    ]
+   ],
+   "page": "The Warlock's Castle",
+   "source": "fixed amount"
+  },
+  "Timber Tracks/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000200",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000300",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000500",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001300",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000800",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001600",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000300",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001100",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001500",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002000",
+     4.0,
+     1,
+     1
+    ]
+   ],
+   "page": "Timber Tracks/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Vesta Ruins/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000400",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000500",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000300",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001100",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000400",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001200",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000800",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001600",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002300",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002600",
+     4.0,
+     1,
+     1
+    ]
+   ],
+   "page": "Vesta Ruins/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Visectrum Underground Waterway/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000500",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000600",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001200",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000500",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001300",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002100",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002400",
+     6.67,
+     1,
+     1
+    ]
+   ],
+   "page": "Visectrum Underground Waterway/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Water Shrine/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000200",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000300",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000100",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000900",
+     1.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000200",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001000",
+     1.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000500",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001300",
+     1.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000600",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001400",
+     1.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000400",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001200",
+     1.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000700",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001500",
+     1.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000800",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001600",
+     1.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000300",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001100",
+     1.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000100",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001400",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001900",
+     4.0,
+     1,
+     1
+    ]
+   ],
+   "page": "Water Shrine/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Wind Shrine/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000200",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000300",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000800",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001600",
+     1.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000500",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001300",
+     1.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000100",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000900",
+     1.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000200",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001000",
+     1.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000700",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001500",
+     1.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000300",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001100",
+     1.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000400",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001200",
+     1.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000600",
+     3.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001400",
+     1.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000100",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002100",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002400",
+     2.86,
+     1,
+     1
+    ]
+   ],
+   "page": "Wind Shrine/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Windy Heights West/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000200",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000300",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000500",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001300",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000700",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001500",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000600",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001400",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000100",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001400",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001900",
+     2.86,
+     1,
+     1
+    ]
+   ],
+   "page": "Windy Heights West/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Wolfsfang Peak/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000100",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000200",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000300",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000200",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001000",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000400",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001200",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000100",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001200",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001700",
+     2.86,
+     1,
+     1
+    ]
+   ],
+   "page": "Wolfsfang Peak/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Zadehl Westersands/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000100",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000200",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000300",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000500",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001300",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000100",
+     13.33,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000900",
+     6.67,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000100",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001100",
+     5.71,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107001600",
+     2.86,
+     1,
+     1
+    ]
+   ],
+   "page": "Zadehl Westersands/Exploration",
+   "source": "wiki list, odds by type"
+  },
+  "Zoldaad Castle Grounds/Exploration": {
+   "items": [
+    [
+     "20",
+     "203000300",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "203000400",
+     20.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000100",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000900",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000500",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001300",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201000300",
+     8.89,
+     1,
+     1
+    ],
+    [
+     "20",
+     "201001100",
+     4.44,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002200",
+     8.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107002500",
+     4.0,
+     1,
+     1
+    ],
+    [
+     "20",
+     "107000200",
+     8.0,
+     1,
+     1
+    ]
+   ],
+   "page": "Zoldaad Castle Grounds/Exploration",
+   "source": "wiki list, odds by type"
+  }
+ }
+}

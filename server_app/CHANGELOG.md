@@ -7,6 +7,44 @@ The **engine** carries its own identifiers — `ENGINE_VERSION` and `CONTRACT_VE
 `../server/data_paths.py` — and reports both through `--print-paths`; the app shows them in the
 doctor and treats a missing `contract` as "engine predates the data-root contract".
 
+## [0.1.8] — 2026-10-24
+
+**The bundle no longer teaches a repo.** 0.1.7's own `deps.json` told the user to run
+`python3 scripts/mst_decode.py`, `python3 scripts/text_decode.py`, `python3 harness/derive_define_mst.py` and
+`harness/gen_ca.sh` — none of which the bundle shipped (APP-57). A collaborator hit exactly that.
+
+### Added
+* `run-me-first.sh` / `run-me-first.cmd` — the one command to run first: two paths in, a ready data folder
+  out (it prompts when run with no arguments).
+* The frozen engine now carries the two table decoders and the text key manifest beside its own modules, so
+  `prepare` works with **no `scripts/` directory, no openssl and no Python** on the target.
+* `build_dist.sh` gates on it: it refuses a `deps.json` whose producers name `scripts/` or `harness/`, refuses
+  a frozen engine that has no working `--prepare`, and stages `run-me-first.sh`/`.cmd` into the bundle.
+
+### Changed
+* **No flag is required to run the server.** `start`/`prepare` remember the data folder, port, mode and bind, and
+  `status`/`stop`/`logs` use them; new `logs [-f] [-n N]`; `status` prints `data=` and, when stopped, the exact
+  start command. `--help` is six bare verbs plus optional overrides, with `--from`/`--state`/`--env` under
+  "Developers only".
+* `prepare --apk APK --client-data DIR` now exists in the app and **delegates to the engine's `--prepare`**, so
+  the wrapper script, the engine and the app run one implementation.
+* `engine_dir` is never persisted (it is exe-relative — persisting it let one installation break another), an
+  empty saved field derives its default, and `XDG_CONFIG_HOME` is honoured; the release smoke now runs with its
+  own config dir.
+* Every `deps.json` producer is now a command **the bundle can run** (`ffbe-server prepare --apk … --client-data …`);
+  the overlay entry is marked optional, and the cert entry points at the in-process generator rather than a
+  shell script.
+* README: "Getting started" is three steps (prepare → start → point the game at it) with no checkout, no
+  `--from`, and the emulator facts stated plainly (arm64-only, system-store CA).
+* The decoders prefer the bundled `cryptography` library over the `openssl` CLI (byte-identical output on both
+  trees: 219 MST tables / 590,632 records, 145 text tables / 335,637 records, 0 diffs).
+
+## [Unreleased]
+
+### Added
+- `Browse…` folder picker for the data and engine directories in Setup, so a prepared data root
+  (e.g. `~/ffbe-server-data`) and a checkout/bundle engine can be selected without typing a path.
+
 ## [0.1.7] — 2026-10-16
 
 ### Added

@@ -57,6 +57,10 @@ struct Config {
     engine_dir: String,
     port: u16,
     mode: Mode,
+    /// The bind address, remembered like everything else: `--bind` was the one setting a user had to
+    /// repeat on every start, and there is no reason it should differ between runs on one machine.
+    #[serde(default = "default_bind")]
+    bind: String,
     /// Where to fetch {"version","url","notes"} for the update check; empty disables it.
     #[serde(default)]
     update_url: String,
@@ -72,7 +76,12 @@ fn config_file() -> Option<PathBuf> {
     #[cfg(windows)]
     let base = std::env::var_os("APPDATA").map(PathBuf::from);
     #[cfg(not(windows))]
-    let base = home_dir().map(|h| h.join(".config"));
+    // XDG first: a desktop app honours it, and it is what makes a build hermetic -- without this the release
+    // smoke wrote its throwaway data root and port into the BUILDER's ~/.config, and the next bundle inherited
+    // them (found 2026-10-24 by the 0.1.8 smoke failing on a remembered engine path).
+    let base = std::env::var_os("XDG_CONFIG_HOME")
+        .map(PathBuf::from)
+        .or_else(|| home_dir().map(|h| h.join(".config")));
     base.map(|b| b.join("ffbe-server-app").join("config.json"))
 }
 
@@ -118,12 +127,17 @@ fn default_data_root() -> PathBuf {
     PathBuf::from("data")
 }
 
+fn default_bind() -> String {
+    "0.0.0.0".to_string()
+}
+
 fn load_config() -> Config {
     let mut cfg = Config {
         data_root: default_data_root().to_string_lossy().into_owned(),
         engine_dir: default_engine_dir().to_string_lossy().into_owned(),
         port: 443,
         mode: Mode::Campaign,
+        bind: default_bind(),
         update_url: String::new(),
     };
     if let Some(p) = config_file() {
@@ -132,6 +146,17 @@ fn load_config() -> Config {
                 cfg = saved;
             }
         }
+    }
+    // An empty saved field means "derive it": a config written by another installation (or a hand-edited one)
+    // must not wedge the app with a path that no longer exists.
+    if cfg.data_root.trim().is_empty() {
+        cfg.data_root = default_data_root().to_string_lossy().into_owned();
+    }
+    if cfg.engine_dir.trim().is_empty() {
+        cfg.engine_dir = default_engine_dir().to_string_lossy().into_owned();
+    }
+    if cfg.bind.trim().is_empty() {
+        cfg.bind = default_bind();
     }
     if let Ok(u) = std::env::var("FFBE_UPDATE_URL") {
         if !u.trim().is_empty() {
@@ -812,10 +837,34 @@ impl App {
 
         egui::Grid::new("cfg").num_columns(2).spacing([10.0, 6.0]).show(ui, |ui| {
             ui.label("Data directory");
-            ui.add(egui::TextEdit::singleline(&mut self.cfg.data_root).desired_width(560.0));
+            ui.horizontal(|ui| {
+                ui.add(egui::TextEdit::singleline(&mut self.cfg.data_root).desired_width(470.0));
+                if ui.button("Browse…").clicked() {
+                    let mut dlg = rfd::FileDialog::new().set_title("Choose the data directory");
+                    if Path::new(&self.cfg.data_root).is_dir() {
+                        dlg = dlg.set_directory(&self.cfg.data_root);
+                    }
+                    if let Some(dir) = dlg.pick_folder() {
+                        self.cfg.data_root = dir.display().to_string();
+                        spawn_doctor(Arc::clone(&self.doctor), self.cfg.clone());
+                    }
+                }
+            });
             ui.end_row();
             ui.label("Engine directory");
-            ui.add(egui::TextEdit::singleline(&mut self.cfg.engine_dir).desired_width(560.0));
+            ui.horizontal(|ui| {
+                ui.add(egui::TextEdit::singleline(&mut self.cfg.engine_dir).desired_width(470.0));
+                if ui.button("Browse…").clicked() {
+                    let mut dlg = rfd::FileDialog::new().set_title("Choose the engine directory");
+                    if Path::new(&self.cfg.engine_dir).is_dir() {
+                        dlg = dlg.set_directory(&self.cfg.engine_dir);
+                    }
+                    if let Some(dir) = dlg.pick_folder() {
+                        self.cfg.engine_dir = dir.display().to_string();
+                        spawn_doctor(Arc::clone(&self.doctor), self.cfg.clone());
+                    }
+                }
+            });
             ui.end_row();
             ui.label("Port");
             ui.add(egui::DragValue::new(&mut self.cfg.port).range(1..=65535));
@@ -1075,6 +1124,12 @@ struct HeadlessArgs {
     from: Option<String>,
     /// `prepare` only: a save slot to seed the root's state dir with (server half only).
     state: Option<String>,
+    /// `logs` only: how many lines to print, and whether to keep following.
+    lines: usize,
+    follow: bool,
+    /// `prepare` from the user's own files (the model that needs no checkout): both must be given.
+    apk: String,
+    client_data: String,
 }
 
 fn parse_headless(rest: &[String]) -> Result<HeadlessArgs, String> {
@@ -1084,10 +1139,14 @@ fn parse_headless(rest: &[String]) -> Result<HeadlessArgs, String> {
         engine: cfg.engine_dir,
         port: cfg.port,
         mode: cfg.mode,
-        bind: "0.0.0.0".to_string(),
+        bind: cfg.bind.clone(),
         extra_env: Vec::new(),
         from: None,
         state: None,
+        lines: 40,
+        follow: false,
+        apk: String::new(),
+        client_data: String::new(),
     };
     let mut i = 0;
     while i < rest.len() {
@@ -1137,6 +1196,22 @@ fn parse_headless(rest: &[String]) -> Result<HeadlessArgs, String> {
             }
             "--state" => {
                 a.state = Some(need(i)?);
+                i += 2;
+            }
+            "--lines" | "-n" => {
+                a.lines = need(i)?.parse().map_err(|_| "--lines wants a number".to_string())?;
+                i += 2;
+            }
+            "--follow" | "-f" => {
+                a.follow = true;
+                i += 1;
+            }
+            "--apk" => {
+                a.apk = need(i)?;
+                i += 2;
+            }
+            "--client-data" => {
+                a.client_data = need(i)?;
                 i += 2;
             }
             other => return Err(format!("unknown argument {other}")),
@@ -1276,7 +1351,36 @@ fn symlink_dir(src: &Path, dst: &Path) -> std::io::Result<()> {
 /// The one command that turns a checkout into a data root: a symlink farm + an optional save slot,
 /// then the same `deps.json` rows the doctor shows, so anything still missing names its producer.
 /// Idempotent and never destructive: an existing entry (a live root's state included) is skipped.
+/// The two-input prepare: the ENGINE owns the work (`server/ffbe_prepare.py`), so there is one
+/// implementation whether the user runs `run-me-first.sh`, the engine directly, or the app.
+fn prepare_from_user_files(a: &HeadlessArgs) -> i32 {
+    if a.apk.is_empty() || a.client_data.is_empty() {
+        eprintln!("ffbe-server-app: prepare from your own files needs BOTH --apk and --client-data");
+        return 2;
+    }
+    let (program, pre) = engine_invocation(Path::new(&a.engine));
+    let status = Command::new(program)
+        .args(&pre)
+        .arg("--prepare")
+        .arg("--apk").arg(&a.apk)
+        .arg("--client-data").arg(&a.client_data)
+        .arg("--data").arg(&a.data)
+        .env("FFBE_DATA", &a.data)
+        .status();
+    match status {
+        Ok(st) if st.success() => 0,
+        Ok(st) => st.code().unwrap_or(1),
+        Err(e) => {
+            eprintln!("ffbe-server-app: cannot run the engine ({}): {e}", a.engine);
+            2
+        }
+    }
+}
+
 fn headless_prepare(a: &HeadlessArgs) -> i32 {
+    if !a.apk.is_empty() || !a.client_data.is_empty() {
+        return prepare_from_user_files(a);
+    }
     // The layout the ENGINE resolves under a `--data` root (`server/data_paths.py`; `paths` prints it).
     const LINKS: &[(&str, &str, bool)] = &[
         ("mst_decoded", "mst_decoded", true),
@@ -1562,6 +1666,50 @@ fn headless_stop(a: &HeadlessArgs) -> i32 {
     0
 }
 
+/// `logs` -- the engine log, without the user having to know where it lives.
+fn headless_logs(a: &HeadlessArgs) -> i32 {
+    let state_dir = Path::new(&a.data).join("state");
+    let meta = std::fs::read_to_string(state_dir.join("server.json")).unwrap_or_default();
+    let log = serde_json::from_str::<serde_json::Value>(&meta)
+        .ok()
+        .and_then(|v| v.get("log").and_then(|l| l.as_str()).map(PathBuf::from))
+        .unwrap_or_else(|| state_dir.join("server.log"));
+    if !log.exists() {
+        eprintln!("no log yet at {} -- start the server first (`ffbe-server-app start`)", log.display());
+        return 1;
+    }
+    let bytes = std::fs::read(&log).unwrap_or_default();
+    let text = String::from_utf8_lossy(&bytes).into_owned();
+    let lines: Vec<&str> = text.lines().collect();
+    for l in &lines[lines.len().saturating_sub(a.lines)..] {
+        println!("{l}");
+    }
+    if !a.follow {
+        return 0;
+    }
+    use std::io::{Read, Seek, SeekFrom, Write};
+    let mut pos = bytes.len() as u64;
+    loop {
+        std::thread::sleep(std::time::Duration::from_millis(400));
+        let len = std::fs::metadata(&log).map(|m| m.len()).unwrap_or(0);
+        if len < pos {
+            pos = len;
+        }
+        if len > pos {
+            if let Ok(mut f) = std::fs::File::open(&log) {
+                if f.seek(SeekFrom::Start(pos)).is_ok() {
+                    let mut buf = Vec::new();
+                    if f.read_to_end(&mut buf).is_ok() {
+                        print!("{}", String::from_utf8_lossy(&buf));
+                        let _ = std::io::stdout().flush();
+                        pos += buf.len() as u64;
+                    }
+                }
+            }
+        }
+    }
+}
+
 fn headless_status(a: &HeadlessArgs) -> i32 {
     let state_dir = Path::new(&a.data).join("state");
     let pidfile = state_dir.join("server.pid");
@@ -1586,10 +1734,14 @@ fn headless_status(a: &HeadlessArgs) -> i32 {
         }
         Some(pid) => {
             println!("not running (stale pid {pid})");
+            println!("data={}", a.data);
+            println!("start with: ffbe-server-app start");
             1
         }
         None => {
             println!("not running");
+            println!("data={}", a.data);
+            println!("start with: ffbe-server-app start");
             1
         }
     }
@@ -1603,30 +1755,67 @@ fn headless(cmd: &str, rest: &[String]) -> i32 {
             return 2;
         }
     };
+    // REMEMBER WHAT WORKED. `save_config` used to be called only by the GUI, so every CLI use had to
+    // repeat `--data`/`--port`/`--mode` — the "flag hell" a user meets first. After one successful start or
+    // prepare, the bare verb is enough.
+    if matches!(cmd, "start" | "prepare") {
+        let mut cfg = load_config();
+        cfg.data_root = args.data.clone();
+        // engine_dir is DELIBERATELY not persisted: it is derived from the executable's own location (a
+        // bundle's `engine/`, a checkout's `server/`), so writing it made one installation's path poison
+        // another's — the 0.1.8 bundle smoke failed exactly that way, on the developer's remembered path.
+        // A permanent override is `FFBE_SERVER_ENGINE`; `--engine` is per-invocation.
+        cfg.engine_dir = String::new();   // see above: exe-relative, never remembered
+        cfg.port = args.port;
+        cfg.mode = args.mode;
+        cfg.bind = args.bind.clone();
+        save_config(&cfg);
+    }
     match cmd {
         "paths" => headless_paths(&args),
         "prepare" => headless_prepare(&args),
         "start" => headless_start(&args),
         "stop" => headless_stop(&args),
         "status" => headless_status(&args),
+        "logs" => headless_logs(&args),
         _ => 2,
     }
 }
 
 /// The CLI's front door. Commands are one word; no arguments opens the GUI.
+///
+/// EVERY flag is optional. `start`/`prepare` remember the data folder, port, mode and bind, so the second
+/// run is one bare verb -- the "flag hell" of the first-run instructions was mostly settings nobody should
+/// have to repeat (`docs/SIMPLER_DISTRIBUTABLE.md`).
 fn print_usage() {
-    println!("ffbe-server-app {} — the synthetic FFBE server", env!("CARGO_PKG_VERSION"));
+    println!("ffbe-server-app {} -- the synthetic FFBE server", env!("CARGO_PKG_VERSION"));
     println!();
-    println!("  (no arguments)                                     open the GUI");
-    println!("  start   --data DIR [--port 443] [--mode campaign|maxroster] [--bind ADDR] [--env K=V]");
-    println!("  stop    --data DIR");
-    println!("  status  --data DIR");
-    println!("  paths   --data DIR");
-    println!("  prepare --data DIR [--from CHECKOUT] [--state SLOT]");
+    println!("  ffbe-server-app                       open the GUI");
+    println!("  ffbe-server-app prepare --apk APK --client-data DIR");
+    println!("                                        build the data folder from YOUR game files (first run)");
+    println!("  ffbe-server-app start                 start the server");
+    println!("  ffbe-server-app stop                  stop it");
+    println!("  ffbe-server-app status                running? which port / mode / data folder?");
+    println!("  ffbe-server-app logs [-f] [-n N]      the server log (default: last 40 lines)");
+    println!("  ffbe-server-app paths                 every path the engine resolves");
     println!();
-    println!("  --engine PATH      engine to run (default: the bundle's engine, or a repo checkout)");
+    println!("After the first `prepare`/`start`, the data folder, port, mode and bind are REMEMBERED:");
+    println!("the bare verbs above are enough.");
+    println!();
+    println!("Optional overrides:");
+    println!("  --data DIR            the data folder (default: remembered, else ./ffbe-data)");
+    println!("  --port N              default 443");
+    println!("  --mode campaign|maxroster    (remembered)");
+    println!("  --bind ADDR           default 0.0.0.0");
+    println!("  --engine PATH         which engine binary/module dir to run");
+    println!();
+    println!("Developers only -- not needed to run the server:");
+    println!("  --from CHECKOUT       prepare by linking from a source checkout instead of your own files");
+    println!("  --state SLOT          seed the data folder's state from a saved slot");
+    println!("  --env K=V             set one engine experiment dial (there are ~127; you do not want them)");
     println!("  --version | --help");
 }
+
 fn main() -> eframe::Result<()> {
     // Piping the CLI into `head` / `grep -q` is normal -- the harness does it in `--no-server` runs -- and
     // Rust ignores SIGPIPE, so without this the next println panics on EPIPE and a pipeline's `pipefail`
@@ -1647,7 +1836,7 @@ fn main() -> eframe::Result<()> {
         return Ok(());
     }
     if let Some(cmd) = argv.get(1).map(String::as_str) {
-        if matches!(cmd, "start" | "stop" | "status" | "paths" | "prepare") {
+        if matches!(cmd, "start" | "stop" | "status" | "paths" | "prepare" | "logs") {
             std::process::exit(headless(cmd, &argv[2..]));
         }
     }

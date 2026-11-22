@@ -402,9 +402,13 @@ def _gacha_target_info(entry: dict) -> str:
     rate = int(round(float(entry.get("rate", 0)) * GACHA_RATE_SCALE))
     return (f"{GACHA_TARGET_TYPE.get('unit', 10)}:{entry.get('unit_id')}:"
             f"{int(entry.get('num', 1))}:{rate}:{int(entry.get('lv', 1))}")
-def gacha_groups(banners: list) -> dict:
-    """The five banner-layer reply groups + the player's per-banner state, from the authored banners.
-    One `GachaPanelGroupMst` row PER POOL ENTRY (that row's `targetInfo` is the pool + rate)."""
+def gacha_groups(banners: list, include_panel: bool = False) -> dict:
+    """The **three banner-list** groups (schedule/master/detail), from the authored banners.
+
+    `include_panel=True` additionally returns the box/panel pair (`GachaPanelMst`/`GachaPanelGroupMst`,
+    one group row per pool entry). Those two classes are **destructive** (they clear and rebuild a
+    container), so they must ride the panel reply only -- never the ordinary GachaEntry/GachaInfo reply.
+    """
     mst, detail, sched, panel, pgroup = [], [], [], [], []
     for b in banners:
         art = b.get("art") or {}
@@ -470,26 +474,51 @@ def gacha_groups(banners: list) -> dict:
                                                                  _gacha_art(art, "detail_banner")),
                       "VjJQ51uG": str(window.get("from", "")),
                       "m8ivD4NX": str(window.get("to", "")),
-                      "N2PkD9sy": str(window.get("from", ""))})
-        if not has_panel:
-            continue
-        panel.append({"LFoU0M3v": str(b.get("panel_id", "")), "X1IuZnj2": str(b["id"]),
-                      "vFqVXP19": str(b.get("panel_group_id", ""))})
-        pool_rows = b.get("pool") if isinstance(b.get("pool"), list) else []
-        for i, entry in enumerate(pool_rows):
-            pgroup.append({"vFqVXP19": str(b.get("panel_group_id", "")),
-                           "q4m8aKr0": str(b.get("detail_id", "")),
-                           "7iJpH5zZ": _gacha_target_info(entry),
-                           "Z0EN6jSh": str(i)})
-    return {GACHA_MST_TAG: mst, GACHA_DETAIL_TAG: detail, GACHA_SCHEDULE_TAG: sched,
-            GACHA_PANEL_TAG: panel, GACHA_PANEL_GROUP_TAG: pgroup}
-def serve_gacha_info(spec, reply_id: str):
-    """Attach the authored banner layer to the reply that opens the gacha screen.
+                      "N2PkD9sy": str(window.get("from", "")),
+                      # `GachaScheduleMst` +0xb0, required by the client. Empty is the
+                      # correct value for a plain banner; a non-empty list sends the detail
+                      # down the BOX path. See response_field_notes iD5g8f7Q.
+                      "iD5g8f7Q": str(b.get("box_gacha_detail_ids") or "")})
+        if include_panel and has_panel:
+            panel.append({"LFoU0M3v": str(b.get("panel_id", "")), "X1IuZnj2": str(b["id"]),
+                          "vFqVXP19": str(b.get("panel_group_id", ""))})
+            pool_rows = b.get("pool") if isinstance(b.get("pool"), list) else []
+            for i, entry in enumerate(pool_rows):
+                pgroup.append({"vFqVXP19": str(b.get("panel_group_id", "")),
+                               "q4m8aKr0": str(b.get("detail_id", "")),
+                               "7iJpH5zZ": _gacha_target_info(entry),
+                               "Z0EN6jSh": str(i)})
+    out = {GACHA_MST_TAG: mst, GACHA_DETAIL_TAG: detail, GACHA_SCHEDULE_TAG: sched}
+    if include_panel:
+        out[GACHA_PANEL_TAG] = panel
+        out[GACHA_PANEL_GROUP_TAG] = pgroup
+    return out
+def _request_body(plaintext: str | None) -> dict:
+    """The client's request body, parsed with raw_decode (the manual pad leaves trailing bytes)."""
+    if not plaintext:
+        return {}
+    try:
+        body = json.JSONDecoder().raw_decode(plaintext)[0]
+    except Exception:  # noqa: BLE001 - an unparseable body must not break the reply
+        return {}
+    return body if isinstance(body, dict) else {}
 
-    `GachaEntryScene::initConnect` (0x211d7ac) sends `GachaEntryRequest` after `runDownloadMstAndRes(true)`,
-    so the reply to that request is where the client expects the list; `GachaInfoRequest` (from
-    `GachaDetailScene::updateGachaInfoRequest` 0x213ccf8) is the detail-scene refresh. A reply with neither
-    id is left byte-for-byte alone. `spec` may be None (no keyed reply) -- the groups alone are a valid body.
+
+def _request_group(plaintext: str | None, tag: str):
+    """One client request group, or None when absent/empty."""
+    rows = _request_body(plaintext).get(tag)
+    return rows if isinstance(rows, list) and rows and isinstance(rows[0], dict) else None
+
+
+def serve_gacha_info(spec, reply_id: str, plaintext: str | None = None):
+    """Attach the gacha screen's data, split by which screen asked.
+
+    `GachaEntryScene::initConnect` (0x211d7ac) sends `GachaEntryRequest` after `runDownloadMstAndRes(true)`;
+    that reply is the LIST (schedule/master/detail + the player's per-banner state). `GachaInfoRequest`
+    (`GachaDetailScene::updateGachaInfoRequest` 0x213ccf8) is the detail-scene refresh: it carries the
+    step-up `possible_cnt` row and the signal, **not** the banner list. A reply with neither id is left
+    byte-for-byte alone. Empty groups are omitted -- `parseTag` drops a response on an empty tag, and the
+    panel pair is destructive, so neither belongs on these two replies.
     """
     if reply_id not in GACHA_INFO_REPLIES:
         return spec
@@ -497,10 +526,46 @@ def serve_gacha_info(spec, reply_id: str):
     if not banners:
         return spec
     out = dict(spec) if isinstance(spec, dict) else {}
-    out.update(gacha_groups(banners))
-    out[GACHA_USER_INFO_TAG] = State.player.gacha_user_rows(banners) if State.player else []
-    out[GACHA_STEP_INFO_TAG] = State.player.gacha_step_rows(banners) if State.player else []
-    _note(f"gacha: served {len(banners)} authored banner(s) on reply {reply_id}")
+    if reply_id == GACHA_ENTRY_REPLY:
+        out.update(gacha_groups(banners))
+        if State.player:
+            rows = State.player.gacha_user_rows(banners)
+            if rows:
+                out[GACHA_USER_INFO_TAG] = rows
+            steps = State.player.gacha_step_rows(banners)
+            if steps:
+                out[GACHA_STEP_INFO_TAG] = steps
+        _note(f"gacha: served {len(banners)} authored banner(s) on entry {reply_id}")
+        return out
+    # GachaInfo: the step-up info row only. A normal banner has no row; the client already has the list.
+    req = _request_gacha(plaintext)
+    gacha_id = str(req.get("X1IuZnj2") or "")
+    detail_id = str(req.get("nqzG3b2v") or "")
+    banner = next((b for b in banners if str(b["id"]) == gacha_id), None)
+    if banner is not None and banner.get("steps") and State.player:
+        step = State.player.gacha_step(banner)
+        done = step >= len(banner["steps"])
+        # `possible_cnt` gates the step-up button: -1 = no limit, 0 = finished.
+        out[GACHA_TAG] = [{"X1IuZnj2": gacha_id, "nqzG3b2v": detail_id,
+                           "2RtVPS3b": "0", "zJ1A6HXm": "0", "3HriTp6B": "0",
+                           "UJz5QED2": "", "zoU5J3Kq": "0", "yV45kbjw": "",
+                           "eb2ANT1m": "", "8schfem9": "",
+                           "oY0vAuE9": "0" if done else "-1"}]
+        steps = State.player.gacha_step_rows(banners)
+        if steps:
+            out[GACHA_STEP_INFO_TAG] = steps
+    # Signal only: echo the client's session key from its user-info row. Do **not** echo LhVz6aD2 here:
+    # that is a user-state refresh and would drag the full player projection into a detail reply.
+    user = _request_group(plaintext, "LhVz6aD2")
+    if user:
+        key = str(user[0].get("e8Si6TGh") or "")
+        out["QCcFB3h9"] = [{"qrVcDe48": key}]
+    else:
+        rows = _request_group(plaintext, "QCcFB3h9")
+        if rows:
+            out["QCcFB3h9"] = rows
+    _note(f"gacha info: {gacha_id or '?'}/{detail_id or '?'} -> "
+          f"{'step-up info' if GACHA_TAG in out else 'signal echo'}; tags {sorted(out)}")
     return out
 def _request_gacha(plaintext: str | None) -> dict:
     """The client's OWN `5yLD4dYI` request node (banner id / detail id / ticket / repeat count).

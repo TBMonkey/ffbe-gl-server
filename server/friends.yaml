@@ -67,6 +67,39 @@ friends:
       equipment: ["302000100", "404000200"]   # two pieces, so the pair format is visible too
       vision_card: "100000101"   # the ornament card's id: F_VISION_CARD_MST row, maxLv 10
 
+  # 2026-10-30: three more so the battle-prep page is FULL. The support scene draws 5 rows
+  # per page (`SupportSelectScene::drawUnitList`, page size 5 / `cmp x19,#5`), so 2 + 3 = the
+  # page cap. These are shipped F_UNIT_MST ids at their shipped L120 stats.
+  - display_name: "Fohlen"
+    friend_id: 900000003
+    rank: 180
+    emblem_id: 0
+    unit:
+      master_id: 100006817      # Fohlen - 5353 HP / 294 ATK at L120
+      level: 120
+      lb_level: 0
+      lb_exp: 0
+
+  - display_name: "Lasswell"
+    friend_id: 900000004
+    rank: 170
+    emblem_id: 0
+    unit:
+      master_id: 100011707      # Pyro Glacial Lasswell - 4908 HP / 204 ATK at L120
+      level: 120
+      lb_level: 0
+      lb_exp: 0
+
+  - display_name: "Loren"
+    friend_id: 900000005
+    rank: 160
+    emblem_id: 0
+    unit:
+      master_id: 100009107      # Loren - 4759 HP / 200 ATK at L120
+      level: 120
+      lb_level: 0
+      lb_exp: 0
+
 # Copy this to add another friend.
 #  - display_name: "Their Name"
 #    friend_id: 900000003

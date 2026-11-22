@@ -24,29 +24,44 @@ from ffbe_state import State, _note, save_state
 # The only module that knows all three transform modules. That is what makes the layering
 # acyclic: config -> state -> {battle, gacha, player} -> pipeline -> capture_server.
 from ffbe_battle import (apply_battle_bgm, apply_result_drops, apply_result_item_columns,
-                          credit_mission_lapis, credit_mission_rewards, grant_cleared_mission,
-                          mission_end_echo, record_pushed_switches, roll_drops,
+                          credit_mission_lapis, credit_mission_rewards, ensure_result_units,
+                          grant_cleared_mission, mission_end_echo, record_pushed_switches, roll_drops,
                           serve_challenge_clear, serve_challenge_clear_all, serve_version_table)
+from ffbe_mission_clear import (credit_clear_gil, pay_collection_points, pay_first_clear,
+                                record_battle_attempt)
 from ffbe_banner import MARQUEE_GROUP, serve_home_marquee
 from ffbe_friends import serve_friends
+from ffbe_craft import serve_craft
+from ffbe_gift import GIFT_INFO_TAG, GIFT_MST_TAG, serve_gift
+from ffbe_vision import serve_vision
+from ffbe_equip import apply_unit_equip
+from ffbe_awaken import apply_unit_awakening
 from ffbe_gacha import serve_gacha, serve_gacha_info
-from ffbe_player import (apply_carry_edit, apply_emblem_setting, apply_party_edit, apply_progress, claim_daily_quest,
+from ffbe_purchase import record_purchase_failure, serve_purchase_list, serve_purchase_start
+from ffbe_shops import (serve_exchange_shop, serve_gacha_select_entry,
+                         serve_gacha_select_exchange, serve_medal_exchange,
+                         serve_variable_store)
+from ffbe_player import (apply_carry_edit, apply_emblem_setting, apply_party_edit, apply_progress,
+                          apply_thin_acks, apply_update_user_info, apply_vision_card_display,
+                          claim_daily_quest,
                           claim_panel_quest,
                           claim_sp_challenge,
                           credit_emblem_objectives,
                           deliver_anniversary_ticket,
                           deliver_catchup_rewards,
                           deliver_login_mail,
+                          deliver_exchange_test_mail,
                           echo_client_group,
                           serve_daily_quest,
                           serve_beast_board, serve_beast_mix,
-                          serve_diamonds, serve_emblem_info, serve_emblem_event, serve_panel_quest,
+                          serve_diamonds, serve_dmg_rank, serve_emblem_info, serve_emblem_event, serve_panel_quest,
                           serve_event_gate, serve_favourite_info,
                           serve_home_badges, serve_login_bonus, serve_mail,
                           serve_sp_challenge,
                           serve_survival,
-                          serve_switches, serve_unit_favourite, serve_unit_mix, serve_unit_sell,
-                          serve_unit_storage)
+                          auto_convert_materials,
+                          serve_switches, serve_unit_exchange, serve_unit_favourite, serve_unit_mix,
+                          serve_unit_sell, serve_unit_storage, serve_unit_use_point)
 
 
 __all__ = [
@@ -149,13 +164,21 @@ PIPELINE: tuple = (
     # the drops channel of 09HRWXDf. (No-op for any reply without that tag.)
     Step("apply_result_drops", lambda c: apply_result_drops(c.spec, mid=c.mid),
          "spec", "09HRWXDf", "mirrors THIS mission's roll into the result screen's drops channel"),
+    # THE LOADED ATTEMPT (2026-11-11): one record per battle-bundle load. `sequence` is what makes the
+    # once-per-run payments at MissionEnd (the quest's clear Gil, the collection points) idempotent under a
+    # retried request, and it is the only place an EXPLORATION's collection points are rolled and served
+    # (`vM21k0do`, HarvestDetailInfoResponse -- the group the client's map draws its sparkles from).
+    Step("record_battle_attempt", lambda c: record_battle_attempt(c.spec, c.mid, c.reply_id),
+         "state", "State.player.data['battle_attempt'] / vM21k0do",
+         "the loaded attempt, and the exploration's rolled collection points"),
     # The summon's award is SERVER-AUTHORITATIVE: grant it into the roster (once) and serve the effect
     # pattern that matches the granted rarity. (No-op for any reply without `5yLD4dYI`.)
     Step("serve_gacha", lambda c: serve_gacha(c.spec, c.plaintext),
          "state", "State.player", "the summon's award is server-authoritative: grants into the roster"),
-    # The authored gacha BANNERS are reply-delivered, not CDN MST (gacha_reconstruction.md SS1), so they
-    # ride the reply of the request that opens the gacha screen (GachaEntryRequest / GachaInfoRequest).
-    Step("serve_gacha_info", lambda c: serve_gacha_info(c.spec, c.reply_id),
+    # The authored gacha BANNERS are reply-delivered, not CDN MST (gacha_reconstruction.md SS1). The
+    # entry reply carries the LIST (schedule/master/detail + per-banner state); the detail refresh carries
+    # only the step-up possible_cnt row + signal. The panel pair is destructive and is not on either.
+    Step("serve_gacha_info", lambda c: serve_gacha_info(c.spec, c.reply_id, c.plaintext),
          "spec", "gacha banner groups", "the banners ride the gacha screen's opener"),
     # ...then let the client's OWN reported numbers win: the MissionEnd request carries the unit EXP, gil
     # and drops it computed, and the reply must carry them back (the ctor clears the client's list).
@@ -168,7 +191,7 @@ PIPELINE: tuple = (
     # The EMBLEM EVENT's weekly objectives ride the SAME mission end: a cleared mission that a campaign
     # objective names earns its crest, and a crest can cross a tier, so the tier mail is composed here
     # rather than waiting for the screen (the mailbox is state; the reply only carries the counters).
-    Step("credit_emblem_objectives", lambda c: credit_emblem_objectives(c.plaintext, c.spec),
+    Step("credit_emblem_objectives", lambda c: credit_emblem_objectives(c.plaintext, c.spec, c.reply_id),
          "state", "State.player.emblem_event / mailbox",
          "credits the live campaign's mission-shaped objectives and mails any tier they reach"),
     # A cleared mission's rewards become real here: credit only the challenges this mission has NOT been
@@ -199,6 +222,20 @@ PIPELINE: tuple = (
          "state", "State.player.roster"),
     Step("serve_unit_mix", lambda c: serve_unit_mix(c.spec, c.plaintext),
          "state", "State.player.roster"),
+    # Unit Exchange / power-up points (APP-83). The exchange credits the SAME state the Enhance screen
+    # reads through `z36FApms`; the use-point step spends it. Both run before the user-state projection.
+    Step("serve_unit_exchange", lambda c: serve_unit_exchange(c.spec, c.reply_id, c.plaintext),
+         "state", "State.player.exvius_unit_points / roster",
+         "the client removes selected material units optimistically; the banked points must be ours"),
+    Step("serve_unit_use_point", lambda c: serve_unit_use_point(c.spec, c.reply_id, c.plaintext),
+         "state", "State.player.exvius_unit_points / roster.exp",
+         "EXP/status/LB point spend; all-or-nothing over a bank copy"),
+    # A/B: the collaborator's auto-convert-on-user-state policy. OFF by default; enabled with
+    # AUTO_CONVERT_MATERIALS=1. It runs BEFORE apply_to_reply, so the projection carries the points and
+    # the shrunken roster.
+    Step("auto_convert_materials", lambda c: auto_convert_materials(c.spec, c.reply_id),
+         "state", "State.player.roster / exvius_unit_points",
+         "AUTO_CONVERT_MATERIALS=1 banks every eligible material on a user-state refresh"),
     # The BEAST (esper) progression: the board's two piece lists and the magicite mix. Neither request has
     # a factory response class, so the reply is an ack ({} when there was no payload) and the STATE is the
     # whole job -- the next user-state refresh's `gP9TW2Bf`/`1S8P2u9f` must show what the client already
@@ -212,6 +249,12 @@ PIPELINE: tuple = (
     # The client's own reinforcement/friend state, echoed rather than hardcoded (SW-36).
     Step("echo_client_group", lambda c: echo_client_group(c.spec, c.plaintext, "I53AVzSo"),
          "spec", "I53AVzSo", "the client's own reinforcement state, echoed"),
+    # The FARPLANE DAMAGE-RANK records are the client's own: it reports its new numbers on the END
+    # request, and the START reply is what populates the scene. We served a fixed zero row, so the
+    # class's `readParam` wrote zeros over the record the player had just set and every re-entry lost it.
+    # END echoes the client's own row, START/RETIRE serve the stored maxima (APP-18).
+    Step("serve_dmg_rank", lambda c: serve_dmg_rank(c.spec, c.reply_id, c.plaintext),
+         "state", "State.player.dmg_rank", "the client's own damage records, kept and served back"),
     Step("serve_switches", lambda c: serve_switches(c.spec),
          "spec", "8J1R5PXG", "the switch container, projected from state"),
     Step("serve_home_badges", lambda c: serve_home_badges(c.spec), "spec", "merqbE18"),
@@ -231,6 +274,12 @@ PIPELINE: tuple = (
     # CreateUser reply, whose result gate is INVERTED. docs/notes/home_screen_payloads.md S11.14.
     Step("deliver_anniversary_ticket", lambda c: deliver_anniversary_ticket(c.spec, c.reply_id),
          "state", "State.player.mailbox", "one 8th-anniversary ticket per day, by mail"),
+    # THE EXCHANGE TEST MAIL (SW-130): `server/exchange_test.json` mails one stack of each exchange currency once per save,
+    # on the same three boot carriers, so the Perma-VC exchange is reachable with NO CLI seed and no server
+    # flag — the operator claims the ticket from the inbox (which is also why the mail, not a grant: nothing
+    # is credited until it is received). Set `enabled: false` in that file to remove it.
+    Step("deliver_exchange_test_mail", lambda c: deliver_exchange_test_mail(c.spec, c.reply_id),
+         "state", "State.player.mailbox", "one exchange-currency mail per save (test scaffold, JSON-gated)"),
     Step("serve_login_bonus", lambda c: serve_login_bonus(c.spec, c.reply_id),
          "spec", "f5bA4wFx", "the calendar's day rows, marked with the player's reached day"),
     Step("deliver_login_mail", lambda c: deliver_login_mail(c.spec, c.reply_id),
@@ -343,16 +392,129 @@ PIPELINE: tuple = (
          if State.player is not None else c.spec,
          "state", "State.player.orbs / State.player.currencies",
          "ShopUseRequest shopId 21 -> fill the family to cap and spend its shipped useDia (100 lapis)"),
+    # THE MAGIC-KEY SHOP (APP-54): the shipped F_EXCHANGE_SHOP_ITEM_MST five-row table and the
+    # `V5W9ZAPx.wpM08VZ7` request. It has no response class; the client re-reads UserInfo, so the
+    # state write must precede apply_to_reply.
+    Step("serve_exchange_shop", lambda c: serve_exchange_shop(c.spec, c.reply_id, c.plaintext),
+         "state", "State.player.currencies / inventory.items",
+         "ExchangeShopRequest buys one Magic Key product; the projection carries the lapis and bag"),
+    # THE MOOGLE / STAR QUARTZ SHOPS (APP-54): MedalExchangeRequest's shipped rows and the store's
+    # F_STORE_ITEM_MST goods.  The epoch/date schedule and the 4th-anniversary store choice are
+    # authored; the catalogue, prices and limits are shipped.
+    # THE GACHA-SELECT EXCHANGE FAMILY (APP-63, 2026-11-08): tapping an exchange banner sends
+    # GachaSelectEntryRequest, whose reply's groups ARE the catalogue (`F2rNo6qf` details, `TPrh6Ay3`
+    # products, `qS62ewjH` counts) -- the class has no response object of its own. The purchase request
+    # reuses the medal exchange's guards through `_execute_exchange`, so both stay one implementation.
+    Step("serve_gacha_select_exchange",
+         lambda c: serve_gacha_select_exchange(c.spec, c.reply_id, c.plaintext),
+         "state", "State.player.inventory.items / medal_exchange",
+         "GachaSelectExchangeExeRequest buys one exchange product (same guards as the medal exchange)"),
+    Step("serve_gacha_select_entry", lambda c: serve_gacha_select_entry(c.spec, c.reply_id, c.plaintext),
+         "spec", "F2rNo6qf / TPrh6Ay3 / qS62ewjH",
+         "GachaSelectEntryRequest -> the exchange catalogue, priced from F_MEDAL_EXCHANGE_MST"),
+    Step("serve_medal_exchange", lambda c: serve_medal_exchange(c.spec, c.reply_id, c.plaintext),
+         "state", "State.player.inventory.items / medal_exchange",
+         "MedalExchangeRequest spends the event currency and records the purchase history"),
+    # THE "PURCHASE LAPIS" LEDGER (APP-67): the client renders its own F_DIAMOND_MST tiles and only asks us
+    # which products to offer; the platform filter in that MST is the client's OS (it sends it as K1G4fBjF).
+    Step("serve_purchase_list", lambda c: serve_purchase_list(c.spec, c.reply_id, c.plaintext),
+         "spec", "TxDI2r9g",
+         "PurchaseListRequest -> the seven lapis packs for the client's platform, from F_DIAMOND_MST"),
+    # THE SIMULATED PURCHASE (2026-11-08, AUTHORED): Play Billing cannot settle in the harness, so the
+    # server does. `PurchaseStartRequest` resolves its DiamondMst id in the shipped `F_DIAMOND_MST`, credits
+    # `FBjo93gK` lapis (PAID pool) and the community-sourced per-pack EX points into `State.player`, then
+    # answers `PurchaseSettlementResponse` with `purchaseState = 4` — the branch the client's own state
+    # machine maps to `BUY_COIN_END_COMP_MSG_GOOGLE` (ShopListScene::updateEvent 0x1e6ca28 -> 0x1e6d140).
+    # It MUST sit before `apply_to_reply`: the step adds the team-row placeholder and the EX group, and the
+    # projection is what carries the new lapis balance.
+    Step("serve_purchase_start", lambda c: serve_purchase_start(c.spec, c.reply_id, c.plaintext),
+         "state", "State.player.currencies.lapis_paid / State.player.data['ex_points']",
+         "PurchaseStartRequest -> simulated settlement: +FBjo93gK lapis, +EX points, state 4 (idempotent "
+         "per product inside a 15 s window)"),
+    # The failure half of the same tap closes the retry window so the NEXT deliberate purchase is not
+    # swallowed by the idempotency rule. It writes no reply group on purpose: the class has no response
+    # object, and the empty-body floor already answers it (that is what the operator's "cancelled" tap got).
+    Step("record_purchase_failure", lambda c: (record_purchase_failure(c.plaintext), c.spec)[1]
+         if str(c.reply_id) == "jSe80Gx7" else c.spec,
+         "state", "State.player.data['purchases']",
+         "PurchaseFailedRequest -> closes the settlement's retry window; no credit, no rollback"),
+    Step("serve_variable_store", lambda c: serve_variable_store(c.spec, c.reply_id),
+         "spec", "3VS1Bhmf",
+         "VariableStoreCheckRequest -> the base Moogle NPC's schedule points at event store 7000122"),
     # THE FRIEND ROSTER (APP-13): the hand-curated `friends.yaml` fills the two friend replies -- the
     # support/companion list (ReinforcementResponse, the NON-clearing tag) and the friends area
     # (FriendUnitInfoResponse). The file is re-read on every request, so an edit takes effect on the
     # next request with no restart; a missing file leaves both replies exactly as they were (empty),
     # which is what makes this step unable to regress the empty case.
-    Step("serve_friends", lambda c: serve_friends(c.spec, c.reply_id),
+    Step("serve_friends", lambda c: serve_friends(c.spec, c.reply_id, c.plaintext),
          "spec", "9Tp2fiyB / I53AVzSo / 56gJBnVh",
          "friends.yaml -> the support list + the friends area (hot: re-read per request)"),
     # The player groups (roster, equipment, decks, rank/NRG, lapis) are a PROJECTION of the one player
     # state: replace whatever the payload carried. A reply with no user-state group is left untouched.
+    # THE HOME ORNAMENT CARD (SW-128): `VisionCardDisplayRequest` sets which vision card decorates HOME.
+    # It must sit BEFORE `apply_to_reply` -- the ornament is projected as `UserTeamInfoResponse.gXb32xzQ`
+    # from `profile.decorate_home_vc_id`, and the class is ABSENT FROM THE FACTORY, so there is no reply
+    # group to add; the whole effect is this write.
+    # THE CRAFT FAMILY (SW-128): add/start/cancel/end/exe over the shipped F_RECIPE_MST. It both writes
+    # state and adds reply groups (the slot list / one slot / the byproduct CSV), so it sits before the
+    # projection. Book ownership is per-save: a save owns none, and an unowned book is a logged refusal.
+    # THE FRIEND-GIFT LISTS (SW-128): GiftMstResponse (PmR4z1S7) + UserGiftInfoResponse (h5XGny0N).
+    # BOTH are DESTRUCTIVE on the client (onReadStarted -> removeAllObjects), so each carrying reply sends
+    # the WHOLE list, and they ride only the boot / friends-area / gift-request surface.
+    # THE VISION-CARD FAMILY (SW-130): favourite (flag `8zE6w9RP`), then mix and master-card release.
+    # The favourite reply carries only the add/delete CSVs -- the client applies them to its own list --
+    # so this step never sends the card list, which the projection owns.
+    Step("serve_vision", lambda c: serve_vision(c.spec, c.reply_id, c.plaintext),
+         "state", "State.player.data['vision_cards'][].favorite",
+         "VisionCardFavoriteRequest / Mix / MasterCardRelease: the star, the feed and the slot release"),
+    Step("serve_gift", lambda c: serve_gift(c.spec, c.reply_id, c.plaintext),
+         "spec", f"{GIFT_MST_TAG}/{GIFT_INFO_TAG}",
+         "the gift catalogue (8 shipped crysts + 2 authored currency rows) and the full send history"),
+    Step("serve_craft", lambda c: serve_craft(c.spec, c.reply_id, c.plaintext),
+         "state", "State.player.data['craft']",
+         "CraftAdd/Start/Cancel/End/Exe over F_RECIPE_MST (book ownership gates the recipes)"),
+    # PROFILE EDITS (SW-128): `UpdateUserInfoRequest` carries the name / message / gift preference. The class
+    # builds NO object (absent from the factory), so the reply only has to be a valid body -- we echo the
+    # client's own UserInfo row, and the projection below refreshes it from the state this step writes.
+    # THE THIN ACKS (SW-128): four classes whose reply group no parser reads -- OptionUpdate,
+    # NoticeReadUpdate, MissionSwitchUpdate, MissionUpdate. An empty body IS the connection-error dialog, so
+    # each echoes the client's OWN group; the switch one deliberately writes nothing (record_pushed_switches
+    # already owns that column) and the carry channel that rides it is NOT echoed (apply_carry_edit owns it).
+    Step("apply_thin_acks", lambda c: apply_thin_acks(c.spec, c.reply_id, c.plaintext),
+         "spec", "Dqx0MA42 / p4U2NosZ / 0jqUZuT1 / 1sGiqV9T",
+         "thin acks: echo the client's own group so the body is not empty"),
+    Step("apply_update_user_info", lambda c: apply_update_user_info(c.spec, c.reply_id, c.plaintext),
+         "state", "State.player.data['identity'] / ['profile']",
+         "UpdateUserInfoRequest: name, message and gift preference; echoes the client's own UserInfo"),
+    Step("apply_vision_card_display", lambda c: apply_vision_card_display(c.spec, c.reply_id, c.plaintext),
+         "state", "State.player.data['profile'].decorate_home_vc_id",
+         "VisionCardDisplayRequest -> the HOME ornament card (echo reply; the projection carries it)"),
+    # THE UNIT-EQUIP WRITE PATH (SW-130 slice A): `UnitEquipRequest` (`pB3st6Tg`) was ack-only, so an
+    # equipment edit was discarded and the vision-card slot could not be written at all -- there is no
+    # `VisionCardEquipRequest`, and the Master Card item is spent here too. It WRITES the roster and adds
+    # no group: the reply's own `TJ9eL80N`/`B71MekS8` are the projection, which is why it must precede it.
+    Step("apply_unit_equip", lambda c: apply_unit_equip(c.spec, c.reply_id, c.plaintext),
+         "state", "State.player.data['roster'][].equipment/materia/vision_card/master_card",
+         "UnitEquipRequest: equipment, materia and the vision-card slot (spending the Master Card on unlock)"),
+    # THE UNIT CLASS-UP WRITE PATH (APP-80): normal awakening, NV, NV+ and EX. The client removes the
+    # source instance before opening the destination, so `PlayerState.renew_unit_instance` gives the row a
+    # new id and moves its saved deck references; EX updates the same instance's `nv_ex_level`. It must
+    # precede `apply_to_reply`, which projects the changed roster.
+    Step("apply_unit_awakening", lambda c: apply_unit_awakening(c.spec, c.reply_id, c.plaintext),
+         "state", "State.player.data['roster'][].master_id/instance_id/nv_ex_level",
+         "UnitClassUp/Nv/Nvp/Ex: the class-up chain, its costs and the renewed instance"),
+    # THE MISSION-CLEAR ECONOMY (2026-11-11, the Exvius Revival review): the shipped FIRST-CLEAR reward
+    # (`F_MISSION_MST.1x4bG2J8`, 5,036 missions), the quest's OWN clear Gil (`7UR4J2SE`, which the client
+    # cannot compute), and the exploration COLLECTION POINTS the client reported. All three write state, so
+    # they sit before the projection; all three must follow `mission_end_echo`, which owns the client's own
+    # gil number on the same reply. Order among them is free (disjoint keys).
+    Step("pay_first_clear", lambda c: pay_first_clear(c.spec, c.mid, c.plaintext),
+         "spec", "p1K5NecV", "F_MISSION_MST.1x4bG2J8 once per mission, listed on the result"),
+    Step("credit_clear_gil", lambda c: credit_clear_gil(c.spec, c.mid, c.plaintext),
+         "spec", "16LQuC5r", "F_MISSION_MST.7UR4J2SE once per loaded attempt"),
+    Step("pay_collection_points", lambda c: pay_collection_points(c.spec, c.mid, c.plaintext),
+         "spec", "EWmQy52k/XMgu7qE0/1Z2TD5ai/7rA9WGQe",
+         "the exploration points this clear reported, capped by what the load served"),
     Step("apply_to_reply", lambda c: State.player.apply_to_reply(c.spec, reply_id=c.reply_id),
          "spec", "12 player groups", "the PROJECTION: rebuilt from the one player state"),
     # Persist what this request changed. One small file under out/; see the STATE_FILE block for why it
@@ -368,8 +530,22 @@ PIPELINE: tuple = (
     # keeping the strips together makes the "this runs last" rule one place.
     Step("apply_battle_bgm", lambda c: apply_battle_bgm(c.spec),
          "spec", "an6TB4WS", "A/B strip; last, beside the other one, so the rule is in one place"),
+    # The result screen's unit scene is gated by isGetUnit() scanning the type-10 item list. Keep the
+    # client's own 2U05aV9Z on the final 09HRWXDf row even if an earlier strip/replace dropped it.
+    Step("ensure_result_units", lambda c: ensure_result_units(c.spec, c.plaintext),
+         "spec", "09HRWXDf.2U05aV9Z", "last-writer guard for the mission-result unit list"),
 )
 PIPELINE_EDGES: tuple = (
+    Edge("record_battle_attempt", "credit_clear_gil", "State.player.data['battle_attempt']",
+         "the attempt sequence is the idempotency key: read at MissionEnd, written at load"),
+    Edge("record_battle_attempt", "pay_collection_points", "State.player.data['battle_attempt'].collection",
+         "the roll made at LOAD is what caps the reward reported at MissionEnd"),
+    Edge("pay_first_clear", "apply_to_reply", "State.player.inventory/roster/currencies",
+         "the grant is only visible on the result because the projection rebuilds the bag and roster"),
+    Edge("serve_purchase_start", "apply_to_reply", "State.player.currencies.lapis_paid / data['ex_points']",
+         "the simulated purchase credits the PAID lapis and the EX points, and the projection is the only "
+         "step that puts them into the reply the HUD reads -- a purchase settled after the projection would "
+         "persist a balance the client was never shown"),
     Edge("roll_drops", "apply_result_drops", "LAST_DROPS",
          "the roll is written at mission LOAD and read at mission END -- two different requests, so it has "
          "to survive in between"),
@@ -421,6 +597,16 @@ PIPELINE_EDGES: tuple = (
          "that disagrees with the state it just wrote"),
     Edge("credit_mission_rewards", "apply_to_reply", "State.player",
          "the player groups are a projection, so they must be rebuilt AFTER the state writers have run"),
+    Edge("apply_unit_equip", "apply_to_reply", "State.player.data['roster']",
+         "the equip reply and the roster row are the PROJECTION of the row this step wrote; project first and "
+         "the client is served the pre-edit equipment straight back"),
+    Edge("apply_unit_equip", "save_state", "State.player.data['roster']",
+         "an edit that is not persisted is undone by the next login -- the exact defect this step closes"),
+    Edge("apply_unit_awakening", "apply_to_reply", "State.player.data['roster']",
+         "the class-up reply carries the renewed instance and the roster projection must be rebuilt after the "
+         "master/id write, or the client sees the pre-awakening unit"),
+    Edge("apply_unit_awakening", "save_state", "State.player.data['roster']",
+         "a class-up costs materials/gil and renames the instance; an unpersisted one is a paid no-op"),
     Edge("apply_emblem_setting", "apply_to_reply", "State.player.profile.player_emblem_id",
          "the setting WRITES the displayed emblem and the projection is what carries it to the header "
          "(`n69quiCJ`); project first and the header shows the PREVIOUS crest"),
@@ -433,6 +619,14 @@ PIPELINE_EDGES: tuple = (
          "precede the projection"),
     Edge("apply_orb_recharge", "save_state", "State.player.orbs",
          "the filled bar and the spent lapis have to survive the restart that ends the run"),
+    Edge("serve_exchange_shop", "apply_to_reply", "State.player.currencies / inventory.items",
+         "the shop reply is the client's only applier; it re-reads the bag and lapis from the projection"),
+    Edge("serve_exchange_shop", "save_state", "State.player.currencies / inventory.items",
+         "a bought Magic Key and the spent lapis have to survive the restart that ends the run"),
+    Edge("serve_medal_exchange", "apply_to_reply", "State.player.inventory.items / medal_exchange",
+         "the exchange's item/important/unit grants and purchase history are projected into this same reply"),
+    Edge("serve_medal_exchange", "save_state", "State.player.inventory.items / medal_exchange",
+         "the currency spent and the reward granted must survive the restart that ends the run"),
     Edge("serve_beast_board", "save_state", "State.player.beasts",
          "the learned bits and the spent CP have to survive the restart that ends the run, or the board "
          "silently reverts to what we served before the tap"),
@@ -502,5 +696,30 @@ def reply_pipeline(spec, reply_id: str, plaintext: str | None, mid: str | None,
     ctx = _Ctx(spec, reply_id, plaintext, mid, spec_key)
     for step in PIPELINE:
         ctx.spec = step.call(ctx)
-    return ctx.spec
+    return ensure_nonempty(ctx.spec)
+
+
+# THE EMPTY-BODY FLOOR (2026-11-08). A reply with no group serialises to a zero-length body, and the client
+# renders that as "A connection error has occurred" -- it is not a valid "nothing happened", it is a failed
+# request. Three classes hit this the same way before the pattern was named, each because the class has NO
+# factory response object, so the request id alone builds nothing and no spec ever gets groups:
+#   * VisionCardDisplayRequest `TmS3EjZ8` -- the ornament write worked, the screen showed the error (APP-65);
+#   * GachaSelectEntryRequest  `6nTcSp4R` -- the exchange catalogue never drew (APP-63);
+#   * PurchaseStartRequest     `qAUzP3R6` -- buying a lapis pack returned an empty body (APP-69).
+# The floor is structural on purpose: a per-class handler is whack-a-mole, and the NEXT such class would fail
+# exactly the same way with no test to catch it. Any group would do; the universal user-info tag is the one
+# the client always understands, and it costs one small projection.
+EMPTY_FLOOR_TAG = "LhVz6aD2"
+
+
+def ensure_nonempty(spec):
+    """Guarantee the reply body is not empty. See EMPTY_FLOOR_TAG for why this is a step and not a habit.
+
+    `{}` IS ALLOWED and is left alone: it is a valid JSON body, and the golden records a class that answers
+    exactly that (`UiSC9y8R`, 2 bytes) with no complaint from the client. The failure mode is a ZERO-LENGTH
+    body — no payload at all — so the floor triggers only when there is nothing to serialise.
+    """
+    if isinstance(spec, dict):
+        return spec
+    return {EMPTY_FLOOR_TAG: [{}]}
 _PIPELINE_PROBLEMS = validate_pipeline()

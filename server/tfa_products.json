@@ -1,0 +1,551 @@
+{
+ "source": "Ver208_s5K4EzVy.dat",
+ "pages": {
+  "61": [
+   {
+    "id": "6100001",
+    "name": "Celestite Helm of Will (3★)"
+   },
+   {
+    "id": "6100002",
+    "name": "Celestite Helm of Will (4★)"
+   },
+   {
+    "id": "6100003",
+    "name": "Celestite Helm of Will (5★)"
+   },
+   {
+    "id": "6100004",
+    "name": "Celestite Helm of Will+ (6★)"
+   },
+   {
+    "id": "6100005",
+    "name": "Celestite Helm of Will+ (7★)"
+   },
+   {
+    "id": "6100006",
+    "name": "Celestite Helm of Will++ (8★)"
+   },
+   {
+    "id": "6100007",
+    "name": "Celestite Helm of Will++ (9★)"
+   },
+   {
+    "id": "6100008",
+    "name": "Celestite Crown of Will Recipebook"
+   },
+   {
+    "id": "6100009",
+    "name": "Champion's Esoterica"
+   },
+   {
+    "id": "6100010",
+    "name": "Gravekeeper's Esoterica"
+   },
+   {
+    "id": "6100011",
+    "name": "Magister's Esoterica"
+   },
+   {
+    "id": "6100012",
+    "name": "Ruler's Esoterica"
+   },
+   {
+    "id": "6100013",
+    "name": "Conqueror's Celestite Crown of Will+ Recipebook"
+   },
+   {
+    "id": "6100014",
+    "name": "Champion's Celestite Crown of Will+ Recipebook"
+   },
+   {
+    "id": "6100015",
+    "name": "Gravekeeper's Celestite Crown of Will+ Recipebook"
+   },
+   {
+    "id": "6100016",
+    "name": "Magister's Celestite Crown of Will+ Recipebook"
+   },
+   {
+    "id": "6100017",
+    "name": "Ruler's Celestite Crown of Will+ Recipebook"
+   }
+  ],
+  "2000000": [
+   {
+    "id": "200000001",
+    "name": "Celestite Garb of Will (3★)"
+   },
+   {
+    "id": "200000002",
+    "name": "Celestite Garb of Will (4★)"
+   },
+   {
+    "id": "200000003",
+    "name": "Celestite Garb of Will (5★)"
+   },
+   {
+    "id": "200000004",
+    "name": "Celestite Garb of Will+ (6★)"
+   },
+   {
+    "id": "200000005",
+    "name": "Celestite Garb of Will+ (7★)"
+   },
+   {
+    "id": "200000006",
+    "name": "Celestite Garb of Will++ (8★)"
+   },
+   {
+    "id": "200000007",
+    "name": "Celestite Garb of Will++ (9★)"
+   },
+   {
+    "id": "200000008",
+    "name": "Celestite Regalia of Will Recipebook"
+   },
+   {
+    "id": "200000009",
+    "name": "Sprinter's Esoterica"
+   },
+   {
+    "id": "200000010",
+    "name": "Huntsman's Esoterica"
+   },
+   {
+    "id": "200000011",
+    "name": "Magister's Esoterica"
+   },
+   {
+    "id": "200000012",
+    "name": "Ruler's Esoterica"
+   },
+   {
+    "id": "200000013",
+    "name": "Summoner's Celestite Regalia of Will+ Recipebook"
+   },
+   {
+    "id": "200000014",
+    "name": "Sprinter's Celestite Regalia of Will+ Recipebook"
+   },
+   {
+    "id": "200000015",
+    "name": "Huntsman's Celestite Regalia of Will+ Recipebook"
+   },
+   {
+    "id": "200000016",
+    "name": "Magister's Celestite Regalia of Will+ Recipebook"
+   },
+   {
+    "id": "200000017",
+    "name": "Ruler's Celestite Regalia of Will+ Recipebook"
+   }
+  ],
+  "2000001": [
+   {
+    "id": "200000101",
+    "name": "Celestite Circlet of Will"
+   },
+   {
+    "id": "200000102",
+    "name": "Celestite Circlet of Will (4★)"
+   },
+   {
+    "id": "200000103",
+    "name": "Celestite Circlet of Will (5★)"
+   },
+   {
+    "id": "200000104",
+    "name": "Celestite Circlet of Will+ (6★)"
+   },
+   {
+    "id": "200000105",
+    "name": "Celestite Circlet of Will+ (7★)"
+   },
+   {
+    "id": "200000106",
+    "name": "Celestite Circlet of Will++ (8★)"
+   },
+   {
+    "id": "200000107",
+    "name": "Celestite Circlet of Will++ (9★)"
+   },
+   {
+    "id": "200000108",
+    "name": "Celestite Diadem of Will Recipebook"
+   },
+   {
+    "id": "200000109",
+    "name": "Dancer's Esoterica"
+   },
+   {
+    "id": "200000110",
+    "name": "Prophet's Esoterica"
+   },
+   {
+    "id": "200000111",
+    "name": "Priest's Esoterica"
+   },
+   {
+    "id": "200000112",
+    "name": "Priestess's Esoterica"
+   },
+   {
+    "id": "200000113",
+    "name": "Paladin's Celestite Diadem of Will+ Recipebook"
+   },
+   {
+    "id": "200000114",
+    "name": "Dancer's Celestite Diadem of Will+ Recipebook"
+   },
+   {
+    "id": "200000115",
+    "name": "Prophet's Celestite Diadem of Will+ Recipebook"
+   },
+   {
+    "id": "200000116",
+    "name": "Priest's Celestite Diadem of Will+ Recipebook"
+   },
+   {
+    "id": "200000117",
+    "name": "Priestess's Celestite Diadem of Will+ Recipebook"
+   }
+  ],
+  "2000002": [
+   {
+    "id": "200000201",
+    "name": "Celestite Ring of Will"
+   },
+   {
+    "id": "200000202",
+    "name": "Celestite Ring of Will"
+   },
+   {
+    "id": "200000203",
+    "name": "Celestite Ring of Will (4★)"
+   },
+   {
+    "id": "200000204",
+    "name": "Celestite Ring of Will (5★)"
+   },
+   {
+    "id": "200000205",
+    "name": "Celestite Ring of Will+ (6★)"
+   },
+   {
+    "id": "200000206",
+    "name": "Celestite Ring of Will+ (7★)"
+   },
+   {
+    "id": "200000207",
+    "name": "Celestite Ring of Will++ (8★)"
+   },
+   {
+    "id": "200000208",
+    "name": "Celestite Ring of Will++ (9★)"
+   },
+   {
+    "id": "200000209",
+    "name": "Celestite Signet of Will Recipebook"
+   },
+   {
+    "id": "200000210",
+    "name": "Magister's Esoterica"
+   },
+   {
+    "id": "200000211",
+    "name": "Emperor's Esoterica"
+   },
+   {
+    "id": "200000212",
+    "name": "Explorer's Esoterica"
+   },
+   {
+    "id": "200000213",
+    "name": "Nomad's Esoterica"
+   },
+   {
+    "id": "200000214",
+    "name": "Archon's Esoterica"
+   },
+   {
+    "id": "200000215",
+    "name": "Flagbearer's Esoterica"
+   },
+   {
+    "id": "200000216",
+    "name": "Hermit's Esoterica"
+   },
+   {
+    "id": "200000217",
+    "name": "Craftsman's Esoterica"
+   },
+   {
+    "id": "200000218",
+    "name": "Medium's Esoterica"
+   },
+   {
+    "id": "200000219",
+    "name": "Magister's Celestite Signet of Will+ Recipebook"
+   },
+   {
+    "id": "200000220",
+    "name": "Emperor's Celestite Signet of Will+ Recipebook"
+   },
+   {
+    "id": "200000221",
+    "name": "Nomad's Celestite Signet of Will+ Recipebook"
+   },
+   {
+    "id": "200000222",
+    "name": "Explorer's Celestite Signet of Will+ Recipebook"
+   },
+   {
+    "id": "200000223",
+    "name": "Physician's Celestite Signet of Will+ Recipebook"
+   },
+   {
+    "id": "200000224",
+    "name": "Archon's Celestite Signet of Will+ Recipebook"
+   },
+   {
+    "id": "200000225",
+    "name": "Flagbearer's Celestite Signet of Will+ Recipebook"
+   },
+   {
+    "id": "200000226",
+    "name": "Hermit's Celestite Signet of Will+ Recipebook"
+   },
+   {
+    "id": "200000227",
+    "name": "Craftsman's Celestite Signet of Will+ Recipebook"
+   },
+   {
+    "id": "200000228",
+    "name": "Medium's Celestite Signet of Will+ Recipebook"
+   }
+  ],
+  "2000003": [
+   {
+    "id": "200000301",
+    "name": "Celestite Vest of Will"
+   },
+   {
+    "id": "200000302",
+    "name": "Celestite Vest of Will (4★)"
+   },
+   {
+    "id": "200000303",
+    "name": "Celestite Vest of Will (5★)"
+   },
+   {
+    "id": "200000304",
+    "name": "Celestite Vest of Will+ (6★)"
+   },
+   {
+    "id": "200000305",
+    "name": "Celestite Vest of Will+ (7★)"
+   },
+   {
+    "id": "200000306",
+    "name": "Celestite Vest of Will++ (8★)"
+   },
+   {
+    "id": "200000307",
+    "name": "Celestite Vest of Will++ (9★)"
+   },
+   {
+    "id": "200000308",
+    "name": "Celestite Chainmail of Will Recipebook"
+   },
+   {
+    "id": "200000309",
+    "name": "Ruler's Esoterica"
+   },
+   {
+    "id": "200000310",
+    "name": "Ninja's Esoterica"
+   },
+   {
+    "id": "200000311",
+    "name": "Conductor's Esoterica"
+   },
+   {
+    "id": "200000312",
+    "name": "Avatar's Esoterica"
+   },
+   {
+    "id": "200000313",
+    "name": "Conductor's Celestite Chainmail of Will+ Recipebook"
+   },
+   {
+    "id": "200000314",
+    "name": "Ninja's Celestite Chainmail of Will+ Recipebook"
+   },
+   {
+    "id": "200000315",
+    "name": "Ruler's Celestite Chainmail of Will+ Recipebook"
+   },
+   {
+    "id": "200000316",
+    "name": "Guardian's Celestite Chainmail of Will+ Recipebook"
+   },
+   {
+    "id": "200000317",
+    "name": "Avatar's Celestite Chainmail of Will+ Recipebook"
+   }
+  ],
+  "2000004": [
+   {
+    "id": "200000401",
+    "name": "Celestite Breastplate of Will"
+   },
+   {
+    "id": "200000402",
+    "name": "Celestite Breastplate of Will (4★)"
+   },
+   {
+    "id": "200000403",
+    "name": "Celestite Breastplate of Will (5★)"
+   },
+   {
+    "id": "200000404",
+    "name": "Celestite Breastplate of Will+ (6★)"
+   },
+   {
+    "id": "200000405",
+    "name": "Celestite Breastplate of Will+ (7★)"
+   },
+   {
+    "id": "200000406",
+    "name": "Celestite Breastplate of Will++ (8★)"
+   },
+   {
+    "id": "200000407",
+    "name": "Celestite Breastplate of Will++ (9★)"
+   },
+   {
+    "id": "200000408",
+    "name": "Celestite Cuirass of Will Recipebook"
+   },
+   {
+    "id": "200000409",
+    "name": "Defender's Esoterica"
+   },
+   {
+    "id": "200000410",
+    "name": "Arcanist's Esoterica"
+   },
+   {
+    "id": "200000411",
+    "name": "Swordsman's Esoterica"
+   },
+   {
+    "id": "200000412",
+    "name": "Swordswoman's Esoterica"
+   },
+   {
+    "id": "200000413",
+    "name": "Defender's Celestite Cuirass of Will+ Recipebook"
+   },
+   {
+    "id": "200000414",
+    "name": "Arcanist's Celestite Cuirass of Will+ Recipebook"
+   },
+   {
+    "id": "200000415",
+    "name": "Savior's Celestite Cuirass of Will+ Recipebook"
+   },
+   {
+    "id": "200000416",
+    "name": "Swordsman's Celestite Cuirass of Will+ Recipebook"
+   },
+   {
+    "id": "200000417",
+    "name": "Swordswoman's Celestite Cuirass of Will+ Recipebook"
+   }
+  ],
+  "2000005": [
+   {
+    "id": "200000501",
+    "name": "High Celestite Orb"
+   },
+   {
+    "id": "200000502",
+    "name": "High Celestite Orb"
+   },
+   {
+    "id": "200000503",
+    "name": "High Celestite Fragment [Mask]"
+   },
+   {
+    "id": "200000504",
+    "name": "High Celestite Fragment [Coat]"
+   },
+   {
+    "id": "200000505",
+    "name": "High Celestite Fragment [Pendant]"
+   },
+   {
+    "id": "200000512",
+    "name": "High Celestite Mask of Will"
+   },
+   {
+    "id": "200000513",
+    "name": "High Celestite Coat of Will"
+   },
+   {
+    "id": "200000514",
+    "name": "High Celestite Pendant of Will"
+   },
+   {
+    "id": "200000515",
+    "name": "High Celestite Fragment [Crown]"
+   },
+   {
+    "id": "200000516",
+    "name": "High Celestite Fragment [Robe]"
+   },
+   {
+    "id": "200000517",
+    "name": "High Celestite Fragment [Bracer]"
+   },
+   {
+    "id": "200000518",
+    "name": "High Celestite Crown of Will"
+   },
+   {
+    "id": "200000519",
+    "name": "High Celestite Robe of Will"
+   },
+   {
+    "id": "200000520",
+    "name": "High Celestite Bracer of Will"
+   },
+   {
+    "id": "200000521",
+    "name": "High Celestite Mask of Will+"
+   },
+   {
+    "id": "200000522",
+    "name": "High Celestite Coat of Will+"
+   },
+   {
+    "id": "200000523",
+    "name": "High Celestite Pendant of Will+"
+   },
+   {
+    "id": "200000524",
+    "name": "High Celestite Crown of Will+"
+   },
+   {
+    "id": "200000525",
+    "name": "High Celestite Robe of Will+"
+   },
+   {
+    "id": "200000526",
+    "name": "High Celestite Bracer of Will+"
+   }
+  ]
+ }
+}

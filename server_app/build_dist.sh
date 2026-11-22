@@ -31,6 +31,14 @@ PY="${PYTHON:-python3}"
 
 say() { printf '== %s\n' "$*"; }
 [ -f "$ENGINE_SRC/capture_server.py" ] || { echo "engine not found at $ENGINE_SRC" >&2; exit 1; }
+
+# HARD GATE (docs/SIMPLER_DISTRIBUTABLE.md S6.1): a `producer` that names `scripts/` or `harness/` is a command
+# this bundle cannot run. That is exactly how 0.1.7 told a user to run two files it never shipped (APP-57).
+if grep -qE '"[^"]*(scripts/|harness/)' "$HERE/deps.json"; then
+  echo "deps.json names a repo path the bundle does not ship -- fix the producer:" >&2
+  grep -nE '"[^"]*(scripts/|harness/)' "$HERE/deps.json" >&2
+  exit 1
+fi
 [ -f "$HARNESS/break_status_community.json" ] || { echo "missing $HARNESS/break_status_community.json" >&2; exit 1; }
 
 # 1. PyInstaller venv (cached under build/, which is gitignored)
@@ -63,6 +71,12 @@ DATA_ARGS=()
 for f in "$ENGINE_SRC"/*.json "$ENGINE_SRC"/*.yaml "$ENGINE_SRC"/*.txt; do
   [ -e "$f" ] && DATA_ARGS+=(--add-data "$f:.")
 done
+# The two decoders and the text key manifest ride beside the frozen modules: `ffbe_prepare` resolves them
+# with `os.path.dirname(__file__)`, so a bundle needs no `scripts/` directory (APP-50/APP-57).
+CHECKOUT="$(dirname "$WORK")"                # the repo root in a checkout (scripts/ + docs/ live here)
+DATA_ARGS+=(--add-data "$CHECKOUT/scripts/mst_decode.py:."
+            --add-data "$CHECKOUT/scripts/text_decode.py:."
+            --add-data "$CHECKOUT/docs/analysis/localized_text_keys.json:.")
 DATA_ARGS+=(--add-data "$ENGINE_SRC/content:content"
             --add-data "$ENGINE_SRC/assets:assets"
             --add-data "$ENGINE_SRC/webcontent:webcontent"
@@ -87,15 +101,33 @@ rm -rf "$STAGE"
 mkdir -p "$STAGE/engine"
 cp "$HERE/target/release/ffbe-server-app" "$STAGE/ffbe-server-app"
 cp "$BUILD/pyi-dist/ffbe-engine" "$STAGE/engine/ffbe-engine"
+cp "$HERE/run-me-first.sh" "$HERE/run-me-first.cmd" "$STAGE/"
+chmod +x "$STAGE/run-me-first.sh"
 cp "$HERE/README.md" "$HERE/deps.json" "$HERE/CHANGELOG.md" "$STAGE/"
 printf '%s\n' "$VERSION" > "$STAGE/VERSION"
 
 say "smoke-testing the bundle"
+# HERMETIC: the app remembers settings in `~/.config/ffbe-server-app/config.json`, and a builder's remembered
+# engine path/data root must never decide whether a bundle works (it silently broke the 0.1.8 smoke).
+export XDG_CONFIG_HOME="$BUILD/smoke-config"
+rm -rf "$XDG_CONFIG_HOME"
+mkdir -p "$XDG_CONFIG_HOME"
 "$STAGE/ffbe-server-app" --version >/dev/null || { echo "app binary failed --version" >&2; exit 1; }
 "$STAGE/engine/ffbe-engine" --print-paths 2>/dev/null | grep -q '^contract=' \
   || { echo "frozen engine failed --print-paths (a data file is probably missing from DATA_ARGS)" >&2; exit 1; }
 "$STAGE/engine/ffbe-engine" --print-paths 2>/dev/null | grep -q '^crypto=cryptography' \
   || { echo "frozen engine has no bundled crypto backend (it would spawn the openssl CLI per request)" >&2; exit 1; }
+# NB: captured, not piped. The engine exits 2 here on purpose, and `set -o pipefail` turns that into a failed
+# pipeline even when grep matched -- which is exactly how this check lied on its first run.
+PREPARE_TMP="$(mktemp -d)"
+PREPARE_OUT=$("$STAGE/engine/ffbe-engine" --prepare --apk /nonexistent.apk --client-data /nonexistent \
+                --data "$PREPARE_TMP/data" 2>&1 || true)
+printf '%s\n' "$PREPARE_OUT" | grep -q '^prepare: ' \
+  || { echo "frozen engine has no working --prepare (APP-57): it must exist and fail with a sentence" >&2
+       printf '%s\n' "$PREPARE_OUT" | sed 's/^/    /' >&2; exit 1; }
+test -e "$PREPARE_TMP/data" && { echo "prepare created a data root for an INVALID input -- validate first" >&2; exit 1; }
+rm -rf "$PREPARE_TMP"
+test -f "$STAGE/run-me-first.sh" || { echo "run-me-first.sh did not stage" >&2; exit 1; }
 
 # The START smoke: the one that would have caught 0.1.3. Its bug (the port guard killing the frozen
 # engine's child) was invisible to --version/--print-paths and got as far as a built bundle. Prepare a

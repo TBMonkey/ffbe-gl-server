@@ -40,6 +40,21 @@ MODES = ("live", "ephemeral", "frozen")
 # `F_UNIT_GROW_MST` (not wired yet -- see the schema §6).
 STAT_TOKENS = ("em5hx4FX", "L0MX7edB", "o7Ynu1XP", "6tyb58Kc", "Y9H6TWnv", "sa8Ewx3H")
 
+# Unit Exchange / power-up points (APP-83). The 14 wire tokens are exactly the 14 fields of
+# `UserUnitPowerUpPointInfoResponse` (`u63tdeRs`/`z36FApms`); their order is the client's status-up
+# dispatch order read in `UnitEnhanceStatusUpContents::getPossessionStatusUpPoint` 0x2675038:
+# EXP first (64-bit), then DOPING_LB, then the six pot stats, then the six door stats. The source of a
+# UNIT's points is its `F_UNIT_MST.27GkYdEu` role CSV (recovered reference: exvius-offline
+# `convert_material_units`); the source of a POINT ITEM (kind 28) is `F_UNIT_SERIES_POWER_UP_POINT_MST`.
+UNIT_POINT_TOKENS = ("XeRVw3s2", "jWS57HG3", "LD4UJaf0", "ui34MYgo", "5sNq90o6",
+                     "0xgsDY9E", "VSL4Wj9z", "y7Z5AmhC", "h5s68EtJ", "eu2DXK4I",
+                     "8RUQtk4i", "8cj19yhb", "rjK5oB1H", "16NCtrGw")
+UNIT_POINT_TYPES = ("EXP", "DOPING_LB", "DOPING_HP", "DOPING_MP", "DOPING_ATK", "DOPING_DEF",
+                    "DOPING_INT", "DOPING_MND", "MAX_LIMIT_EX_HP", "MAX_LIMIT_EX_MP",
+                    "MAX_LIMIT_EX_ATK", "MAX_LIMIT_EX_DEF", "MAX_LIMIT_EX_INT", "MAX_LIMIT_EX_MND")
+UNIT_POINT_TAG = "z36FApms"          # UserUnitPowerUpPointInfoResponse, non-destructive list
+UNIT_POINT_MST_KEY = "RvN2W9Qx"      # F_UNIT_SERIES_POWER_UP_POINT_MST's point-item key
+
 # `F_UNIT_MST` key column and the two rank-table columns.
 UNIT_KEY = "3HriTp6B"
 LB_KEY = "PR2HIc71"        # F_LIMITBURST_MST's unit-id column
@@ -878,6 +893,29 @@ _NV_SHIFT_TARGETS: set | None = None
 
 _UNIT_NAMES: set | None = None
 _POOL_DROP_NOTE = [False]
+_NAME_REPAIR_NOTE = [False]
+
+# The 222 forms that ship in `F_UNIT_MST` with no `MST_UNIT_NAME_*` row. Their English names are authored
+# (`content/unit_name_repairs.json`) and only reach the CLIENT through `harness/patch_unit_names.py`, which
+# writes the patched `F_TEXT_UNITS_NAME` overlay (advertised as `F_LOCALIZED_TEXT_MST=707`).
+_NAME_REPAIRS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "content", "unit_name_repairs.json")
+_PATCHED_UNIT_TEXT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                                  "out", "cdn_overlay", "localized_texts", "en", "Ver230_sZE3Lhgj.dat")
+
+
+def _authored_unit_names() -> set:
+    """The repaired unit ids, but ONLY while the patched client table is actually being served.
+
+    The patch and the pool filter must move together: if the overlay is absent the client still resolves
+    those keys to null, so granting one of the units would crash the result screen exactly as before.
+    """
+    if not os.path.exists(_PATCHED_UNIT_TEXT):
+        return set()
+    try:
+        with open(_NAME_REPAIRS, encoding="utf-8") as fh:
+            return {str(k) for k in (json.load(fh).get("names") or {})}
+    except (OSError, ValueError):
+        return set()
 
 
 def named_unit_ids() -> set:
@@ -889,7 +927,10 @@ def named_unit_ids() -> set:
     `harness/catch_first_fault.gdb`: at the ORIGINAL fault the guest held the ASCII string "MST_UNIT".
     `F_UNIT_MST` ships 3311 ids but only 3089 are named, and `unit_roots_by_rarity()` -- what every tier
     expands from -- included **94** of the 222 nameless ones (5* 33, 4* 18, 7* 32, 3* 9, 1* 2).
-    Cached for the process; an empty set (unreadable table) means DO NOT FILTER."""
+    Cached for the process; an empty set (unreadable table) means DO NOT FILTER.
+
+    The authored repairs (`harness/patch_unit_names.py`) are unioned in **only** while their patched
+    `F_TEXT_UNITS_NAME` overlay is present in `out/cdn_overlay` — the client and the pool must agree."""
     global _UNIT_NAMES
     if _UNIT_NAMES is None:
         ids: set = set()
@@ -907,6 +948,13 @@ def named_unit_ids() -> set:
         except (OSError, ValueError) as exc:  # noqa: BLE001 - an unreadable text table must not empty the pool
             print(f"    pool: {path} unreadable ({exc!r}) -- NOT filtering the pool to named units", flush=True)
         _UNIT_NAMES = ids
+        repaired = _authored_unit_names() - ids
+        if repaired:
+            _UNIT_NAMES |= repaired
+            if not _NAME_REPAIR_NOTE[0]:
+                _NAME_REPAIR_NOTE[0] = True
+                print(f"    pool: +{len(repaired)} authored unit name(s) from content/unit_name_repairs.json "
+                      f"(harness/patch_unit_names.py serves the matching F_TEXT_UNITS_NAME)", flush=True)
     return _UNIT_NAMES
 
 
@@ -1272,6 +1320,10 @@ def _unit(master_id: str, instance_id) -> dict:
             # crashes the client the moment the LB is activated (docs/notes/limit_burst_path.md).
             "lb_level": 1 if limit_burst(master_id) else 0,
             "equipment": {}, "materia": ["0", "0", "0", "0"], "vision_card": "",
+            # Status-up allocations, one per STAT_TOKENS stat. Kept explicit because the client's
+            # unit row carries five stat components (base, pots, doors, NV-EX, ex-bonus) and the two
+            # point-spend components must survive a reload; a fresh row is all zeros.
+            "stat_pots": [0] * 6, "stat_doors": [0] * 6,
             "affinity_points": ["", ""], "affinity_info": ["", ""]}
 
 
@@ -1342,6 +1394,15 @@ def default_state(user_id: str = "100000001", handle_name: str = "Rain", now_ms:
                  # not a zero that would render as a fake "1 -> 1" level-up.
                  "last_up": None},
         "currencies": {"lapis_free": 0, "lapis_paid": 0, "gil": 0, "friend_point": 0},
+        # THE FARPLANE DAMAGE-RANK RECORDS (`OpeDmgRankResponse.5Hx1NjQI`, the training dummy in the
+        # Farplane town). The client maintains these itself and reports them on `DmgRankEndRequest`;
+        # they are stored because the START reply is what POPULATES the scene, so with no storage every
+        # re-entry served zeros over a record the player had just set -- and `readParam` wrote those
+        # zeros back over the client's copy (APP-18). Tokens are the class's own (readParam
+        # `0x1954364`): dmg/turn `4TrE3wc1`, dmg/hit `f9NDT4B1`, total `sm8Au2zW`, chain `IsWS4L1c`,
+        # spark-chain `aW10T2Uv`, element-chain `qK8efn7k`. Kept per-metric (see `record_dmg_rank`).
+        "dmg_rank": {"4TrE3wc1": "0", "f9NDT4B1": "0", "IsWS4L1c": "0",
+                     "aW10T2Uv": "0", "qK8efn7k": "0", "sm8Au2zW": "0"},
         "profile": {"serial_login_count": 0, "player_emblem_id": 0, "message": "",
                     "decorate_home_vc_id": "", "gift_id": 0,
                     # OWNED emblems (`UserPlayerEmblemInfoList`), ids from the shipped
@@ -1495,6 +1556,7 @@ def _normalise(data: dict) -> dict:
     if not isinstance(dq.get("pools"), list):
         dq["pools"] = []
     exp_ranged: list = []      # exp clamped into the client's residual range (see the roster loop)
+    total_repaired: list = []  # total_exp repaired to level+residual (APP-83, 2026-11-11)
     over_max: list = []
     renamed_parties: list = []
     for deck in (data.get("party") or {}).get("decks") or []:
@@ -1571,11 +1633,29 @@ def _normalise(data: dict) -> dict:
             mid_exp = 0 if mid_exp < 0 else step - 1
             u["exp"] = mid_exp
             exp_ranged.append(f"{mid}@Lv{lv}: {was}->{mid_exp} (step {step})")
+        # TOTAL-EXP REPAIR (2026-11-11, APP-83). `total_exp` is a SECOND COPY of the same fact as
+        # `level` + `exp`: the cumulative EXP to the current level PLUS the residual. A state written under
+        # the old cumulative model can carry a value that is neither (the live campaign had 22,978 at
+        # Lv11/exp197, where the true total is 3,440), and then an otherwise valid `UnitUsePointRequest`
+        # that asks for the remaining-to-cap amount is refused by the cap check. Rebuild it from the two
+        # fields the client actually draws; the repair is loud.
+        pat = exp_pattern(u.get("master_id"))
+        if pat:
+            try:
+                expected_total = exp_cumulative(pat, int(u.get("level") or 1)) + int(u.get("exp") or 0)
+                old_total = int(u.get("total_exp") or 0)
+            except (TypeError, ValueError):
+                expected_total = old_total = None
+            if expected_total is not None and old_total != expected_total:
+                u["total_exp"] = expected_total
+                total_repaired.append(f"{u.get('master_id')}@{u.get('level')}: {old_total}->{expected_total}")
         if str(u.get("master_id")) not in STARTER_ROSTER and (u.get("equipment") or {}) == STARTER_EQUIP:
             u["equipment"] = {}
             stripped.append(str(u.get("master_id")))
         u.setdefault("equipment", {})
         u.setdefault("favourite", 0)
+        u.setdefault("stat_pots", [0] * 6)
+        u.setdefault("stat_doors", [0] * 6)
     # The unit/storage totals are DERIVED, but older v2 files still carry the original zero-valued
     # `counts` literals after grants/sells. `_team_row` already overrides them on the wire; repair the
     # canonical copy too, or an audit sees a state whose stored counts disagree with its own roster.
@@ -1594,6 +1674,9 @@ def _normalise(data: dict) -> dict:
         # Loud, like every other repair here: a silent repair and a repair that never ran look identical.
         print(f"state: clamped {len(exp_ranged)} unit exp(s) into the client's residual range: "
               f"{'; '.join(exp_ranged)}", flush=True)
+    if total_repaired:
+        print(f"state: repaired {len(total_repaired)} unit total_exp counter(s) from level+residual: "
+              f"{','.join(total_repaired)}", flush=True)
     if over_max:
         print(f"state: clamped {len(over_max)} unit(s) above their max level: {','.join(over_max)}",
               flush=True)
@@ -2061,6 +2144,40 @@ class PlayerState:
                 return u
         return None
 
+    def renew_unit_instance(self, instance_id) -> dict | None:
+        """Class-up consumes the old native instance and returns a new one.
+
+        `UnitEnhanceClassUpConnectScene` removes the result's source ID before opening its destination.
+        Reusing that ID deletes the awakened unit, so the row keeps its progress but gets a fresh
+        `instance_id`, and every saved deck / party / equipment reference to the old ID moves with it.
+        The Rust fork's `renew_unit_instance` is the reference; this is the same operation over our
+        state shape (a recursive replace, not a second roster row).
+        """
+        unit = self.roster_row(instance_id)
+        if unit is None or not self._mutate():
+            return None
+        old = str(unit["instance_id"])
+        existing = [int(u["instance_id"]) for u in self.data["roster"]
+                    if str(u.get("instance_id", "")).isdigit()]
+        new = str(max([int(time.time() * 1000)] + existing) + 1)
+        unit["instance_id"] = new
+
+        def move(value):
+            if isinstance(value, dict):
+                return {new if str(key) == old else key: move(item) for key, item in value.items()}
+            if isinstance(value, list):
+                return [move(item) for item in value]
+            if isinstance(value, str) and value == old:
+                return new
+            if isinstance(value, int) and str(value) == old:
+                return int(new)
+            return value
+
+        for key in list(self.data):
+            if key != "roster":
+                self.data[key] = move(self.data[key])
+        return unit
+
     # --- ops (schema §2.3) -------------------------------------------------------------------------
     def _mutate(self) -> bool:
         """A mutation is applied unless the policy is `frozen`. Marks dirty for the `live` writer."""
@@ -2413,6 +2530,43 @@ class PlayerState:
                 "before": (before_level, before_exp),
                 "after": (int(base.get("level", 1)), int(base.get("exp", 0)))}
 
+    # --- damage-rank records -----------------------------------------------------------------------
+    # One home for the wire tokens: `harness/derive_dmg_rank.py` documents the class, this lists them.
+    DMG_RANK_TOKENS = ("4TrE3wc1", "f9NDT4B1", "IsWS4L1c", "aW10T2Uv", "qK8efn7k", "sm8Au2zW")
+
+    def dmg_rank_records(self) -> dict:
+        """The stored records as one `5Hx1NjQI` row -- every token present, zeros for a fresh account."""
+        have = self.data.get("dmg_rank") or {}
+        return {k: str(have.get(k) or "0") for k in self.DMG_RANK_TOKENS}
+
+    def record_dmg_rank(self, rows) -> dict:
+        """Fold the client's own record rows into the state, per metric, keeping the MAX.
+
+        The client is authoritative for its own bests; the server's only job is to stop losing them. MAX
+        rather than assignment because the row the client sends on END is *this event's* numbers and is
+        not provably its all-time set, and because assigning would let a worse run lower a record already
+        held. Values are int64 on the wire; a token that does not parse can never win over a number.
+        """
+        best = self.dmg_rank_records()
+        changed = False
+        for row in rows or []:
+            if not isinstance(row, dict):
+                continue
+            for key in self.DMG_RANK_TOKENS:
+                if key not in row:
+                    continue
+                cur, new = best.get(key, "0"), str(row.get(key) if row.get(key) is not None else "0")
+                try:
+                    if int(new) > int(cur):
+                        best[key] = new
+                        changed = True
+                except (TypeError, ValueError):
+                    continue
+        if changed:
+            self.data["dmg_rank"] = best
+            self.dirty = True
+        return best
+
     def drop_units(self, ids) -> list:
         """Remove roster rows by instance id and prune any deck membership that named them.
 
@@ -2436,6 +2590,279 @@ class PlayerState:
         _refresh_derived_counts(self.data)
         self.dirty = True
         return removed
+
+    # --- Unit Exchange / power-up points (APP-83) ------------------------------------------------
+    def unit_point_banks(self) -> dict:
+        """The mutable banks map, created on first use. `banks["0"]` is the generic EXP/status bank;
+        a per-series bank is used by kind-28 point ITEMS (`F_UNIT_SERIES_POWER_UP_POINT_MST`)."""
+        return self.data.setdefault("exvius_unit_points", {}).setdefault("banks", {})
+
+    def unit_point_rows(self) -> list:
+        """`z36FApms` rows: ONE row per bank, all 14 tokens. A bank that exists is served even when it is
+        zero, so spending the last point clears the client's counter instead of leaving it stale.
+
+        Read-only: `groups()` calls this on every user-state projection, and a read must not create the
+        `exvius_unit_points` key on a fresh save."""
+        banks = ((self.data.get("exvius_unit_points") or {}).get("banks") or {})
+        if not banks:
+            return []
+        # The client's list is a materialised singleton, so the global bank is always row 0 when any bank
+        # exists. Upstream serves it even before the first exchange; doing it only after a bank exists keeps
+        # every pre-feature golden byte-identical.
+        series_ids = list(banks)
+        if "0" not in series_ids:
+            series_ids.insert(0, "0")
+        def _order(value):
+            text = str(value)
+            return (0 if text == "0" else 1, int(text) if text.isdigit() else text)
+        rows = []
+        for series in sorted(series_ids, key=_order):
+            bank = banks.get(series) or {}
+            row = {"woghJa61": str(series)}
+            for token in UNIT_POINT_TOKENS:
+                try:
+                    value = int(bank.get(token, 0) or 0)
+                except (TypeError, ValueError):
+                    value = 0
+                row[token] = str(value)
+            rows.append(row)
+        return rows
+
+    def credit_unit_points(self, series, token: str, amount: int) -> None:
+        """Add to one bank/token. Used by the exchange and by kind-28 point-item rewards."""
+        if not self._mutate():
+            return
+        amount = int(amount or 0)
+        if amount <= 0:
+            return
+        bank = self.unit_point_banks().setdefault(str(series), {})
+        bank[token] = int(bank.get(token, 0) or 0) + amount
+        self.dirty = True
+
+    def _deployed_unit_ids(self) -> set:
+        """Instance ids referenced by a party/deck (and the offline feature blocks that can hold units).
+        The client refuses to exchange a party member; this is the server-side mirror, not a second rule."""
+        found = set()
+
+        def collect(obj):
+            if isinstance(obj, dict):
+                for key, child in obj.items():
+                    if key in ("instance_id", "user_unit_id", "og2GHy49"):
+                        found.add(str(child))
+                    else:
+                        collect(child)
+            elif isinstance(obj, list):
+                for child in obj:
+                    collect(child)
+
+        collect(self.data.get("party") or {})
+        for feature in ("expedition", "companions", "arena", "dark_visions"):
+            collect(self.data.get("exvius_" + feature) or {})
+        return found
+
+    def convert_material_units(self, ids=None) -> set:
+        """Convert the selected enhancement-material units into power-up points/gil and remove them.
+
+        The role map is the recovered `F_UNIT_MST.27GkYdEu`:
+          * role 9  -> the generic EXP bank (`XeRVw3s2`), value = the client's own mix-EXP formula
+          * role 12 -> DOPING_* pot points (+ DOPING_LB from `1Rf2VDoI`)
+          * role 13 -> MAX_LIMIT_EX_* door points
+          * useType 2 + role 10 -> gil (`F_UNIT_MST.u18nfD7p`), the Gil Snapper family
+        Trust Moogles and any other unit with no positive credit are NOT removed. Favourite and deployed
+        units are skipped; the client already excludes them, but a synthetic request must not eat them.
+
+        The reference is `exvius-offline`'s `convert_material_units` (the same shipped-role model); the
+        point token order and the unit-mix formula are our own recovered data. Returns the converted ids.
+        """
+        wanted = None if ids is None else {str(i) for i in ids or []}
+        if (wanted is not None and not wanted) or self.mode == "frozen":
+            return set()
+        deployed = self._deployed_unit_ids()
+        converted, credits, gil = set(), {}, 0
+        for unit in list(self.data.get("roster") or []):
+            iid = str(unit.get("instance_id"))
+            if (wanted is not None and iid not in wanted) or iid in deployed or unit.get("favourite"):
+                continue
+            master = unit_mst(unit.get("master_id")) or {}
+            roles = {role.strip() for role in str(master.get("27GkYdEu") or "").split(",")
+                     if role.strip()}
+            use_type = str(master.get("2odVXyT8") or "")
+            # GIL SNAPPERS: no points, the unit's own sell/Exchange value is gil.
+            if use_type == "2" and "10" in roles:
+                try:
+                    value = int(master.get("u18nfD7p") or 0)
+                except (TypeError, ValueError):
+                    value = 0
+                if value > 0:
+                    gil += value
+                    converted.add(iid)
+                continue
+            if use_type != "1":
+                continue
+            credit = {}
+            if "9" in roles:
+                credit[UNIT_POINT_TOKENS[0]] = int(unit_mix_exp(unit) or 0)
+            elif roles.intersection(("12", "13")):
+                values = []
+                for raw in str(master.get("Y2X8d5R7") or "").split(","):
+                    try:
+                        values.append(int(raw))
+                    except (TypeError, ValueError):
+                        pass
+                start = 8 if "13" in roles else 2
+                for token, value in zip(UNIT_POINT_TOKENS[start:start + 6], values):
+                    credit[token] = value
+                if "12" in roles:
+                    try:
+                        credit[UNIT_POINT_TOKENS[1]] = int(master.get("1Rf2VDoI") or 0)
+                    except (TypeError, ValueError):
+                        credit[UNIT_POINT_TOKENS[1]] = 0
+            if any(value > 0 for value in credit.values()):
+                for token, value in credit.items():
+                    if value > 0:
+                        credits[token] = credits.get(token, 0) + value
+                converted.add(iid)
+        if not converted:
+            return set()
+        if credits:
+            bank = self.unit_point_banks().setdefault("0", {})
+            for token, value in credits.items():
+                bank[token] = int(bank.get(token, 0) or 0) + value
+            self.dirty = True
+        if gil:
+            self.add_currency("gil", gil)
+        self.drop_units(converted)
+        print(f"unit-exchange: credited {sum(credits.values())} power-up point(s)"
+              + (f" and {gil} gil" if gil else "")
+              + f" for {len(converted)} material(s)", flush=True)
+        return converted
+
+    def use_unit_points(self, target_id, rows) -> bool:
+        """Apply a `UnitUsePointRequest` row set: EXP, status pots/doors and LB EXP.
+
+        Ported from the collaborator's complete `unit_use_point` (`exvius_actions_shops.py:688`), with
+        our two fixes kept: the EXP cap is derived from level + residual (a stale `total_exp` is repaired
+        rather than used to refuse a valid request), and the whole operation is validated against a COPY
+        of the bank before anything is committed. A request may carry one or two rows (the generic bank
+        `"0"` plus the unit's series bank), but all rows must target the same unit.
+
+        Status caps are the third/fourth fields of the `F_UNIT_MST` stat descriptor (min,max,potCap,
+        doorCap). LB EXP walks `F_LIMITBURST_LV_MST` for the unit's static LB id.
+        """
+        unit = self.roster_row(target_id)
+        if unit is None or self.mode == "frozen":
+            return False
+        master = unit_mst(unit.get("master_id")) or {}
+        banks = copy.deepcopy(((self.data.get("exvius_unit_points") or {}).get("banks") or {}))
+        total = [0] * len(UNIT_POINT_TOKENS)
+        seen = set()
+        target = None
+        for node in rows or []:
+            if not isinstance(node, dict):
+                return False
+            iid = str(node.get("og2GHy49") or "")
+            if not iid or (target is not None and iid != target):
+                return False
+            target = iid
+            try:
+                series = str(int(node.get("woghJa61") or 0))
+            except (TypeError, ValueError):
+                return False
+            if series not in ("0", str(master.get("woghJa61") or "")) or series in seen:
+                return False
+            seen.add(series)
+            bank = banks.setdefault(series, {})
+            for index, token in enumerate(UNIT_POINT_TOKENS):
+                try:
+                    amount = int(node.get(token) or 0)
+                    balance = int(bank.get(token, 0) or 0)
+                except (TypeError, ValueError):
+                    return False
+                if amount < 0 or amount > balance:
+                    if amount > balance:
+                        print(f"unit-points: insufficient points for {token} ({amount} > {balance})",
+                              flush=True)
+                    return False
+                if index == 0 and series != "0" and amount:
+                    return False
+                bank[token] = balance - amount
+                total[index] += amount
+        if not any(total) or target is None:
+            return False
+
+        # EXP cap: level + residual, NOT the stored second copy. Repair the stored value only after every
+        # check has passed, so a refused request cannot rewrite the row.
+        cap = max_level_exp(unit.get("master_id"))
+        pat = exp_pattern(unit.get("master_id"))
+        if pat:
+            current_total = exp_cumulative(pat, int(unit.get("level") or 1)) + int(unit.get("exp") or 0)
+        else:
+            current_total = int(unit.get("total_exp", 0) or 0)
+        if cap is not None and current_total + total[0] > int(cap):
+            print(f"unit-points: EXP {total[0]} would push {target_id} past its level cap", flush=True)
+            return False
+
+        # Status-up: the six stats are base + pots + doors in the served stat string. Validate both caps.
+        pots = list(unit.get("stat_pots") or [0] * 6)
+        doors = list(unit.get("stat_doors") or [0] * 6)
+        for index, token in enumerate(STAT_TOKENS):
+            try:
+                descriptor = [int(x) for x in str(master.get(token) or "0").split(",")]
+            except (TypeError, ValueError):
+                return False
+            descriptor = (descriptor + [0, 0, 0, 0])[:4]
+            pot_cap, door_cap = descriptor[2:4]
+            doors[index] += total[index + 8]
+            pots[index] += total[index + 2]
+            if doors[index] > door_cap or pots[index] > pot_cap + doors[index]:
+                print(f"unit-points: status {token} exceeds its cap "
+                      f"(pot {pots[index]}/{pot_cap}, door {doors[index]}/{door_cap})", flush=True)
+                return False
+
+        # LB EXP: a point spend can raise the LB level; level/exp are a pair, so walk the shipped ladder.
+        new_lb = None
+        if total[1]:
+            lb = limit_burst(unit.get("master_id"))
+            if lb is None:
+                return False
+            lb_id = str(lb.get("PR2HIc71") or "")
+            levels = []
+            for row in _load_ndjson("F_LIMITBURST_LV_MST.ndjson").get("__rows__", []):
+                if str(row.get("PR2HIc71")) != lb_id:
+                    continue
+                try:
+                    levels.append((int(row.get("7wV3QZ80")), int(row.get("T3Zcf40Q"))))
+                except (TypeError, ValueError):
+                    continue
+            levels.sort()
+            if not levels:
+                return False
+            level = int(unit.get("lb_level") or 1)
+            exp = int(unit.get("lb_exp") or 0) + total[1]
+            steps = dict(levels)
+            maximum = min(levels[-1][0], int(master.get("ENwn42DV") or 1))
+            while level < maximum and level + 1 in steps and exp >= steps[level + 1]:
+                exp -= steps[level + 1]
+                level += 1
+            if level >= maximum and exp != 0:
+                return False
+            new_lb = (level, exp)
+
+        # COMMIT. Everything above is pure validation; the bank, row and (for EXP) the level move together.
+        self.data.setdefault("exvius_unit_points", {})["banks"] = banks
+        if int(unit.get("total_exp", 0) or 0) != current_total:
+            print(f"unit-points: repaired total_exp {unit.get('total_exp')} -> {current_total} "
+                  f"for {target_id}", flush=True)
+            unit["total_exp"] = current_total
+        unit["stat_pots"], unit["stat_doors"] = pots, doors
+        if new_lb is not None:
+            unit["lb_level"], unit["lb_exp"] = new_lb
+        if total[0]:
+            self.add_unit_exp(target_id, total[0])
+        self.dirty = True
+        print(f"unit-points: spent EXP {total[0]}, LB {total[1]}, "
+              f"pots {total[2:8]}, doors {total[8:14]} on {target_id}", flush=True)
+        return True
 
     def add_rank_exp(self, amount: int) -> dict:
         if not self._mutate():
@@ -2572,6 +2999,155 @@ class PlayerState:
         return [{"2dfixko3": str(it.get("item_id")), "Qy5EvcK1": str(it.get("count", 0))}
                 for it in self._items() if str(it.get("item_type")) == "23"]
 
+    def medal_exchange_counts(self) -> dict[str, int]:
+        """The account's `F_MEDAL_EXCHANGE_MST` purchase counts, exchange id -> count.
+
+        The counts are the client's own purchase history (`UserMedalExchangeInfoResponse`, tag
+        `R5kozET8`, `S21FT3L8` -> count `ngQX7a3N`).  They are kept in a separate block so a state
+        written before the Moogle shop existed simply has no counts; no migration is needed.
+        """
+        block = self.data.get("medal_exchange")
+        counts = block.get("counts") if isinstance(block, dict) else None
+        if not isinstance(counts, dict):
+            return {}
+        out = {}
+        for key, value in counts.items():
+            try:
+                n = int(value)
+            except (TypeError, ValueError):
+                continue
+            if n > 0:
+                out[str(key)] = n
+        return out
+
+    def record_medal_exchange(self, counts: dict[str, int]) -> bool:
+        """Add one completed exchange's counts; `frozen` refuses like every other mutation."""
+        if not self._mutate():
+            return False
+        block = self.data.setdefault("medal_exchange", {})
+        stored = block.setdefault("counts", {})
+        for key, value in counts.items():
+            key = str(key)
+            stored[key] = int(stored.get(key, 0) or 0) + int(value)
+        return True
+
+    def medal_exchange_rows(self) -> list:
+        """`UserMedalExchangeInfoResponse` records, in exchange-id order; `[]` when none bought."""
+        counts = self.medal_exchange_counts()
+        return [{"S21FT3L8": key, "ngQX7a3N": str(counts[key])}
+                for key in sorted(counts, key=lambda x: int(x) if x.isdigit() else x)]
+
+    # --- THE SIMULATED LAPIS PURCHASE + EX POINTS (AUTHORED; see ffbe_purchase.py) -------------------
+    # These four methods are the STATE half of a purchase Play Billing cannot execute here. The lapis
+    # amount is recovered (`F_DIAMOND_MST.FBjo93gK`); the EX-point earn table, the daily pouch cap and the
+    # retry window are AUTHORED — labelled in `ffbe_purchase.py` where the rules live.
+    def ex_point_state(self) -> dict:
+        """The EX-point block: `{"current": int, "earned": int, "pouch_day": str}`.
+
+        `current` is the ladder progress, and it is what the shop header paints: `ShopListScene::
+        updateExviusPointLabel` `0x1e70550` reads `UserExviusPointInfo+0x30` and feeds
+        `CommonUtils::IntToString` into a `BitmapLabelEx`. `earned` is the lifetime total (`+0x34`,
+        `getGetPoint`). `pouch_day` is the UTC day the 120-lapis pouch last paid a point, for its
+        once-a-day cap. A state written before this existed simply has no block; every read tolerates it.
+        """
+        block = self.data.get("ex_points")
+        if not isinstance(block, dict):
+            block = {}
+        def _int(key):
+            try:
+                return max(0, int(block.get(key) or 0))
+            except (TypeError, ValueError):
+                return 0
+        return {"current": _int("current"), "earned": _int("earned"),
+                "pouch_day": str(block.get("pouch_day") or "")}
+
+    def add_ex_points(self, points: int, pouch_day: str | None = None) -> dict:
+        """Credit `points` (0 is a no-op) and return the new block; `frozen` refuses like every op.
+
+        NOT capped or rolled over: the shipped milestone ladder (`F_EXVIUS_POINT_REWARD_MST`, 15 rows at
+        1..300 points) has no claim path wired yet, so silently wrapping the counter at 300 would throw
+        away the only record of the progress the ladder needs. The rollover belongs with the claim side.
+        """
+        state = self.ex_point_state()
+        if int(points) <= 0 and pouch_day is None:
+            return state
+        if not self._mutate():
+            return state
+        block = self.data.setdefault("ex_points", {})
+        block["current"] = int(state["current"]) + max(0, int(points))
+        block["earned"] = int(state["earned"]) + max(0, int(points))
+        if pouch_day is not None:
+            block["pouch_day"] = str(pouch_day)
+        self.dirty = True
+        return self.ex_point_state()
+
+    def purchase_settlements(self) -> list:
+        """The simulated-purchase ledger, oldest first (`data.purchases.settlements`)."""
+        block = self.data.get("purchases")
+        rows = block.get("settlements") if isinstance(block, dict) else None
+        return rows if isinstance(rows, list) else []
+
+    def settle_simulated_purchase(self, diamond_id: str, product: str, lapis: int,
+                                  ex_points: int, pouch_day: str | None = None,
+                                  retry_window_s: float = 15.0) -> dict:
+        """Credit one simulated lapis pack and record it. Returns the settlement it happened (or did not).
+
+        IDEMPOTENCY (authored): the client's `PurchaseStartRequest` carries no order id -- `9gCG8jnK` is
+        its birth-year-month, `190001`, the same value in every capture -- so there is nothing recovered to
+        key a settlement on. The rule used here is a TIME WINDOW per product: a `PurchaseStartRequest` for
+        the same product within `retry_window_s` of a settlement that no `PurchaseFailedRequest` has closed
+        is treated as a RETRY and re-serves that settlement's receipt with no second credit. A deliberate
+        repeat purchase lands after the window (or after the failure), so it pays again.
+
+        `ok=False` means NO credit (frozen policy) -- the caller must not claim a settlement then.
+        """
+        now_iso = _now_iso()
+        epoch = time.time()
+        if not self._mutate():
+            return {"ok": False, "reason": "frozen", "replay": False}
+        block = self.data.setdefault("purchases", {})
+        rows = block.setdefault("settlements", [])
+        for row in reversed(rows[-20:]):
+            if str(row.get("product")) != str(product) or row.get("closed"):
+                continue
+            try:
+                age = epoch - float(row.get("epoch") or 0)
+            except (TypeError, ValueError):
+                continue
+            if 0 <= age <= retry_window_s:
+                return {"ok": True, "replay": True, "receipt": str(row.get("receipt") or ""),
+                        "lapis": 0, "ex_points": 0, "balance": self.currencies.get("lapis_paid", 0),
+                        "ex": self.ex_point_state()}
+        receipt = "sim-%d-%s" % (int(epoch * 1000), str(diamond_id).strip() or "0")
+        self.currencies["lapis_paid"] = int(self.currencies.get("lapis_paid", 0) or 0) + int(lapis)
+        ex = self.add_ex_points(int(ex_points), pouch_day=pouch_day)
+        rows.append({"receipt": receipt, "diamond_id": str(diamond_id), "product": str(product),
+                     "lapis": int(lapis), "ex_points": int(ex_points), "at": now_iso,
+                     "epoch": epoch, "closed": False})
+        self.dirty = True
+        return {"ok": True, "replay": False, "receipt": receipt, "lapis": int(lapis),
+                "ex_points": int(ex_points), "balance": self.currencies["lapis_paid"], "ex": ex}
+
+    def close_purchase_retry_window(self, product: str | None = None) -> int:
+        """`PurchaseFailedRequest` closed the tap: stop replaying the last settlement for that product.
+
+        Returns how many ledger rows were closed. A failure with no product closes every open row -- the
+        client only sends one after a purchase attempt, so an unidentifiable failure must not leave a
+        window open for the next deliberate purchase to be swallowed by.
+        """
+        rows = self.purchase_settlements()
+        closed = 0
+        for row in rows:
+            if row.get("closed"):
+                continue
+            if product and str(row.get("product")) != str(product):
+                continue
+            row["closed"] = True
+            closed += 1
+        if closed:
+            self.dirty = True
+        return closed
+
     def item_rows(self) -> list:
         """`UserItemInfoResponse` (`0dNXQa3R`, mode 0 = clear-then-add): the regular-item BAG.
 
@@ -2668,6 +3244,25 @@ class PlayerState:
                     counts[iid] = 0
                 counts[iid] = max(counts[iid], int(it.get("count", 0) or 0))
         return [{"J1YX9kmM": iid, "Qy5EvcK1": str(max(1, counts[iid]))} for iid in order]
+
+    def materia_rows(self) -> list:
+        """`UserMateriaInfoResponse` (`Zh5jXr2U`/`rL81fVUI`): the OWNED materia stacks.
+
+        The wire model is a MATERIA ID + COUNT, not a per-instance id (the two recovered tokens are
+        `H5jBL0Vf` = setItemId and `Qy5EvcK1` = setItemNum). `UnitEquipResponse.80NUYFMJ` therefore names
+        the same materia id in its `slot-id` list. An equipped materia whose id is absent here does not
+        resolve in the client's `UserMateriaInfoList` (the same blank/ignored shape as an unowned equip).
+        """
+        rows = []
+        for it in self.data.get("inventory", {}).get("materia", []):
+            iid = str(it.get("item_id", "") or "")
+            try:
+                count = int(it.get("count", 0) or 0)
+            except (TypeError, ValueError):
+                continue
+            if iid and count > 0:
+                rows.append({"H5jBL0Vf": iid, "Qy5EvcK1": str(count)})
+        return rows
 
     def currency_groups(self) -> dict:
         """The currency-bearing reply groups (lapis, team = gil/friend/NRG, important items). Sent alongside
@@ -2885,6 +3480,22 @@ class PlayerState:
         an["issued_total"] = int(an.get("issued_total", 0) or 0) + 1
         return True
 
+    def mark_vc_shop_issued(self, version: str = "1") -> bool:
+        """Record that the VC-shop TEST mail was delivered (SW-130). Idempotent per save.
+
+        The marker lives in the STATE, not in the mail, for the reason `mark_anniversary_issued`'s docstring
+        records: the inbox request is both the carrier AND the delete path, so a marker stored in the mail is
+        erased by the player's own delete and the next inbox request re-issues the ticket — a free-ticket loop,
+        measured live on the anniversary ticket 2026-09-22.
+        """
+        if not self._mutate():
+            return False
+        block = self.data.setdefault("vc_shop_test", {})
+        if str(block.get("issued", "") or "") == str(version):
+            return False
+        block["issued"] = str(version)
+        return True
+
     def _catchup(self) -> dict:
         """The catch-up counters, created on demand (a state written before 2026-09-26 has no block)."""
         cu = self.data.get("catchup")
@@ -3085,6 +3696,23 @@ class PlayerState:
                 if not made:
                     continue                 # unknown id, or `frozen` refused: NOT credited, NOT reported
                 count = made
+            elif str(kind) == "27":
+                # A VISION CARD (SW-130 slice C). Same defect shape as the unit case above: a type-27 row in
+                # `inventory.items` is invisible (`vision_card_rows` reads `data['vision_cards']`), so the
+                # 976 kind-27 medal rows and any mailed card credited nothing. ONE writer for that column --
+                # `grant_vision_card` -- so the level is always set and a duplicate is refused rather than
+                # silently banked. A refused card is NOT reported, which makes the caller's shortfall check
+                # refuse the whole claim (an unclaimable reward, loudly).
+                made = 0
+                for _ in range(count):
+                    if self.grant_vision_card(iid) is None:
+                        break
+                    made += 1
+                if not made:
+                    print(f"grant: REFUSED kind 27 id {iid} -- not in F_VISION_CARD_MST, already owned, "
+                          f"or frozen", flush=True)
+                    continue                 # nothing credited, nothing reported
+                count = made
             elif str(kind) in GRANT_BAG_PROJECTED:
                 self.grant_item(kind, iid, count)
             else:
@@ -3132,6 +3760,38 @@ class PlayerState:
                 return it["count"]
         bag.append({"item_id": int(equip_id), "count": int(count)})
         return int(count)
+
+    def grant_vision_card(self, vc_id, key=None, level: int = 1) -> dict | None:
+        """Own one vision card: a `vision_cards` row with a MANDATORY Level (SW-130 slice C).
+
+        THE LEVEL IS NOT OPTIONAL. `player_state.vision_card_rows` defaults it to 1 because a row served
+        without it crashed the client (APP-15: `getVisionCardParamFromLv` -> `VisionCardGrowMst::getGrowthRate`
+        indexes `level-1 = -1` and libgame dereferences the null row, SIGSEGV on the GL thread). A grant that
+        wrote a levelless row would put that back, so this method is the one writer and it always sets it.
+
+        THE DUPLICATE IS REFUSED, deliberately.  The owned list is keyed by the `user_vc_id` string
+        (`gXb32xzQ`), and no recovered source tells us how retail keys a SECOND copy of the same master id —
+        the store rows are unlimited (`x0NDnEC9 = 0` for all 33 Perma-VC rows), so duplicates are reachable.
+        Guessing a key scheme would put rows in the client's list that nothing can match; refusing is loud and
+        reversible. `key` exists for the `--grant-vc` seed lever, which names its own key.
+
+        Returns the row, or None when the id is not in `F_VISION_CARD_MST`, the card (or that key) is already
+        owned, or the state is frozen.
+        """
+        if vision_card_mst(vc_id) is None:
+            return None
+        key = str(key or vc_id)
+        for card in self.data.get("vision_cards") or []:
+            if str(card.get("user_vc_id") or card.get("vc_id")) == key:
+                return None                        # that key is taken
+            if str(card.get("vc_id")) == str(vc_id):
+                return None                        # a second copy: no recovered per-instance key scheme
+        if not self._mutate():
+            return None
+        row = {"vc_id": str(vc_id), "user_vc_id": key, "level": max(1, int(level or 1))}
+        self.data.setdefault("vision_cards", []).append(row)
+        self.dirty = True
+        return row
 
     def next_mail_id(self) -> int:
         """The next free mail id (a mail id is what `MailReceiptRequest` names)."""
@@ -3222,6 +3882,12 @@ class PlayerState:
             return True
         if str(kind) == "10":
             return unit_mst(iid) is not None
+        if str(kind) == "27":
+            # A VISION CARD: the row must exist in its own master AND not already be owned (SW-130 slice C --
+            # `grant_vision_card` refuses a duplicate, so the pre-check must too or the claim's all-or-nothing
+            # promise is broken). Keep in step with `_grant_items`, which this docstring already demands.
+            return vision_card_mst(iid) is not None and not any(
+                str(c.get("vc_id")) == str(iid) for c in self.data.get("vision_cards") or [])
         return str(kind) in GRANT_BAG_PROJECTED
 
     def delete_mail(self, mail_id) -> bool:
@@ -3875,6 +4541,13 @@ class PlayerState:
             # `f9400268 ldr x8,[x19]` at libgame `1c7110c` with `x19 = 0` -> SIGSEGV on the GL thread ->
             # libndk cannot process signal 11 -> the reporter aborts -> the coredump/ANR "closed out".
             row["7wV3QZ80"] = str(vc.get("level") or 1)
+            # The FAVOURITE star (SW-130). `8zE6w9RP` = `UserVisionCardInfo` vtable +0x20
+            # `setFavoriteFlg(bool)` — the same token the friend request body carries, which is why the
+            # friend slice recorded it as ambiguous until `VisionCardFavoriteRequest` settled it here.
+            # Emitted only when set: `readParam` writes present tokens only, so an absent one keeps the
+            # client's own default instead of asserting "not favourite" on every row.
+            if vc.get("favorite"):
+                row["8zE6w9RP"] = "1"
             for tok, field in (("B6H34Mea", "exp"), ("X9ABM7En", "total_exp")):
                 if vc.get(field) not in (None, ""):
                     row[tok] = str(vc[field])
@@ -3893,12 +4566,32 @@ class PlayerState:
             "49rQB3fP": self._beast_deck_rows(),   # UserBeastDeckInfoResponse, deck-list type 1
             "8PEB5o7G": [{"r21y0YzS": str(self.data["party"]["active_deck"])}],  # UserActualInfo
             "3oU9Ktb7": [self._team_row()],    # UserTeamInfoResponse
-            "J3pAG0I5": [{"T7sah9rc": str(self.currencies["lapis_free"]),
-                          "cb3WmiD0": str(self.currencies["lapis_paid"])}],     # UserDiamondInfo
+            # UserDiamondInfo -- AND THE TWO TOKENS WERE INVERTED (APP-71, 2026-11-08). Read at the binary:
+            # `UserDiamondInfoResponse::readParam` `0x1921bcc` stores `cb3WmiD0` at **+0x28**
+            # (`str w0,[x21,#0x28]` at `0x1921c08`) and `getPaidDiamond` `0x1da9f84` reads **+0x24**, so
+            # `T7sah9rc` is the PAID pool and `cb3WmiD0` the FREE one. Swapped, the client showed the free
+            # balance as "paid" while the total stayed right (`getTotalDiamond` `0x1da9f78` adds +0x24 and
+            # +0x28), which is exactly what the operator reported off the summons screen: "1,320 paid"
+            # against a 19,320 total. The same pair is fixed in `server/ffbe_config.py`.
+            "J3pAG0I5": [{"T7sah9rc": str(self.currencies["lapis_paid"]),
+                          "cb3WmiD0": str(self.currencies["lapis_free"])}],     # UserDiamondInfo
             "Md0N5abE": self.important_item_rows(),   # UserImportantItemInfoResponse (clears first)
             "0dNXQa3R": self.item_rows(),             # UserItemInfoResponse mode 0 (clears first): the bag
             "MBPCGT84": self.equip_item_rows(),       # UserEquipItemInfoResponse mode 0: OWNED equipment
         }
+        medals = self.medal_exchange_rows()
+        if medals:
+            # Only when the account has actually bought something. `UserMedalExchangeInfoResponse`
+            # CLEARS on read (`onReadStarted` 0x1928718 -> removeAllObjects), so the row set must be
+            # the COMPLETE purchase history; a filtered list would wipe the rest on the client.
+            out["R5kozET8"] = medals
+        materia = self.materia_rows()
+        if materia:
+            # Both tags map to UserMateriaInfoResponse in the recovered factory. Serve the same stack list
+            # under both so whichever user-state carrier the client reads has the owned row; an empty list
+            # is omitted entirely so states without materia are unchanged.
+            out["Zh5jXr2U"] = materia
+            out["rL81fVUI"] = materia
         # ONLY when the state actually owns vision cards. An empty list would still register the group in
         # every user-state reply, changing replies that have nothing to do with vision cards — the golden
         # replay (`harness/server_regression.py`) is the check that this stays true while the feature is
@@ -3906,6 +4599,12 @@ class PlayerState:
         vcs = self.vision_card_rows()
         if vcs:
             out["4hPYneL3"] = vcs            # UserVisionCardInfoResponse, non-destructive mode
+        # Unit Exchange / power-up points (APP-83). Omitted on a save with no bank, so every pre-feature
+        # reply stays byte-identical; once a bank exists it is served on every user-state refresh, which is
+        # what makes the Enhance screen's counter survive a relogin.
+        points = self.unit_point_rows()
+        if points:
+            out[UNIT_POINT_TAG] = points
         return out
 
     def apply_to_reply(self, spec, reply_id=None):
@@ -3920,7 +4619,15 @@ class PlayerState:
         `UserPartyDeckInfoResponse::onReadStarted` as clear-and-rebuild for `UserPartyDeckList`. Injecting
         the old deck there destroys a pending party-editor replacement before the following
         `PartyDeckEditRequest` is serialized. The actual party edit and full login/user-state refreshes
-        still receive the current `5Eb0Rig6` projection.
+        still receive the current `5Eb0Rig6` projection. `MasterCardReleaseRequest` (`23fbcXt4`) is the
+        same kind of action boundary (SW-130 slice B) and is treated identically.
+
+        `UpdateSwitchInfoRequest` (`mRPo5n2j`) is the strongest case: the client sends it while leaving
+        Manage Party, immediately before `PartyDeckEditRequest` / `UnitEquipRequest`, while the editor still
+        holds unsaved changes. Its original reply carries no player group, and every group below is
+        clear-and-rebuild, so projecting them here replaced the pending edit with the saved one and the
+        following edit request then serialized old data (upstream fix, v0.1.25; measured 2026-11-11: our
+        3-group payload became 16).
         """
         if not isinstance(spec, dict):
             return spec
@@ -3928,9 +4635,33 @@ class PlayerState:
         if "LhVz6aD2" not in spec and not any(tag in spec for tag in groups):
             return spec
         out = dict(spec)                      # never mutate the loaded payload (State.replies is shared)
+        # UpdateSwitchInfo is an ACTION boundary, not a refresh -- see the docstring. Return before the
+        # projection AND the mail counters: this reply is sent while party/equipment edits are pending.
+        if str(reply_id) == "mRPo5n2j":
+            return out
         for tag, rows in groups.items():
             out[tag] = rows
+        # THE MAIL BADGE COUNTERS ride every user-state projection (2026-11-06). `t8TPs6o2` is
+        # `OpeMailListResponse`, and its `sC84jvZH` handler writes `UpdateInfo::NewMailCnt` (+0x60) -- the
+        # counter `sgHomeIconUtils::setupMailIcon` (0x21f0334) draws the HOME badge from. NOTHING else writes
+        # it: the mail SCREEN is the only builder of `MailListRequest` (`MailTopScene::getPageMailListRequest`
+        # 0x22485c4, one ctor call site), so without this, the badge stays 0 until the player opens Mail and
+        # goes back -- measured live 2026-11-06 and not how retail behaves (a fresh login shows unread mail).
+        # It rides HERE rather than in `groups()` on purpose: `groups()` is also the trigger set for this
+        # method, and adding the tag there would make the mail reply project the whole roster.
+        out["t8TPs6o2"] = self.mail_counters()
         if str(reply_id) == "pB3st6Tg":
+            out.pop("5Eb0Rig6", None)
+        elif str(reply_id) in ("TmS3EjZ8", "6nTcSp4R", "W58vo4Hp"):
+            # THE VC "DISPLAY" ACTION (APP-65) is the same kind of boundary: it is a list-screen action, not a
+            # user-state refresh, and the deck group is clear-and-rebuild. The team row (the ornament) and the
+            # card list are still projected -- they are what the action changed.
+            out.pop("5Eb0Rig6", None)
+        elif str(reply_id) == "23fbcXt4":
+            # THE MASTER-CARD RELEASE has the same shape of problem and the same answer: it is an ACTION
+            # reply, not a login refresh, and the party-deck group is clear-and-rebuild on the client -- so
+            # injecting the current deck could destroy a pending party edit. The roster/bag/lapis groups
+            # (the ones the release actually changes) are still projected.
             out.pop("5Eb0Rig6", None)
         return out
 
@@ -3942,8 +4673,12 @@ class PlayerState:
             row = {"og2GHy49": str(u["instance_id"]), UNIT_KEY: str(u["master_id"]),
                    TEAM_LEVEL_KEY: str(u["level"]), TEAM_NEED_EXP: str(u["exp"]),
                    "X9ABM7En": str(u["total_exp"])}
-            for tok, val in zip(STAT_TOKENS, stats):
-                row[tok] = f"{val}-0-0-0-0"
+            pots = list(u.get("stat_pots") or [0] * 6)
+            doors = list(u.get("stat_doors") or [0] * 6)
+            for index, (tok, val) in enumerate(zip(STAT_TOKENS, stats)):
+                # Five components read by UnitInfoBase: base, pots, doors, NV-EX, ex-bonus. The two point
+                # components are accumulated by UnitUsePointRequest; zero rows stay byte-identical.
+                row[tok] = f"{val}-{pots[index]}-{doors[index]}-0-0"
             row["a71oxzCH"] = str(u["lb_level"])
             row["EXf5G3Mk"] = str(u["lb_exp"])
             # storageState (UnitInfoBase+0x2a4): the warehouse tab filters on `isWareHouseUnit` =
@@ -3959,6 +4694,12 @@ class PlayerState:
             # row it had before. Like every other key it must precede the commit tail.
             if _serve_nv_ex() and int(u.get("nv_ex_level") or 0) > 0:
                 row["f8vk4JrD"] = str(u["nv_ex_level"])
+            # THE MASTER-CARD FLAG (SW-130 slice A). `T9Apq5fS` writes `UserUnitInfo+0x320`, which is
+            # exactly what `UnitInfoBase::getMasterCardFlg` (0x1dd33dc) returns (`ldrb w8,[x19,#0x320]`).
+            # Emitted only when the unit HAS the slot unlocked, like `f8vk4JrD`: an absent token leaves the
+            # client's default (0), so a state that never used a Master Card keeps byte-identical rows.
+            if u.get("master_card"):
+                row["T9Apq5fS"] = "1"
             row["9Tbns0eI"] = str(user_id)          # the last key commits the object (schema §3.3)
             rows.append(row)
         return rows
@@ -3971,10 +4712,17 @@ class PlayerState:
                              for slot in range(1, 7))
             materia = u.get("materia") or []
             mat = "@".join(f"{i + 1}-{m}" for i, m in enumerate(materia))
+            # THE VISION-CARD SLOT (SW-130 slice A, 2026-11-05). `nQ1iAGf3` is
+            # `UserUnitEquipInfo::setVisionCardInfo` (+0x58, 0x1da01f4) -- a verbatim string assign -- and
+            # the client's OWN value for the slot is `"<slot>-<card key>"` (`"0-0"` = none; capture
+            # out/requests/20260921T182132_0025.json). We keep the empty string for "no card" because that
+            # is the byte every proven run has served, and emit the slot form only when a card IS equipped:
+            # the new shape then has exactly one new caller to prove on a run.
+            card = str(u.get("vision_card") or "")
             rows.append({"og2GHy49": str(u["instance_id"]),
                          "r21y0YzS": str(self.data["party"]["active_deck"]),
                          "93Y6evuT": slots, "80NUYFMJ": mat,
-                         "nQ1iAGf3": u.get("vision_card", "")})
+                         "nQ1iAGf3": ("0-%s" % card) if card else ""})
         return rows
 
     def _deck_rows(self) -> list:
@@ -4594,6 +5342,51 @@ def _selftest() -> int:
         # in the first revision, which is precisely the "a gate that cannot fail" defect this workspace
         # has been bitten by twice. A printed FAIL nobody can fail on is not a check.
         print(f"SELFTEST FAIL: exp-curve audit broken ({curve_fail} case(s))")
+        rc = 1
+
+    # --- VISION CARDS as a CREDIT (SW-130 slice C) -------------------------------------------------
+    # The 976 kind-27 medal rows and any mailed card both land through `_grant_items`, so the routing is
+    # pinned here: the card must appear in `data['vision_cards']` (what `UserVisionCardInfoResponse` projects)
+    # WITH a level, a duplicate must be refused AND not reported, and `_can_credit` (the mail pre-check) must
+    # agree with the grant path -- if it did not, a mailed card would fail its claim's all-or-nothing check.
+    vstate = PlayerState.load("/nonexistent", slot="selftest")
+    vc_id = next(iter(_load_ndjson("F_VISION_CARD_MST.ndjson", VISION_CARD_KEY)), None)
+    vc_cases = 0
+    vstate.data["vision_cards"] = []
+    got = vstate._grant_items([{"kind": 27, "id": int(vc_id), "count": 1}])
+    card = (vstate.data["vision_cards"] or [None])[0]
+    ok = bool(got) and card is not None and int(card.get("level") or 0) == 1
+    print(f"vision-credit {'ok  ' if ok else 'FAIL'} kind 27 -> an owned card at level 1 "
+          f"(got {got}, row {card})")
+    vc_cases += 0 if ok else 1
+    again = vstate._grant_items([{"kind": 27, "id": int(vc_id), "count": 1}])
+    ok = again == [] and len(vstate.data["vision_cards"]) == 1
+    print(f"vision-credit {'ok  ' if ok else 'FAIL'} a duplicate is refused and NOT reported "
+          f"(got {again}, cards {len(vstate.data['vision_cards'])})")
+    vc_cases += 0 if ok else 1
+    agrees = vstate._can_credit({"kind": 27, "id": int(vc_id), "count": 1}) is False
+    print(f"vision-credit {'ok  ' if agrees else 'FAIL'} the mail pre-check agrees (already owned -> False)")
+    vc_cases += 0 if agrees else 1
+    if vc_cases:
+        print(f"SELFTEST FAIL: vision-card credit path broken ({vc_cases} case(s))")
+        rc = 1
+
+    # --- the HOME MAIL BADGE counter rides the projection (2026-11-06) -------------------------------
+    # `t8TPs6o2.sC84jvZH` is `UpdateInfo::NewMailCnt`, the only thing `sgHomeIconUtils::setupMailIcon` reads.
+    # Nothing writes it but `OpeMailListResponse::readParam`, and the mail screen is the only builder of
+    # `MailListRequest`, so without this projection the badge stays 0 until Mail is opened and left.
+    bstate = PlayerState.load("/nonexistent", slot="selftest")
+    bstate.data["mailbox"] = []
+    proj = bstate.apply_to_reply({"LhVz6aD2": [{}]})
+    zero = proj.get("t8TPs6o2") == bstate.mail_counters()
+    bstate.data["mailbox"] = [{"mail_id": 1, "icon_type": 0, "title": "t", "message": "m",
+                               "items": [], "receive_type": 0}]
+    proj = bstate.apply_to_reply({"LhVz6aD2": [{}]})
+    one = (proj.get("t8TPs6o2") or [{}])[0].get("sC84jvZH") == "1"
+    print(f"mail-badge {'ok  ' if zero and one else 'FAIL'} the counters ride every user-state projection "
+          f"(empty -> 0, one unread -> 1)")
+    if not (zero and one):
+        print("SELFTEST FAIL: the HOME mail badge counter is not projected")
         rc = 1
     return rc
 
