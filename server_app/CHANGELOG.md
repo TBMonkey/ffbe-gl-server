@@ -45,6 +45,15 @@ doctor and treats a missing `contract` as "engine predates the data-root contrac
 - `Browse…` folder picker for the data and engine directories in Setup, so a prepared data root
   (e.g. `~/ffbe-server-data`) and a checkout/bundle engine can be selected without typing a path.
 
+### Engine 0.1.5
+* `prepare --client-data` accepts the app-data root **or** its `files/` directory (it previously appended
+  `files/` unconditionally, so the `files/` form looked for `files/files/localized_texts/en` and reported
+  "no .dat").
+* One undecodable `.dat` no longer aborts the whole decode with a traceback: the file is named, counted and
+  skipped, and the decode fails only if nothing decoded.
+* The engine names the release it came from — `ffbe-gl/0.1.5+v0.1.8 (TBMonkey)` — in the `Server:` header,
+  the startup line and the doctor's `server_banner=` / `build_id=` fields.
+
 ## [0.1.7] — 2026-10-16
 
 ### Added
