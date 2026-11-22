@@ -705,9 +705,10 @@ def main() -> int:
         else:
             state_file = os.path.abspath(data_paths.STATE_FILE)
         for key, value in (("engine_version", data_paths.ENGINE_VERSION),
-                           # The name the engine answers with (`Server:` header, startup line). Reported here so
-                           # the app's doctor shows it: it is the string that says which build produced a
-                           # bundle, and one field is cheaper than asking a user to grep a header.
+                           # The build's provenance: `server_banner` is what a packet capture shows,
+                           # `build_id` is the same fact without the decoration. The app's doctor shows
+                           # both, so a bug report names the build it came from.
+                           ("build_id", data_paths.BUILD_ID),
                            ("server_banner", data_paths.SERVER_BANNER),
                            ("contract", data_paths.CONTRACT_VERSION),
                            # Which AES implementation this engine will use: `cryptography` (the bundle
